@@ -4,3 +4,98 @@
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
+
+
+[data-theme="dark"],
+:root {
+  /* Primary accent */
+  --color-primary: #3B82F6;
+  --color-primary-hover: #2563EB;
+  --color-primary-muted: rgba(59, 130, 246, 0.12);
+  --color-primary-glow: rgba(59, 130, 246, 0.35);
+
+  /* Secondary accent */
+  --color-secondary: #60A5FA;
+
+  /* Backgrounds */
+  --color-bg-base: #0D1117;
+  --color-bg-surface: #161B26;
+  --color-bg-raised: #121720;
+  --color-bg-input: rgba(30, 40, 60, 0.85);
+  --color-bg-overlay: rgba(0, 0, 0, 0.65);
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border-strong: rgba(59, 130, 246, 0.5);
+
+  /* Text */
+  --color-text-base: #E8EDF5;
+  --color-text-muted: #6B7A99;
+  --color-text-faint: #3D4A62;
+
+  /* Misc */
+  --color-scrollbar: #2A3550;
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-btn: 0 8px 28px rgba(59, 130, 246, 0.4);
+
+  /* Gradient used on login background overlay */
+  --login-overlay: radial-gradient(ellipse at 40% 55%, rgba(20, 30, 60, 0.55) 0%, rgba(5, 8, 18, 0.92) 70%);
+
+  /* Accent line on login card */
+  --accent-line-gradient: linear-gradient(90deg, var(--color-primary), transparent);
+
+  /* Theme toggle icon shown */
+  --theme-icon-moon: block;
+  --theme-icon-sun: none;
+}
+[data-theme="light"] {
+  /* Primary accent */
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-primary-muted: rgba(79, 70, 229, 0.10);
+  --color-primary-glow: rgba(79, 70, 229, 0.28);
+
+  /* Secondary accent */
+  --color-secondary: #7C3AED;
+
+  /* Backgrounds */
+  --color-bg-base: #F1F4F9;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-raised: #FAFBFE;
+  --color-bg-input: rgba(240, 242, 250, 0.95);
+  --color-bg-overlay: rgba(30, 40, 80, 0.45);
+
+  /* Borders */
+  --color-border: rgba(79, 70, 229, 0.13);
+  --color-border-strong: rgba(79, 70, 229, 0.45);
+
+  /* Text */
+  --color-text-base: #1E2340;
+  --color-text-muted: #6B7280;
+  --color-text-faint: #A3ABBC;
+
+  /* Misc */
+  --color-scrollbar: #C7CCE0;
+  --shadow-card: 0 2px 16px rgba(79, 70, 229, 0.10);
+  --shadow-btn: 0 6px 20px rgba(79, 70, 229, 0.32);
+
+  --login-overlay: radial-gradient(ellipse at 40% 55%, rgba(120, 130, 200, 0.30) 0%, rgba(200, 210, 240, 0.75) 70%);
+  --accent-line-gradient: linear-gradient(90deg, var(--color-primary), transparent);
+
+  --theme-icon-moon: none;
+  --theme-icon-sun: block;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar);
+  border-radius: 4px;
+}

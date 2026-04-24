@@ -1,0 +1,116 @@
+/* ═══════════════════════════════════════════════════════════════
+   LOGIN PAGE SPECIFIC
+   ═══════════════════════════════════════════════════════════════ */
+/* Glassmorphism login panel */
+.panel-card {
+  background: var(--color-bg-surface);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+/* Input fields on login */
+.kp-input {
+  background: var(--color-bg-input) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-base) !important;
+}
+
+.kp-input:focus {
+  outline: none !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px var(--color-primary-muted) !important;
+}
+
+.kp-input::placeholder {
+  color: var(--color-text-faint) !important;
+  letter-spacing: 0.05em;
+}
+
+/* Icon inside input wrapper */
+.input-icon {
+  color: var(--color-text-muted);
+}
+
+/* CTA button */
+.ignite-btn {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%);
+  letter-spacing: 0.18em;
+  color: #fff;
+}
+
+.ignite-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-btn);
+}
+
+.ignite-btn:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Accent decorative line */
+.accent-line {
+  width: 80px;
+  height: 2px;
+  background: var(--accent-line-gradient);
+}
+
+
+/* Login page label text */
+.form-label {
+  color: var(--color-text-muted);
+}
+
+/* Login tagline */
+.tagline {
+  color: var(--color-primary);
+}
+
+
+/* Login-specific layout styles (not in theme.css) */
+.moto-img {
+  background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1400&q=80') center / cover no-repeat;
+  filter: brightness(0.30) saturate(0.55);
+  transition: filter 0.3s ease;
+}
+
+[data-theme="light"] .moto-img {
+  filter: brightness(0.55) saturate(0.6);
+}
+
+.moto-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: var(--login-overlay);
+  transition: background 0.3s ease;
+}
+
+/* Theme toggle on login card */
+.login-theme-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 11px;
+  border-radius: 20px;
+  background: var(--color-primary-muted);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.login-theme-btn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-border-strong);
+}
+
+.login-theme-btn i {
+  font-size: 0.8rem;
+}
