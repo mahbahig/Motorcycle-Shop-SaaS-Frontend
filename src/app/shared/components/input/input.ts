@@ -1,13 +1,13 @@
-import { Component, input, InputSignal, signal, WritableSignal} from '@angular/core';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {EnterNextDirective} from '@shared/directives/enter-next/enter-next';
+import { Component, input, InputSignal, signal, WritableSignal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { EnterNextDirective } from '@common/directives/enter-next/enter-next';
 
 @Component({
   selector: 'app-input',
-  imports: [ReactiveFormsModule,EnterNextDirective],
+  imports: [ReactiveFormsModule, EnterNextDirective],
   templateUrl: './input.html',
   styleUrl: './input.css',
-  standalone: true
+  standalone: true,
 })
 export class Input {
   control: InputSignal<any> = input('');

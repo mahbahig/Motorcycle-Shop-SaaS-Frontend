@@ -3,7 +3,7 @@ import { Directive, HostListener, inject, ElementRef } from '@angular/core';
 
 @Directive({
   selector: '[enterNext]',
-  standalone: true
+  standalone: true,
 })
 export class EnterNextDirective {
   private el = inject(ElementRef);
@@ -14,8 +14,8 @@ export class EnterNextDirective {
     kEvent.preventDefault();
 
     const inputs = Array.from(
-      document.querySelectorAll<HTMLElement>('input, select, textarea')
-    ).filter(el => !el.hasAttribute('disabled') && !el.hasAttribute('readonly'));
+      document.querySelectorAll<HTMLElement>('input, select, textarea'),
+    ).filter((el) => !el.hasAttribute('disabled') && !el.hasAttribute('readonly'));
 
     const index = inputs.indexOf(this.el.nativeElement);
 
