@@ -1,0 +1,20 @@
+/* Input fields on login */
+.kp-input {
+  background: var(--color-bg-input) !important;
+  border: 1px solid var(--color-border) !important;
+  color: var(--color-text-base) !important;
+}
+
+.kp-input:focus {
+  outline: none !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px var(--color-primary-muted) !important;
+}
+
+.kp-input::placeholder {
+  color: var(--color-text-faint) !important;
+  letter-spacing: 0.05em;
+}
+.input-icon {
+  color: var(--color-text-muted);
+}

@@ -1,17 +1,47 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ILoginRequest } from '@shared/interfaces';
+import { Injectable, signal, WritableSignal} from '@angular/core';
+import { ILoginRequest } from '@common/interfaces';
 import { Observable } from 'rxjs';
+import {Router} from '@angular/router';
+import {CookieService} from 'ngx-cookie-service';
+import {jwtDecode} from 'jwt-decode';
+import {authApiEndpoints} from '@env';
+import {IUpdatePasswordRequest} from '@common/interfaces/auth/update-password.interface';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(private readonly httpClient: HttpClient,private readonly cookieService:CookieService,private readonly router:Router) {}
 
-  login (credentials: ILoginRequest): Observable<any> {
-    return this.httpClient.post('/api/auth/login', credentials)
+  showPassword: WritableSignal<boolean> = signal(false);
+  decoded!: WritableSignal<any>;
+
+
+  login(data: ILoginRequest): Observable<object> {
+    return this.httpClient.post(authApiEndpoints.login, data);
+  }
+
+
+  updatePassword(body:IUpdatePasswordRequest):Observable<object> {
+    return this.httpClient.patch(authApiEndpoints.updatePassword,body);
+
+  }
+
+  resetPassword(userId: string): Observable<object> {
+    return this.httpClient.patch(`${authApiEndpoints.resetPassword}/${userId}`,undefined);
+
+
+  }
+  decodeToken() {
+    try {
+      this.decoded.set(jwtDecode(this.cookieService.get('token')));
+      return this.decoded();
+    } catch (err) {
+      this.router.navigate(['/login']);
+    }
   }
 
 }

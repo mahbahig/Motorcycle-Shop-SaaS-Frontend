@@ -52,10 +52,15 @@
 }
 
 /* Accent decorative line */
-.accent-line {
+.accent-line-a {
   width: 80px;
   height: 2px;
   background: var(--accent-line-gradient);
+}
+.accent-line-b {
+  width: 80px;
+  height: 2px;
+  background:  linear-gradient(90deg, transparent, var(--color-primary));;
 }
 
 

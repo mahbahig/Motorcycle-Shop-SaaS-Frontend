@@ -1,0 +1,33 @@
+<div class="mb-6 relative">
+  <label
+    [for]="idInput()"
+    class="block mb-2 text-sm font-medium text-gray-900"
+  >{{ label() }}</label
+  >
+  @if (element() == "input") {
+    <input
+      enterNext
+      [formControl]="control()"
+      [type]="typeInput() || (showPassword() ? 'text' : 'password')"
+      [id]="idInput()"
+      class="kp-input block w-full pl-10 pr-4 py-3 rounded-lg font-body text-sm tracking-widest"
+      [placeholder]="placeholderInput()"
+      required
+    />
+  }@else if (element() == "textArea") {
+    <textarea
+      enterNext
+      [formControl]="control()"
+      [id]="idInput()"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-0.5 block w-full p-2.5"
+      [placeholder]="placeholderInput()"
+      required
+    ></textarea
+    >} @if(idInput() == 'password' || idInput() == 'rePassword'){
+  <span (click)="showPassword.set(!showPassword())">
+    @if (showPassword()) {
+      <i class="fas fa-eye-slash absolute -translate-y-7 inset-e-3 input-icon"></i>
+    } @else {<i class="fas fa-eye absolute -translate-y-7 inset-e-3 input-icon"></i>}
+  </span>
+}
+</div>

@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import "flowbite/src/themes/default";
+@import "tailwindcss";
+@import "flowbite/src/themes/default.css";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 
@@ -80,7 +80,7 @@
   --shadow-btn: 0 6px 20px rgba(79, 70, 229, 0.32);
 
   --login-overlay: radial-gradient(ellipse at 40% 55%, rgba(120, 130, 200, 0.30) 0%, rgba(200, 210, 240, 0.75) 70%);
-  --accent-line-gradient: linear-gradient(90deg, var(--color-primary), transparent);
+
 
   --theme-icon-moon: none;
   --theme-icon-sun: block;
@@ -98,4 +98,14 @@
 ::-webkit-scrollbar-thumb {
   background: var(--color-scrollbar);
   border-radius: 4px;
+}
+/* Prevent browser autofill from overriding your styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #1a1f2e inset !important; /* match your dark bg */
+  -webkit-text-fill-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s;
+  caret-color: #ffffff;
 }
