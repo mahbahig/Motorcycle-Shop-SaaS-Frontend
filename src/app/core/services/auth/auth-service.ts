@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
 import { IUpdatePasswordRequest } from '@common/interfaces/auth/update-password.interface';
-import { authApiEndpoints } from '../../../common/environments/environment';
+import { authApiEndpoints } from '@common/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +17,6 @@ export class AuthService {
     private readonly cookieService: CookieService,
     private readonly router: Router,
   ) {}
-
-  showPassword: WritableSignal<boolean> = signal(false);
   decoded!: WritableSignal<any>;
 
   login(data: ILoginRequest): Observable<any> {

@@ -5,113 +5,175 @@
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 
-[data-theme='dark'],
-:root {
-  /* Primary accent */
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
-  --color-primary-muted: rgba(59, 130, 246, 0.12);
-  --color-primary-glow: rgba(59, 130, 246, 0.35);
+@layer base {
+  /* ══════════════════════════════════════════
+     LIGHT MODE  (default)
+  ══════════════════════════════════════════ */
+  :root {
+    /* Brand */
+    --color-primary: #162238;
+    --color-primary-hover: #1e3050;
+    --color-primary-muted: rgba(22, 34, 56, 0.1);
+    --color-primary-glow: rgba(22, 34, 56, 0.25);
+    --color-secondary: #1e4d8c;
+    --color-secondary-hover: #174070;
+    --color-accent: #2e7dd1;
 
-  /* Secondary accent */
-  --color-secondary: #60a5fa;
+    /* Backgrounds */
+    --color-bg-base: #f5f6f8;
+    --color-bg-surface: #ffffff;
+    --color-bg-elevated: #eef0f4;
+    --color-bg-raised: #fafbfe;
+    --color-bg-input: rgba(240, 242, 250, 0.95);
+    --color-bg-overlay: rgba(22, 34, 56, 0.45);
 
-  /* Backgrounds */
-  --color-bg-base: #0d1117;
-  --color-bg-surface: #161b26;
-  --color-bg-raised: #121720;
-  --color-bg-input: rgba(30, 40, 60, 0.85);
-  --color-bg-overlay: rgba(0, 0, 0, 0.65);
+    /* Text */
+    --color-text-base: #162238;
+    --color-text-secondary: #4a5568;
+    --color-text-muted: #6b7280;
+    --color-text-faint: #a0aec0;
+    --color-text-inverse: #ffffff;
 
-  /* Borders */
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-border-strong: rgba(59, 130, 246, 0.5);
+    /* Borders */
+    --color-border: #dde1e9;
+    --color-border-strong: rgba(22, 34, 56, 0.45);
+    --color-border-focus: #162238;
 
-  /* Text */
-  --color-text-base: #e8edf5;
-  --color-text-muted: #6b7a99;
-  --color-text-faint: #3d4a62;
+    /* Feedback */
+    --color-success: #2f855a;
+    --color-warning: #b7791f;
+    --color-error: #c53030;
+    --color-info: #2b6cb0;
 
-  /* Misc */
-  --color-scrollbar: #2a3550;
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5);
-  --shadow-btn: 0 8px 28px rgba(59, 130, 246, 0.4);
+    /* Shadows */
+    --shadow-card: 0 2px 16px rgba(22, 34, 56, 0.1);
+    --shadow-btn: 0 6px 20px rgba(22, 34, 56, 0.2);
+    --shadow-modal: 0 8px 32px rgba(22, 34, 56, 0.16);
 
-  /* Gradient used on login background overlay */
-  --login-overlay: radial-gradient(
-    ellipse at 40% 55%,
-    rgba(20, 30, 60, 0.55) 0%,
-    rgba(5, 8, 18, 0.92) 70%
-  );
+    /* Gradients */
+    --login-overlay: radial-gradient(
+      ellipse at 40% 55%,
+      rgba(120, 130, 200, 0.3) 0%,
+      rgba(200, 210, 240, 0.75) 70%
+    );
+    --accent-line-gradient: linear-gradient(90deg, var(--color-primary), transparent);
 
-  /* Accent line on login card */
-  --accent-line-gradient: linear-gradient(90deg, var(--color-primary), transparent);
+    /* Misc */
+    --color-scrollbar: #c7cce0;
+    --radius-base: 0.5rem;
+    --radius-lg: 0.75rem;
 
-  /* Theme toggle icon shown */
-  --theme-icon-moon: block;
-  --theme-icon-sun: none;
+    /* Theme toggle */
+    --theme-icon-moon: block;
+    --theme-icon-sun: none;
+  }
+
+  /* ══════════════════════════════════════════
+     DARK MODE  (.dark class on <html>)
+  ══════════════════════════════════════════ */
+  .dark {
+    /* Brand */
+    --color-primary: #b0bfd4;
+    --color-primary-hover: #c8d4e3;
+    --color-primary-muted: rgba(176, 191, 212, 0.12);
+    --color-primary-glow: rgba(176, 191, 212, 0.25);
+    --color-secondary: #8fa3bd;
+    --color-secondary-hover: #a8bcce;
+    --color-accent: #6b9fd4;
+
+    /* Backgrounds */
+    --color-bg-base: #1e1e1e;
+    --color-bg-surface: #2a2a2a;
+    --color-bg-elevated: #333333;
+    --color-bg-raised: #242424;
+    --color-bg-input: #1e283cd9;
+    --color-bg-overlay: rgba(0, 0, 0, 0.65);
+
+    /* Text */
+    --color-text-base: #e8ecf0;
+    --color-text-secondary: #a8b4c0;
+    --color-text-muted: #6b7a8d;
+    --color-text-faint: #3d4a62;
+    --color-text-inverse: #1f1f1f;
+
+    /* Borders */
+    --color-border: #3a3a3a;
+    --color-border-strong: rgba(176, 191, 212, 0.4);
+    --color-border-focus: #b0bfd4;
+
+    /* Feedback */
+    --color-success: #48bb78;
+    --color-warning: #ecc94b;
+    --color-error: #fc8181;
+    --color-info: #63b3ed;
+
+    /* Shadows */
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.5);
+    --shadow-btn: 0 8px 28px rgba(0, 0, 0, 0.4);
+    --shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.6);
+
+    /* Gradients */
+    --login-overlay: radial-gradient(
+      ellipse at 40% 55%,
+      rgba(20, 30, 60, 0.55) 0%,
+      rgba(5, 8, 18, 0.92) 70%
+    );
+    --accent-line-gradient: linear-gradient(90deg, var(--color-primary), transparent);
+
+    /* Misc */
+    --color-scrollbar: #2a3550;
+
+    /* Theme toggle */
+    --theme-icon-moon: none;
+    --theme-icon-sun: block;
+  }
+
+  /* ══════════════════════════════════════════
+     BASE STYLES
+  ══════════════════════════════════════════ */
+  * {
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    background-color: var(--color-bg-base);
+    color: var(--color-text-base);
+  }
+
+  /* Smooth theme transition */
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+  }
+
+  /* ══════════════════════════════════════════
+     SCROLLBAR
+  ══════════════════════════════════════════ */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg-base);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-scrollbar);
+    border-radius: 4px;
+  }
 }
-[data-theme='light'] {
-  /* Primary accent */
-  --color-primary: #4f46e5;
-  --color-primary-hover: #4338ca;
-  --color-primary-muted: rgba(79, 70, 229, 0.1);
-  --color-primary-glow: rgba(79, 70, 229, 0.28);
 
-  /* Secondary accent */
-  --color-secondary: #7c3aed;
-
-  /* Backgrounds */
-  --color-bg-base: #f1f4f9;
-  --color-bg-surface: #ffffff;
-  --color-bg-raised: #fafbfe;
-  --color-bg-input: rgba(240, 242, 250, 0.95);
-  --color-bg-overlay: rgba(30, 40, 80, 0.45);
-
-  /* Borders */
-  --color-border: rgba(79, 70, 229, 0.13);
-  --color-border-strong: rgba(79, 70, 229, 0.45);
-
-  /* Text */
-  --color-text-base: #1e2340;
-  --color-text-muted: #6b7280;
-  --color-text-faint: #a3abbc;
-
-  /* Misc */
-  --color-scrollbar: #c7cce0;
-  --shadow-card: 0 2px 16px rgba(79, 70, 229, 0.1);
-  --shadow-btn: 0 6px 20px rgba(79, 70, 229, 0.32);
-
-  --login-overlay: radial-gradient(
-    ellipse at 40% 55%,
-    rgba(120, 130, 200, 0.3) 0%,
-    rgba(200, 210, 240, 0.75) 70%
-  );
-
-  --theme-icon-moon: none;
-  --theme-icon-sun: block;
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-bg-base);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-scrollbar);
-  border-radius: 4px;
-}
 /* Prevent browser autofill from overriding your styles */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #1a1f2e inset !important; /* match your dark bg */
-  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg-input) inset !important;
+  -webkit-text-fill-color: var(--color-text-base) !important;
   transition: background-color 5000s ease-in-out 0s;
-  caret-color: #ffffff;
+  caret-color: var(--color-text-inverse);
 }

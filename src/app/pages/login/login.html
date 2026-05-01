@@ -1,1 +1,89 @@
-<p>login works!</p>
+<!-- ── Background ── -->
+<div class="moto-img" aria-hidden="true"></div>
+<div class="moto-overlay" aria-hidden="true"></div>
+
+<!-- ── Page layout ── -->
+<div
+  class="relative z-10 min-h-screen flex flex-col md:flex-row items-center justify-center md:justify-between gap-8 md:gap-4 px-5 sm:px-10 md:px-14 lg:px-24 py-10 md:py-0"
+>
+  <!-- ── Left: Hero text ── -->
+  <div class="md:flex flex-col flex-1 max-w-lg animate-fade-up">
+    <h1
+      class="hero-title font-black leading-none uppercase text-textBase"
+      style="font-size: clamp(2.8rem, 5.5vw, 5.8rem); letter-spacing: -0.01em"
+    >
+      نظام تشغيل
+    </h1>
+    <p
+      class="mt-5 text-primary font-semibold tracking-widest text-xl uppercase animate-fade-up-delay"
+    >
+      مكن و اتركن
+    </p>
+  </div>
+
+  <!-- ── Right: Login panel ── -->
+  <div class="w-full max-w-[92vw] sm:max-w-sm md:max-w-100 lg:max-w-110 animate-fade-up-delay">
+    <div class="panel-card w-full rounded-2xl p-6 sm:p-9 lg:p-10">
+      <!-- Theme toggle row -->
+      <div class="flex items-center justify-center gap-3 mb-5">
+        <div class="accent-line-b"></div>
+        <button
+          (click)="_themeService.toggle()"
+          [attr.aria-label]="_themeService.label()"
+          class="theme-toggle-btn"
+        >
+          <i
+            class="fa-solid"
+            [class.fa-moon]="!_themeService.isDark()"
+            [class.fa-sun]="_themeService.isDark()"
+          ></i>
+          <span>{{ _themeService.isDark() ? 'Light' : 'Dark' }}</span>
+        </button>
+        <div class="accent-line-a"></div>
+      </div>
+
+      <!-- Heading -->
+      <h2 class="text-center text-textMuted font-semibold text-lg tracking-widest mb-7">
+        تسجيل الدخول
+      </h2>
+
+      <!-- Form -->
+      <form (ngSubmit)="loginSubmit()" [formGroup]="loginForm">
+        <!-- Username -->
+        <div class="mb-5">
+          <app-input
+            [idInput]="'username'"
+            [placeholderInput]="'احمد محمد'"
+            [typeInput]="'text'"
+            [control]="loginForm.get('username')"
+            [label]="'اسم المستخدم'"
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="mb-8">
+          <app-input
+            [idInput]="'password'"
+            [placeholderInput]="'••••••••••'"
+            [control]="loginForm.get('password')"
+            [label]="'كلمة المرور'"
+          />
+        </div>
+        <div class="mb-8">
+          <app-input
+            class="size-1"
+            [idInput]="'rememberMe'"
+            [typeInput]="'checkbox'"
+            [control]="loginForm.get('rememberMe')"
+            [label]="'تذكر بيانات الحساب'"
+          />
+        </div>
+
+        <app-alert [hasError]="hasError()" [message]="errorMessage()"></app-alert>
+
+        <!-- Submit -->
+        <app-button [message]="'تسجيل'"></app-button>
+      </form>
+    </div>
+  </div>
+</div>
