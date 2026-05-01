@@ -2,12 +2,16 @@ import { Routes } from '@angular/router';
 import { AuthLayout } from '@layout/auth-layout/auth-layout';
 import { MainLayout } from '@layout/main-layout/main-layout';
 import { Home } from '@pages/home/home';
+import { mainGuard } from '@common/guards/main-guard/main-guard';
+import { authGuard } from '@common/guards/auth-guard/auth-guard';
+import { NotFound } from '@pages/not-found/not-found';
 
 export const routes: Routes = [
   // ── Auth ──────────────────────────────────────────────
   {
     path: '',
     component: AuthLayout,
+    canActivate: [mainGuard],
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: AuthLayout, title: 'Login' },
@@ -18,6 +22,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: MainLayout,
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: Home, title: 'لوحة التحكم' },
@@ -110,12 +115,11 @@ export const routes: Routes = [
       //     },
       //
       // // ── Fallback ──────────────────────────────────────────
-      // {
-      //   path: '**',
-      //   loadComponent: () =>
-      //     import('./pages/not-found/not-found.component').then((c) => c.NotFoundComponent),
-      //   title: '404',
-      // },
+      {
+        path: '**',
+        component: NotFound,
+        title: '404',
+      },
     ],
   },
 ];
