@@ -32,6 +32,8 @@ export class AuthService {
   }
 
   logOut(): void {
+    console.log('test');
+
     this.cookieService.delete('token');
     this.router.navigate(['/login']);
   }

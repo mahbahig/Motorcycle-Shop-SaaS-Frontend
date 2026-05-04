@@ -8,4 +8,6 @@ import { Login } from '@pages/login/login';
   styleUrl: './auth-layout.css',
   standalone: true,
 })
-export class AuthLayout {}
+export class AuthLayout {
+  features: string[] = ['']
+}

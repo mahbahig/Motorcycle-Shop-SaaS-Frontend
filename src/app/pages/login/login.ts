@@ -28,6 +28,9 @@ export class Login {
   isLoading: WritableSignal<boolean> = signal(false);
   clicked: WritableSignal<boolean> = signal(false);
 
+  passwordHidden: WritableSignal<boolean> = signal(true);
+  passwordType: WritableSignal<string> = signal('password');
+
   // ── Derived ──────────────────────────────────────────
   readonly hasError = computed(() => this.clicked() && this.errorMessage() !== '');
 
@@ -43,6 +46,11 @@ export class Login {
     password: [null, [Validators.required, Validators.minLength(6)]],
     rememberMe: [false],
   });
+
+  togglePasswordVisibility(): void {
+    this.passwordHidden.set(!this.passwordHidden());
+    this.passwordType.set(this.passwordHidden() ? 'password' : 'text');
+  }
 
   ngOnInit(): void {}
 
