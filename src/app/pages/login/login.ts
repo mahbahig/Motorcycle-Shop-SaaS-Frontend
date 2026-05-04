@@ -14,6 +14,7 @@ import { Alert } from '@shared/components/alert/alert';
   imports: [Input, ReactiveFormsModule, Button, Alert],
   templateUrl: './login.html',
   styleUrl: './login.css',
+  standalone: true,
 })
 export class Login {
   private readonly _formBuilder = inject(FormBuilder);

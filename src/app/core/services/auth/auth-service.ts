@@ -31,6 +31,11 @@ export class AuthService {
     return this.httpClient.patch(`${authApiEndpoints.resetPassword}/${userId}`, undefined);
   }
 
+  logOut(): void {
+    this.cookieService.delete('token');
+    this.router.navigate(['/login']);
+  }
+
   decodeToken() {
     try {
       this.decoded.set(jwtDecode(this.cookieService.get('token')));

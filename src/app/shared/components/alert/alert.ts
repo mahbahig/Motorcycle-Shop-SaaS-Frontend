@@ -5,6 +5,7 @@ import { Component, input, InputSignal } from '@angular/core';
   imports: [],
   templateUrl: './alert.html',
   styleUrl: './alert.css',
+  standalone: true,
 })
 export class Alert {
   isSuccess: InputSignal<boolean> = input(false);
