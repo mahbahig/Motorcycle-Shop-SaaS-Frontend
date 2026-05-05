@@ -1,13 +1,22 @@
-<div
-  class="mb-6 text-center transition-opacity duration-300"
-  [class]="{
-    'text-green-700!': isSuccess(),
-    'text-red-700!': !isSuccess(),
-    'opacity-0': !hasError(),
-    'opacity-100': hasError(),
-  }"
->
-  <span class="text-error text-sm font-bold tracking-widest uppercase">
-    <i class="fa-solid fa-circle-exclamation me-1"></i>{{ message() }}
-  </span>
+<div id="errorMsg" class="flex items-center gap-3 px-4 py-3 rounded-xl border"
+     [class]="
+    (isSuccess()
+      ? 'bg-green-50 border-green-200 dark:bg-green-950/40 dark:border-green-800 '
+      : 'bg-red-50 border-red-200 dark:bg-red-950/40 dark:border-red-800 ') +
+    (hasError() ? 'opacity-100' : 'opacity-0')
+  ">
+
+  @if (isSuccess()) {
+    <i class="fa-regular fa-circle-check text-green-500"></i>
+  } @else {
+    <svg class="w-5 h-5 text-red-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+    </svg>
+
+  }
+  <p class="text-sm  font-[Tajawal,sans-serif]"
+     [class]="isSuccess()
+      ? 'text-green-600 dark:text-green-400'
+      : 'text-red-600 dark:text-red-400'">{{ message() }}</p>
 </div>

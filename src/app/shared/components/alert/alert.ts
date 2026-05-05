@@ -11,4 +11,5 @@ export class Alert {
   isSuccess: InputSignal<boolean> = input(false);
   hasError: InputSignal<boolean> = input(false);
   message: InputSignal<string> = input('عذراً ، حدث خطأ ما');
+
 }

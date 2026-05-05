@@ -26,8 +26,8 @@ export class Login {
   subscription: Subscription = new Subscription();
   errorMessage: WritableSignal<string> = signal('');
   isLoading: WritableSignal<boolean> = signal(false);
+  isSuccess: WritableSignal<boolean> = signal(false);
   clicked: WritableSignal<boolean> = signal(false);
-
   passwordHidden: WritableSignal<boolean> = signal(true);
   passwordType: WritableSignal<string> = signal('password');
 
@@ -52,8 +52,6 @@ export class Login {
     this.passwordType.set(this.passwordHidden() ? 'password' : 'text');
   }
 
-  ngOnInit(): void {}
-
   loginSubmit(): void {
     this.clicked.set(!this.clicked());
     if (this.isLoading()) return;
@@ -65,6 +63,7 @@ export class Login {
     this.subscription = this._authService.login(this.loginForm.value).subscribe({
       next: (res) => {
         this.isLoading.set(false);
+        this.isSuccess.set(true);
         console.log(res);
         if (!res.success) this.errorMessage.set(res.message);
         this._cookieService.set('token', res.token);
@@ -72,6 +71,7 @@ export class Login {
       },
       error: (err) => {
         this.isLoading.set(false);
+        this.isSuccess.set(false);
         this.errorMessage.set(err.error.message);
         this.loginForm.reset();
       },
