@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class SuppliersService {
   private readonly httpClient = inject(HttpClient);
 
-  createSupplier(body: {name: string}): Observable<any> {
+  createSupplier(body: { name: string }): Observable<any> {
     return this.httpClient.post(supplierApiEndpoints.createSupplier, body);
   }
 
@@ -17,9 +17,7 @@ export class SuppliersService {
     return this.httpClient.get(supplierApiEndpoints.getAllSuppliers);
   }
 
-
   deleteSupplier(id: string): Observable<any> {
     return this.httpClient.delete(supplierApiEndpoints.deleteSupplier(id));
   }
-
 }

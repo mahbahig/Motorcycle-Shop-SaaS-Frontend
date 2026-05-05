@@ -1,1 +1,68 @@
-<app-login></app-login>
+<section class="bg-white dark:bg-gray-950 text-navy-900 dark:text-white transition-colors duration-300 min-h-screen">
+<button id="themeToggle"
+  class="fixed top-5 left-5 z-50 w-10 h-10 rounded-full bg-navy-100 dark:bg-gray-800 text-navy-700 dark:text-gray-300 flex items-center justify-center hover:bg-navy-200 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm border border-navy-200 dark:border-gray-700"
+  onclick="document.documentElement.classList.toggle('dark')" aria-label="تبديل المظهر">
+  <svg id="iconSun" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  <svg id="iconMoon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+</button>
+
+<div class="flex">
+
+  <!-- Left Panel — Decorative -->
+  <div class="hidden lg:flex lg:w-1/2 bg-navy-900 dark:bg-gray-900 relative overflow-hidden flex-col items-center justify-center">
+
+    <!-- Subtle grid pattern -->
+    <div class="absolute inset-0 opacity-10"
+      style="background-image: linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
+
+    <!-- Large decorative gears -->
+    <div class="absolute -bottom-16 -left-16 opacity-10 gear-anim">
+      <i class="fa-solid fa-gear text-white text-[380px]"></i>
+    </div>
+    <div class="absolute -top-10 -right-10 opacity-8 gear-anim-rev">
+      <i class="fa-solid fa-gear text-white text-[260px]"></i>
+    </div>
+
+    <!-- Center content -->
+    <div class="relative z-10 text-center px-16">
+      <!-- Wrench + gear icon -->
+      <div class="flex items-center justify-center mb-10">
+        <div class="w-20 h-20 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center backdrop-blur-sm">
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>
+          </svg>
+        </div>
+      </div>
+
+      <h1 class="text-4xl font-bold text-white mb-4 leading-tight" style="font-family:'Cairo',sans-serif">
+        إدارة ورشتك<br/>بذكاء حقيقي
+      </h1>
+      <p class="text-navy-200 dark:text-gray-400 text-lg font-light leading-relaxed" style="font-family:'Tajawal',sans-serif">
+        المنصة المتكاملة لتشغيل وتطوير<br/>مراكز خدمة السيارات الاحترافية
+      </p>
+
+      <!-- Divider with dots -->
+      <div class="flex items-center justify-center gap-2 mt-10">
+        <div class="w-8 h-px bg-white/30"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-white/50"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-white/30"></div>
+        <div class="w-1.5 h-1.5 rounded-full bg-white/50"></div>
+        <div class="w-8 h-px bg-white/30"></div>
+      </div>
+
+      <!-- Feature pills -->
+      <div class="flex flex-wrap justify-center gap-3 mt-8">
+        <span class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-white/8 border border-white/15 text-white/80 text-sm font-light font-tajawal">وسام بيومي</span>
+        <span class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-white/8 border border-white/15 text-white/80 text-sm font-light font-tajawal">محمود بهيج</span>
+        <span class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-white/8 border border-white/15 text-white/80 text-sm font-light font-tajawal">محمد السيد</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-full lg:w-1/2">
+    <app-login></app-login>
+  </div>
+</div>
+
+</section>

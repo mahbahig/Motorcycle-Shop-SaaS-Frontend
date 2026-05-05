@@ -1,13 +1,13 @@
 import { Component, inject, signal, WritableSignal, computed } from '@angular/core';
-import { Input } from '@shared/components';
+import { Input } from '@common/components';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '@core/services';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ThemeService } from '@core/services/theme/theme-service';
-import { Button } from '@shared/components/button/button';
-import { Alert } from '@shared/components/alert/alert';
+import { Button } from '@common/components/button/button';
+import { Alert } from '@common/components/alert/alert';
 
 @Component({
   selector: 'app-login',
@@ -31,7 +31,8 @@ export class Login {
   passwordHidden: WritableSignal<boolean> = signal(true);
   passwordType: WritableSignal<string> = signal('password');
 
-  // ── Derived ──────────────────────────────────────────
+  currentYear: WritableSignal<number> = signal(new Date().getFullYear());
+
   readonly hasError = computed(() => this.clicked() && this.errorMessage() !== '');
 
   get username() {

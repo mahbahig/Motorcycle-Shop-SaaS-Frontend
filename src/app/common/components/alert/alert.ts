@@ -10,6 +10,5 @@ import { Component, input, InputSignal } from '@angular/core';
 export class Alert {
   isSuccess: InputSignal<boolean> = input(false);
   hasError: InputSignal<boolean> = input(false);
-  message: InputSignal<string> = input('عذراً ، حدث خطأ ما');
-
+  message: InputSignal<string> = input('');
 }

@@ -1,1 +1,52 @@
+.gear-anim {
+  animation: spin-slow 18s linear infinite;
+}
 
+.gear-anim-rev {
+  animation: spin-slow-rev 24s linear infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-slow-rev {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.fade-up {
+  animation: fadeUp 0.7s cubic-bezier(0.22, 0.68, 0, 1.2) both;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.input-focus:focus {
+  outline: none;
+}
+
+.checkbox-custom:checked {
+  background-color: #1e4080;
+  border-color: #1e4080;
+}

@@ -9,7 +9,13 @@ import { Observable } from 'rxjs';
 export class ProductsService {
   private readonly httpClient = inject(HttpClient);
 
-  createProduct(body: {name: string, supplier: string, description?: string, buyingPrice: number, sellingPrice: number}): Observable<any> {
+  createProduct(body: {
+    name: string;
+    supplier: string;
+    description?: string;
+    buyingPrice: number;
+    sellingPrice: number;
+  }): Observable<any> {
     return this.httpClient.post(productApiEndpoints.createProduct, body);
   }
 
@@ -31,7 +37,4 @@ export class ProductsService {
   deleteProduct(id: string): Observable<any> {
     return this.httpClient.delete(productApiEndpoints.deleteProduct(id));
   }
-
-
-
 }

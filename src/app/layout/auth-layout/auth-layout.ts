@@ -9,5 +9,5 @@ import { Login } from '@pages/login/login';
   standalone: true,
 })
 export class AuthLayout {
-  features: string[] = ['']
+  features: string[] = [''];
 }

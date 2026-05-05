@@ -23,7 +23,8 @@ export const userApiEndpoints = {
 export const productApiEndpoints = {
   createProduct: `${environment.baseUrl}products`,
   getAllProducts: `${environment.baseUrl}products`,
-  getSupplierProducts: (supplierId: string) => `${environment.baseUrl}products/supplier/${supplierId}`,
+  getSupplierProducts: (supplierId: string) =>
+    `${environment.baseUrl}products/supplier/${supplierId}`,
   getProductById: (id: string) => `${environment.baseUrl}products/${id}`,
   updateProduct: (id: string) => `${environment.baseUrl}products/${id}`,
   deleteProduct: (id: string) => `${environment.baseUrl}products/${id}`,

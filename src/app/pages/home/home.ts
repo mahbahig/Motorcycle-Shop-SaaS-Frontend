@@ -1,4 +1,4 @@
-import { Component,inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthService } from '@core/services';
 import { RouterLink } from '@angular/router';
 
@@ -10,9 +10,9 @@ import { RouterLink } from '@angular/router';
   standalone: true,
 })
 export class Home {
-   private readonly _authService= inject(AuthService);
+  private readonly _authService = inject(AuthService);
 
-   signOut(): any {
-     this._authService.logOut()
-   }
+  signOut(): any {
+    this._authService.logOut();
+  }
 }

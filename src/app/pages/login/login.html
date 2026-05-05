@@ -1,23 +1,40 @@
-<div class="w-full lg:w-1/2 flex items-center justify-center px-6 py-16 bg-white  dark:bg-gray-950">
+<div class="w-full flex items-center justify-center px-6 py-16 bg-white dark:bg-gray-950">
   <div class="w-full max-w-md fade-up">
     <!-- Mobile logo (shown only on small screens) -->
     <div class="lg:hidden flex justify-center mb-10">
-      <div class="w-14 h-14 rounded-xl bg-navy-900 dark:bg-navy-800 flex items-center justify-center">
-        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"/>
+      <div
+        class="w-14 h-14 rounded-xl bg-navy-900 dark:bg-navy-800 flex items-center justify-center"
+      >
+        <svg
+          class="w-7 h-7 text-white"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z"
+          />
         </svg>
       </div>
     </div>
 
     <!-- Heading -->
     <div class="mb-10">
-      <p class="text-sm font-medium text-navy-400 dark:text-gray-500 uppercase tracking-widest mb-2"
-         style="font-family:'Tajawal',sans-serif; letter-spacing: 0.2em">مرحباً بعودتك</p>
-      <h2 class="text-3xl font-bold text-navy-900 dark:text-white font-['Cairo',sans-serif]">تسجيل
-        الدخول</h2>
-      <p class="mt-2 text-navy-400 dark:text-gray-400 text-base font-light" style="font-family:'Tajawal',sans-serif">
-        أدخل بياناتك للمتابعة إلى لوحة التحكم</p>
+      <p
+        class="text-sm font-medium text-navy-400 dark:text-gray-500 uppercase track mb-2 letter-spacing-0.2em font-tajawal tracking-[0.2em]"
+      >
+        مرحباً بعودتك
+      </p>
+      <h2 class="text-3xl font-bold text-navy-900 dark:text-white font-cairo">تسجيل الدخول</h2>
+      <p
+        class="mt-2 text-navy-400 dark:text-gray-400 text-base font-light"
+        style="font-family: 'Tajawal', sans-serif"
+      >
+        أدخل بياناتك للمتابعة إلى لوحة التحكم
+      </p>
     </div>
 
     <!-- Thin accent line -->
@@ -25,31 +42,35 @@
 
     <!-- Form -->
     <form class="space-y-6" [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
-
       <!-- Username -->
       <div>
-        <label class="block text-sm font-medium  dark:text-gray-300 mb-2 font-['Tajawal',sans-serif]"
-               for="username">
+        <label
+          class="block text-sm font-medium dark:text-gray-300 mb-2 font-tajawal"
+          for="username"
+        >
           اسم المستخدم
         </label>
-        <div class="relative bg-navy-200">
+        <div class="relative">
           <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
             <i class="fa-regular fa-user w-5 h-5 text-navy-300 dark:text-gray-500"></i>
           </div>
-          <app-input
-            class="w-full pr-12 pl-4 py-3.5 rounded-xl border border-navy-200 font-tajawal dark:border-gray-700 bg-navy-50 dark:bg-gray-900 text-navy-900 dark:text-white placeholder-navy-300 dark:placeholder-gray-600 text-base transition-all duration-200 focus:border-navy-700 dark:focus:border-navy-400 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-900"
-            [idInput]="'username'"
-            [typeInput]="'text'"
-            [placeholderInput]="'أدخل اسم المستخدم'"
-            [label]="'اسم المستخدم'"
-          ></app-input>
-
+          <input
+            autocomplete="username"
+            formControlName="username"
+            class="w-full pr-12 pl-12 py-3.5 font-tajawal rounded-xl border border-navy-200 dark:border-gray-700 bg-navy-50 dark:bg-gray-900 text-navy-900 dark:text-white placeholder-navy-300 dark:placeholder-gray-600 text-base transition-all duration-200 focus:border-navy-700 dark:focus:border-navy-400 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-900"
+            id="username"
+            type="text"
+            placeholder="أدخل اسم المستخدم"
+          />
         </div>
       </div>
 
       <!-- Password -->
       <div>
-        <label class="block text-sm font-medium text-navy-700 dark:text-gray-300 mb-2 font-tajawal" for="password">
+        <label
+          class="block text-sm font-medium text-navy-700 dark:text-gray-300 mb-2 font-tajawal"
+          for="password"
+        >
           كلمة المرور
         </label>
         <div class="relative">
@@ -57,23 +78,23 @@
             <i class="fa-solid fa-lock w-5 h-5 text-navy-300 dark:text-gray-500"></i>
           </div>
           <input
+            formControlName="password"
+            class="w-full pr-12 pl-12 py-3.5 font-tajawal rounded-xl border border-navy-200 dark:border-gray-700 bg-navy-50 dark:bg-gray-900 text-navy-900 dark:text-white placeholder-navy-300 dark:placeholder-gray-600 text-base transition-all duration-200 focus:border-navy-700 dark:focus:border-navy-400 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-900"
             id="password"
             [type]="passwordType()"
             placeholder="أدخل كلمة المرور"
-            class="input-focus w-full pr-12 pl-12 py-3.5 rounded-xl border border-navy-200 dark:border-gray-700 bg-navy-50 dark:bg-gray-900 text-navy-900 dark:text-white placeholder-navy-300 dark:placeholder-gray-600 text-base transition-all duration-200 focus:border-navy-700 dark:focus:border-navy-400 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-900"
-            style="font-family:'Tajawal',sans-serif"
           />
           <!-- Show/hide toggle -->
-          <button type="button" (click)="togglePasswordVisibility()"
-                  class="absolute inset-y-0 left-0 flex items-center pl-4 text-navy-300 dark:text-gray-500 hover:text-navy-600 dark:hover:text-gray-300 transition-colors">
-
+          <button
+            type="button"
+            (click)="togglePasswordVisibility()"
+            class="absolute inset-y-0 left-0 flex items-center pl-4 text-navy-300 dark:text-gray-500 hover:text-navy-600 dark:hover:text-gray-300 transition-colors"
+          >
             @if (passwordHidden()) {
               <i class="fa-regular fa-eye"></i>
             } @else {
               <i class="fa-regular fa-eye-slash"></i>
             }
-
-
           </button>
         </div>
       </div>
@@ -82,14 +103,18 @@
       <div class="flex items-center gap-3">
         <div class="relative flex items-center">
           <input
-            id="remember"
+            formControlName="rememberMe"
+            id="rememberMe"
             type="checkbox"
             class="w-5 h-5 rounded border-2 border-navy-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-navy-800 dark:text-navy-400 cursor-pointer transition-all duration-150 focus:ring-2 focus:ring-navy-200 dark:focus:ring-navy-800 checked:bg-navy-800 checked:border-navy-800 dark:checked:bg-navy-500 dark:checked:border-navy-500"
             style="accent-color: #1e4080"
           />
         </div>
-        <label for="remember" class="text-sm text-navy-600 dark:text-gray-400 cursor-pointer select-none"
-               style="font-family:'Tajawal',sans-serif">
+        <label
+          for="rememberMe"
+          class="text-sm text-navy-600 dark:text-gray-400 cursor-pointer select-none"
+          style="font-family: 'Tajawal', sans-serif"
+        >
           تذكّرني على هذا الجهاز
         </label>
       </div>
@@ -97,30 +122,40 @@
       <!-- Submit -->
       <button
         type="submit"
-        id="loginBtn"
-        class="w-full py-4 px-6 rounded-xl bg-navy-900 dark:bg-navy-700 hover:bg-navy-800 dark:hover:bg-navy-600 active:scale-[0.99] text-white font-semibold text-base tracking-wide transition-all duration-200 shadow-lg shadow-navy-900/20 dark:shadow-navy-950/40 flex items-center justify-center gap-3 group"
-        style="font-family:'Cairo',sans-serif"
+        class="w-full py-4 px-6 rounded-xl font-cairo bg-navy-900 dark:bg-navy-700 hover:bg-navy-800 dark:hover:bg-navy-600 active:scale-[0.99] text-white font-semibold text-base tracking-wide transition-all duration-200 shadow-lg shadow-navy-900/20 dark:shadow-navy-950/40 flex items-center justify-center gap-3 group"
       >
-        <span id="btnText">دخول إلى المنصة</span>
-        <svg id="btnArrow" class="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-1" fill="none"
-             stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
-        </svg>
+        <span>دخول إلى المنصة</span>
+        <i
+          class="fa-solid fa-arrow-left w-5 h-5 transition-transform duration-200 group-hover:-translate-x-1"
+        ></i>
         <svg id="btnSpinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          />
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+          />
         </svg>
       </button>
 
-      <app-alert [hasError]="true" [isSuccess]="isSuccess()"></app-alert>
+      <app-alert [hasError]="hasError()" [message]="errorMessage()" [isSuccess]="isSuccess()"></app-alert>
     </form>
 
     <!-- Bottom subtle branding line -->
     <div class="mt-14 pt-6 border-t border-navy-100 dark:border-gray-800">
-      <p class="text-center text-xs text-navy-300 dark:text-gray-600 font-['Tajawal',sans-serif]">
-        جميع الحقوق محفوظة &copy; 2025
+      <p class="text-center text-xs text-navy-300 dark:text-gray-600 font-tajawal">
+        تم تطوير وتصميم هذا الموقع بواسطة محمود بهيج
+      </p>
+      <p class="text-center text-xs text-navy-300 dark:text-gray-600 font-tajawal">
+        جميع الحقوق محفوظة &copy; {{ currentYear() }}
       </p>
     </div>
-
   </div>
 </div>
