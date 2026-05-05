@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { ILoginRequest } from '@common/interfaces';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
-import { IUpdatePasswordRequest } from '@common/interfaces/auth/update-password.interface';
 import { authApiEndpoints } from '@common/environments/environment';
+import { ILoginRequest, IUpdatePasswordRequest } from '@shared/interfaces';
 
 @Injectable({
   providedIn: 'root',
