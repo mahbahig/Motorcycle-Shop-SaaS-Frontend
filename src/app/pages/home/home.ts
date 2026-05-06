@@ -1,18 +1,31 @@
-import { Component, inject } from '@angular/core';
-import { AuthService } from '@core/services';
-import { RouterLink } from '@angular/router';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { AuthService, UserService } from '@core/services';
+import { IUserProfile } from '@shared/interfaces';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './home.html',
   styleUrl: './home.css',
   standalone: true,
 })
 export class Home {
-  private readonly _authService = inject(AuthService);
+  private readonly userService = inject(UserService);
+  private readonly authService = inject(AuthService);
 
-  signOut(): any {
-    this._authService.logOut();
+  userProfile: WritableSignal<IUserProfile | null> = signal(null);
+
+  ngOnInit() {
+    this.getUserProfile();
+  }
+
+  getUserProfile(): void {
+    this.userService.getProfile().subscribe({
+      next: (res) => {
+        res.data.role = this.userService.translateRole(res.data.role);
+        this.userProfile.set(res.data);
+      },
+      error: () => this.authService.logout(),
+    });
   }
 }

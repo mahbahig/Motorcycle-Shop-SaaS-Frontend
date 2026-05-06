@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { userApiEndpoints } from '@common/environments';
-import { ICreateUserRequest } from '@shared/interfaces';
+import { BackendUserRole, UserRole } from '@shared/enums';
+import { ICreateUserRequest, IUserProfileResponse } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -14,8 +15,8 @@ export class UserService {
     return this.httpClient.post(userApiEndpoints.createUser, body);
   }
 
-  getProfile(): Observable<any> {
-    return this.httpClient.get(userApiEndpoints.getProfile);
+  getProfile(): Observable<IUserProfileResponse> {
+    return this.httpClient.get<IUserProfileResponse>(userApiEndpoints.getProfile);
   }
 
   getAllUsers(): Observable<any> {
@@ -37,4 +38,16 @@ export class UserService {
   unlockProfile(id: string): Observable<any> {
     return this.httpClient.patch(userApiEndpoints.unlockProfile(id), undefined);
   }
+
+    translateRole(role: string): UserRole {
+      switch (role) {
+        case BackendUserRole.OWNER:
+          return UserRole.OWNER;
+        case BackendUserRole.EMPLOYEE:
+          return UserRole.EMPLOYEE;
+        default:
+          return UserRole.EMPLOYEE;
+      }
+    }
+
 }

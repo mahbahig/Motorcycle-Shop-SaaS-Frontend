@@ -41,6 +41,9 @@ export class Login {
   get password() {
     return this.loginForm.get('password');
   }
+  get rememberMe() {
+    return this.loginForm.get('rememberMe');
+  }
 
   loginForm: FormGroup = this._formBuilder.group({
     username: [null, [Validators.required, Validators.minLength(3)]],
@@ -65,9 +68,8 @@ export class Login {
       next: (res) => {
         this.isLoading.set(false);
         this.isSuccess.set(true);
-        console.log(res);
         if (!res.success) this.errorMessage.set(res.message);
-        this._cookieService.set('token', res.token);
+        this._cookieService.set('token', res.token, undefined, '/');
         this._router.navigate(['/dashboard']);
       },
       error: (err) => {
