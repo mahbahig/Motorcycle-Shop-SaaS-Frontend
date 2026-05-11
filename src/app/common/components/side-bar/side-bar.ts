@@ -32,7 +32,8 @@ export class SideBar {
       next: (res) => {
         res.data.role = this.userService.translateRole(res.data.role);
         this.userProfile.set(res.data);
-      }, error: () => this.authService.logout()
+      },
+      // error: () => this.authService.logout()
     });
   }
 
