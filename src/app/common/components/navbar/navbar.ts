@@ -6,6 +6,7 @@ import { SearchInput } from "../search-input/search-input";
   imports: [SearchInput],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
+  standalone: true,
 })
 export class Navbar implements OnInit {
   sidebarHidden = model<boolean>(true);
@@ -14,12 +15,14 @@ export class Navbar implements OnInit {
   ngOnInit() {
     const today = new Date();
 
-    this.dateAr.set(today.toLocaleDateString('ar-EG', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    }));
+    this.dateAr.set(
+      today.toLocaleDateString('ar-EG', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+      }),
+    );
   }
   openSidebar(): void {
     this.sidebarHidden.set(false);

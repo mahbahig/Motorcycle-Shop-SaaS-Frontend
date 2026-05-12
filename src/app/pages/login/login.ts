@@ -64,6 +64,7 @@ export class Login {
       return this.errorMessage.set('يجب أن تتكون كلمة المرور من أكثر من 6 أحرف');
     this.isLoading.set(true);
     this.subscription.unsubscribe();
+    console.log(this.subscription);
     this.subscription = this._authService.login(this.loginForm.value).subscribe({
       next: (res) => {
         this.isLoading.set(false);

@@ -1,9 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap');
 @import 'tailwindcss';
-@custom-variant dark (&:where(.dark, .dark *));
-
 @import 'flowbite/src/themes/default.css';
+@custom-variant dark (&:where(.dark, .dark *));
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 
@@ -19,6 +18,8 @@
   --color-navy-800: #132c6a;
   --color-navy-900: #071854;
   --color-navy-950: #030e36;
+
+
 
   --font-cairo: 'Cairo', 'sans-serif';
   --font-tajawal: 'Tajawal', 'sans-serif';

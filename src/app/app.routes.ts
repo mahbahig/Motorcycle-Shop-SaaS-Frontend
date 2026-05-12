@@ -2,9 +2,9 @@ import { Routes } from '@angular/router';
 import { AuthLayout } from '@layout/auth-layout/auth-layout';
 import { MainLayout } from '@layout/main-layout/main-layout';
 import { Home } from '@pages/home/home';
+import { NotFound } from '@pages/not-found/not-found';
 import { mainGuard } from '@common/guards/main-guard/main-guard';
 import { authGuard } from '@common/guards/auth-guard/auth-guard';
-import { NotFound } from '@pages/not-found/not-found';
 
 export const routes: Routes = [
   // ── Auth ──────────────────────────────────────────────
@@ -115,11 +115,11 @@ export const routes: Routes = [
       //     },
       //
       // // ── Fallback ──────────────────────────────────────────
-      {
-        path: '**',
-        component: NotFound,
-        title: '404',
-      },
     ],
+  },
+  {
+    path: '**',
+    component: NotFound,
+    title: '404',
   },
 ];
