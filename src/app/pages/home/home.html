@@ -1,31 +1,11 @@
 <main class="flex-1 px-4 lg:px-7 py-6 space-y-6 ">
   <!-- ── GREETING BANNER ── -->
   <div
-    class="relative bg-navy-900 dark:bg-gray-900 rounded-2xl  overflow-hidden px-7 py-6 fade-in"
+    class="relative bg-navy-900 dark:bg-main-dark rounded-2xl  overflow-hidden px-7 py-6 fade-in"
   >
-    <!-- Subtle grid -->
-    <div
-      class="absolute inset-0 opacity-[0.07]"
-      style="
-              background-image:
-                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(
-                  90deg,
-                  rgba(255, 255, 255, 0.08) 1px,
-                  transparent 1px
-                );
-              background-size: 32px 32px;
-            "
-    ></div>
     <!-- Gear deco -->
-    <div
-      class="absolute -left-8 -top-8 opacity-[0.07] gear-spin pointer-events-none"
-    >
-      <svg width="160" height="160" viewBox="0 0 100 100" fill="white">
-        <path
-          d="M43.3 5.8l-3 8.4A33 33 0 0035 17l-8.9-1.8-9.4 9.4 1.8 8.9A33 33 0 0015.7 41l-8.4 3v13.3l8.4 3a33 33 0 002.8 8.3l-1.8 8.9 9.4 9.4 8.9-1.8a33 33 0 008.3 2.8l3 8.4h13.3l3-8.4a33 33 0 008.3-2.8l8.9 1.8 9.4-9.4-1.8-8.9a33 33 0 002.8-8.3l8.4-3V43.3l-8.4-3a33 33 0 00-2.8-8.3l1.8-8.9-9.4-9.4-8.9 1.8a33 33 0 00-8.3-2.8l-3-8.4zm6.7 27a17 17 0 110 34 17 17 0 010-34z"
-        />
-      </svg>
+    <div class="absolute -left-8 -top-8 opacity-[0.07] gear-anim pointer-events-none">
+      <i class="fa-solid fa-gear text-white text-[160px]"></i>
     </div>
 
     <div
