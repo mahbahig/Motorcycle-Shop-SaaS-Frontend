@@ -1,5 +1,5 @@
 <div class="w-full flex items-center justify-center px-6 py-16 bg-white dark:bg-gray-950">
-  <div class="w-full max-w-md fade-up">
+  <div class="w-full max-w-md animate-[fadeUp_0.7s_cubic-bezier(0.22,0.68,0,1.2)_both]">
     <!-- Mobile logo (shown only on small screens) -->
     <div class="lg:hidden flex justify-center mb-10">
       <div
@@ -24,15 +24,12 @@
     <!-- Heading -->
     <div class="mb-10">
       <p
-        class="text-sm font-medium text-navy-400 dark:text-gray-500 uppercase track mb-2 letter-spacing-0.2em font-tajawal tracking-[0.2em]"
+        class="mb-2 text-sm font-medium uppercase text-navy-400 dark:text-gray-500 font-tajawal tracking-[0.2em]"
       >
         مرحباً بعودتك
       </p>
       <h2 class="text-3xl font-bold text-navy-900 dark:text-white font-cairo">تسجيل الدخول</h2>
-      <p
-        class="mt-2 text-navy-400 dark:text-gray-400 text-base font-light"
-        style="font-family: 'Tajawal', sans-serif"
-      >
+      <p class="mt-2 text-navy-400 dark:text-gray-400 text-base font-light font-tajawal">
         أدخل بياناتك للمتابعة إلى لوحة التحكم
       </p>
     </div>
@@ -106,14 +103,12 @@
             formControlName="rememberMe"
             id="rememberMe"
             type="checkbox"
-            class="w-5 h-5 rounded border-2 border-navy-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-navy-800 dark:text-navy-400 cursor-pointer transition-all duration-150 focus:ring-2 focus:ring-navy-200 dark:focus:ring-navy-800 checked:bg-navy-800 checked:border-navy-800 dark:checked:bg-navy-500 dark:checked:border-navy-500"
-            style="accent-color: #1e4080"
+            class="w-5 h-5 rounded border-2 border-navy-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-navy-800 dark:text-navy-400 accent-navy-700 cursor-pointer transition-all duration-150 focus:ring-2 focus:ring-navy-200 dark:focus:ring-navy-800 checked:bg-navy-800 checked:border-navy-800 dark:checked:bg-navy-500 dark:checked:border-navy-500"
           />
         </div>
         <label
           for="rememberMe"
-          class="text-sm text-navy-600 dark:text-gray-400 cursor-pointer select-none"
-          style="font-family: 'Tajawal', sans-serif"
+          class="text-sm text-navy-600 dark:text-gray-400 cursor-pointer select-none font-tajawal"
         >
           تذكّرني على هذا الجهاز
         </label>
@@ -145,7 +140,11 @@
         </svg>
       </button>
 
-      <app-alert [hasError]="hasError()" [message]="errorMessage()" [isSuccess]="isSuccess()"></app-alert>
+      <app-alert
+        [hasError]="hasError()"
+        [message]="errorMessage()"
+        [isSuccess]="isSuccess()"
+      ></app-alert>
     </form>
 
     <!-- Bottom subtle branding line -->

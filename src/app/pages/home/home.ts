@@ -1,10 +1,12 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { AuthService, UserService } from '@core/services';
 import { IUserProfile } from '@shared/interfaces';
+import { AuditLogsCard } from '@common/components/cards/audit-logs-card/audit-logs-card';
+import { WokFlowCard } from '@common/components/cards/wok-flow-card/wok-flow-card';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [AuditLogsCard, WokFlowCard],
   templateUrl: './home.html',
   styleUrl: './home.css',
   standalone: true,

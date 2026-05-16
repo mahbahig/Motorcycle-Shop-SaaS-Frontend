@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Input } from './input';
+import { StorageAlertCard } from './storage-alert-card';
 
-describe('Input', () => {
-  let component: Input;
-  let fixture: ComponentFixture<Input>;
+describe('StorageAlertCard', () => {
+  let component: StorageAlertCard;
+  let fixture: ComponentFixture<StorageAlertCard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Input],
+      imports: [StorageAlertCard],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Input);
+    fixture = TestBed.createComponent(StorageAlertCard);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
