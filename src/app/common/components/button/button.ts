@@ -9,4 +9,7 @@ import { Component, InputSignal, input } from '@angular/core';
 })
 export class Button {
   message: InputSignal<string> = input('اضغط هنا');
+  type: InputSignal<string> = input('button');
+  isLoading = input(false);
+  btn_white = input(false);
 }

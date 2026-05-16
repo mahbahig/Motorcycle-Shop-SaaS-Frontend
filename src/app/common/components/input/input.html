@@ -1,34 +1,23 @@
-<div class="mb-6 relative">
-  <label [for]="idInput()" class="block mb-2 text-sm font-medium text-gray-900">{{
-    label()
-  }}</label>
-  @if (element() == 'input') {
-    <input
-      enterNext
-      [formControl]="control()"
-      [type]="typeInput() || (showPassword() ? 'text' : 'password')"
-      [id]="idInput()"
-      class="block w-full pl-10 pr-4 py-3 rounded-lg font-body text-sm tracking-widest"
-      [placeholder]="placeholderInput()"
-      required
-    />
-  } @else if (element() == 'textArea') {
-    <textarea
-      enterNext
-      [formControl]="control()"
-      [id]="idInput()"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-0.5 block w-full p-2.5"
-      [placeholder]="placeholderInput()"
-      required
-    ></textarea>
-  }
-  @if (idInput() == 'password' || idInput() == 'rePassword') {
-    <span (click)="showPassword.set(!showPassword())">
-      @if (showPassword()) {
-        <i class="fas fa-eye-slash absolute -translate-y-7 inset-e-3 input-icon"></i>
-      } @else {
-        <i class="fas fa-eye absolute -translate-y-7 inset-e-3 input-icon"></i>
-      }
-    </span>
-  }
+<div class="mb-6 relative flex flex-col justify-center">
+  <label [for]="idInput()" class="block text-sm font-medium text-navy-700 dark:text-gray-300 mb-2 font-tajawal">{{ label() }}</label>
+
+  <!-- Wrap input/textarea to isolate positioning from the label -->
+  <div class="relative w-full">
+    @if (element() == 'input') {
+      <input enterNext [name]="nameInput()" [formControl]="control()" [type]="typeInput() || (showPassword() ? 'text' : 'password')" [id]="idInput()" class="w-full pr-12 pl-12 py-3.5 font-tajawal rounded-xl border border-navy-200 dark:border-gray-700 bg-navy-50 dark:bg-gray-900 text-navy-900 dark:text-white placeholder-navy-300 dark:placeholder-gray-600 text-base transition-all duration-200 focus:border-navy-700 dark:focus:border-navy-400 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-900" [placeholder]="placeholderInput()" required />
+    } @else if (element() == 'textArea') {
+      <textarea enterNext [formControl]="control()" [name]="nameInput()" [id]="idInput()" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-0.5 block w-full p-2.5" [placeholder]="placeholderInput()" required ></textarea>
+    }
+
+    @if (idInput() == 'password' || idInput() == 'rePassword') {
+      <!-- Position the interactive eye element cleanly within the inner container -->
+      <span (click)="showPassword.set(!showPassword())" class="absolute top-1/2 -translate-y-1/2 inset-e-4 cursor-pointer z-10">
+        @if (showPassword()) {
+          <i class="fas fa-eye-slash input-icon text-navy-400 dark:text-gray-500"></i>
+        } @else {
+          <i class="fas fa-eye input-icon text-navy-400 dark:text-gray-500"></i>
+        }
+      </span>
+    }
+  </div>
 </div>

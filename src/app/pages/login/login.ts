@@ -20,7 +20,6 @@ export class Login {
   private readonly _formBuilder = inject(FormBuilder);
   private readonly _cookieService = inject(CookieService);
   private readonly _authService = inject(AuthService);
-  public readonly _themeService = inject(ThemeService);
   private readonly _router = inject(Router);
 
   subscription: Subscription = new Subscription();
@@ -30,7 +29,6 @@ export class Login {
   clicked: WritableSignal<boolean> = signal(false);
   passwordHidden: WritableSignal<boolean> = signal(true);
   passwordType: WritableSignal<string> = signal('password');
-
   currentYear: WritableSignal<number> = signal(new Date().getFullYear());
 
   readonly hasError = computed(() => this.clicked() && this.errorMessage() !== '');

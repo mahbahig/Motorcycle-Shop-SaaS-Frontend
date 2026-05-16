@@ -40,62 +40,21 @@
     <!-- Form -->
     <form class="space-y-6" [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
       <!-- Username -->
-      <div>
-        <label
-          class="block text-sm font-medium dark:text-gray-300 mb-2 font-tajawal"
-          for="username"
-        >
-          اسم المستخدم
-        </label>
-        <div class="relative">
-          <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-            <i class="fa-regular fa-user w-5 h-5 text-navy-300 dark:text-gray-500"></i>
-          </div>
-          <input
-            autocomplete="username"
-            formControlName="username"
-            class="w-full pr-12 pl-12 py-3.5 font-tajawal rounded-xl border border-navy-200 dark:border-gray-700 bg-navy-50 dark:bg-gray-900 text-navy-900 dark:text-white placeholder-navy-300 dark:placeholder-gray-600 text-base transition-all duration-200 focus:border-navy-700 dark:focus:border-navy-400 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-900"
-            id="username"
-            type="text"
-            placeholder="أدخل اسم المستخدم"
-          />
-        </div>
-      </div>
-
+      <app-input
+        [control]="username"
+        label="اسم المستخدم"
+        placeholderInput="أدخل اسم المستخدم"
+        idInput="username"
+        nameInput="username"
+      ></app-input>
       <!-- Password -->
-      <div>
-        <label
-          class="block text-sm font-medium text-navy-700 dark:text-gray-300 mb-2 font-tajawal"
-          for="password"
-        >
-          كلمة المرور
-        </label>
-        <div class="relative">
-          <div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
-            <i class="fa-solid fa-lock w-5 h-5 text-navy-300 dark:text-gray-500"></i>
-          </div>
-          <input
-            formControlName="password"
-            class="w-full pr-12 pl-12 py-3.5 font-tajawal rounded-xl border border-navy-200 dark:border-gray-700 bg-navy-50 dark:bg-gray-900 text-navy-900 dark:text-white placeholder-navy-300 dark:placeholder-gray-600 text-base transition-all duration-200 focus:border-navy-700 dark:focus:border-navy-400 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-900"
-            id="password"
-            [type]="passwordType()"
-            placeholder="أدخل كلمة المرور"
-          />
-          <!-- Show/hide toggle -->
-          <button
-            type="button"
-            (click)="togglePasswordVisibility()"
-            class="absolute inset-y-0 left-0 flex items-center pl-4 text-navy-300 dark:text-gray-500 hover:text-navy-600 dark:hover:text-gray-300 transition-colors"
-          >
-            @if (passwordHidden()) {
-              <i class="fa-regular fa-eye"></i>
-            } @else {
-              <i class="fa-regular fa-eye-slash"></i>
-            }
-          </button>
-        </div>
-      </div>
-
+      <app-input
+        [control]="password"
+        label="كلمة المرور"
+        placeholderInput="أدخل كلمة المرور"
+        idInput="password"
+        nameInput="password"
+      ></app-input>
       <!-- Remember me -->
       <div class="flex items-center gap-3">
         <div class="relative flex items-center">
@@ -113,32 +72,12 @@
           تذكّرني على هذا الجهاز
         </label>
       </div>
-
       <!-- Submit -->
-      <button
-        type="submit"
-        class="w-full py-4 px-6 rounded-xl font-cairo bg-navy-900 dark:bg-navy-700 hover:bg-navy-800 dark:hover:bg-navy-600 active:scale-[0.99] text-white font-semibold text-base tracking-wide transition-all duration-200 shadow-lg shadow-navy-900/20 dark:shadow-navy-950/40 flex items-center justify-center gap-3 group"
-      >
-        <span>دخول إلى المنصة</span>
-        <i
-          class="fa-solid fa-arrow-left w-5 h-5 transition-transform duration-200 group-hover:-translate-x-1"
-        ></i>
-        <svg id="btnSpinner" class="w-5 h-5 animate-spin hidden" fill="none" viewBox="0 0 24 24">
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          />
-          <path
-            class="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-          />
-        </svg>
-      </button>
+      <app-button type="submit" [isLoading]="isLoading()" message="دخول إلى المنصة">
+        <i icon
+          [class.hidden!]="isLoading()"
+          class="fa-solid  fa-arrow-left w-5 h-5 transition-transform duration-200 translate-y-1 group-hover:-translate-x-1"></i>
+      </app-button>
 
       <app-alert
         [hasError]="hasError()"

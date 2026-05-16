@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MainCard } from '@common/components/cards/main-card/main-card';
 
 @Component({
   selector: 'app-work-orders-card',
-  imports: [],
+  imports: [MainCard],
   templateUrl: './work-orders-card.html',
   styleUrl: './work-orders-card.css',
 })
@@ -49,4 +50,5 @@ export class WorkOrdersCard {
       amount: '450 ر.س',
     },
   ];
+  tableHeaders = ['#', 'العميل', 'السيارة', 'الخدمة', 'الحالة', 'المبلغ'];
 }

@@ -8,6 +8,7 @@
       <i class="fa-solid fa-gear text-white text-[160px]"></i>
     </div>
 
+    <!-- text -->
     <div class="relative z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
         <p class="mb-1 text-sm text-white/50 font-tajawal">مرحباً بعودتك،</p>
@@ -17,17 +18,17 @@
           <span class="text-white font-semibold">5 أوامر شغل</span> مفتوحة اليوم
         </p>
       </div>
-      <button
-        class="self-start sm:self-auto flex items-center gap-2 bg-white text-navy-900 font-semibold text-sm px-5 py-2.5 rounded-xl hover:bg-navy-50 transition-colors shadow-lg"
+      <app-button
+        [btn_white]="true"
+        message="أمر شغل جديد"
       >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <svg icon class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
-        أمر شغل جديد
-      </button>
+      </app-button>
+
     </div>
   </div>
-
   <!-- ── STAT CARDS ── -->
   <div
     class="grid grid-cols-2 gap-4 lg:grid-cols-2 animate-[fadeUp_0.7s_cubic-bezier(0.22,0.68,0,1.2)_both] [animation-delay:0.05s]"
@@ -46,290 +47,20 @@
     ></app-wok-flow-card>
 
   </div>
-
-  <!-- ── MIDDLE ROW: Chart + Donut ── -->
-  <div
-    class="grid grid-cols-1 gap-4 lg:grid-cols-3 animate-[fadeUp_0.7s_cubic-bezier(0.22,0.68,0,1.2)_both] [animation-delay:0.1s]"
-  >
-    <!-- Work Order Status Donut -->
-  </div>
-
   <!-- ── BOTTOM ROW: Work Orders Table + Recent Activity ── -->
   <div
     class="grid grid-cols-1 gap-4 lg:grid-cols-3 animate-[fadeUp_0.7s_cubic-bezier(0.22,0.68,0,1.2)_both] [animation-delay:0.15s]"
   >
     <!-- Work Orders Table -->
-    <div
-      class="self-start lg:col-span-2 bg-white dark:bg-gray-900 rounded-2xl border border-navy-100 dark:border-gray-800 overflow-hidden py-2"
-    >
-      <div
-        class="flex items-center justify-between px-5 pt-5 pb-4 border-b border-navy-50 dark:border-gray-800"
-      >
-
-        <h3 class="font-bold text-navy-900 dark:text-white text-sm">أحدث أوامر الشغل</h3>
-
-        <button
-          class="text-xs font-semibold text-navy-700 transition-colors hover:text-navy-900 dark:text-navy-300 dark:hover:text-white font-tajawal"
-        >
-          عرض الكل ←
-        </button>
-      </div>
-
-      <div class="overflow-x-auto">
-        <table class="w-full text-sm">
-          <thead>
-          <tr class="border-b border-navy-50 dark:border-gray-800">
-            <th
-              class="text-right px-5 py-3 text-xs font-semibold text-navy-400 dark:text-gray-500 font-tajawal"
-            >
-              #
-            </th>
-            <th
-              class="text-right px-3 py-3 text-xs font-semibold text-navy-400 dark:text-gray-500 font-tajawal"
-            >
-              العميل
-            </th>
-            <th
-              class="text-right px-3 py-3 text-xs font-semibold text-navy-400 dark:text-gray-500 font-tajawal"
-            >
-              السيارة
-            </th>
-            <th
-              class="text-right px-3 py-3 text-xs font-semibold text-navy-400 dark:text-gray-500 font-tajawal"
-            >
-              الخدمة
-            </th>
-            <th
-              class="text-right px-3 py-3 text-xs font-semibold text-navy-400 dark:text-gray-500 font-tajawal"
-            >
-              الحالة
-            </th>
-            <th
-              class="text-right px-5 py-3 text-xs font-semibold text-navy-400 dark:text-gray-500 font-tajawal"
-            >
-              المبلغ
-            </th>
-          </tr>
-          </thead>
-          <tbody class="divide-y divide-navy-50 dark:divide-gray-800">
-          <tr class="hover:bg-navy-50/50 dark:hover:bg-gray-800/50 transition-colors">
-            <td class="px-5 py-3.5 text-xs text-navy-400 dark:text-gray-600 font-mono">#1042</td>
-            <td class="px-3 py-3.5">
-              <div class="flex items-center gap-2">
-                <div
-                  class="w-7 h-7 rounded-full bg-navy-900 dark:bg-navy-700 flex items-center justify-center text-white text-2xs font-bold shrink-0"
-                >
-                  خا
-                </div>
-                <span class="font-tajawal text-xs font-medium text-navy-800 dark:text-gray-200"
-                >خالد العنزي</span
-                >
-              </div>
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              كامري 2022
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              تغيير زيت
-            </td>
-            <td class="px-3 py-3.5">
-                <span
-                  class="rounded-full bg-green-100 px-2.5 py-1 text-2xs font-semibold text-green-800 dark:bg-green-600/20 dark:text-green-300 font-tajawal"
-                >مكتمل</span
-                >
-            </td>
-            <td class="px-5 py-3.5 text-xs font-bold text-navy-900 dark:text-white font-tajawal">
-              350 ر.س
-            </td>
-          </tr>
-          <tr class="hover:bg-navy-50/50 dark:hover:bg-gray-800/50 transition-colors">
-            <td class="px-5 py-3.5 text-xs text-navy-400 dark:text-gray-600 font-mono">#1043</td>
-            <td class="px-3 py-3.5">
-              <div class="flex items-center gap-2">
-                <div
-                  class="w-7 h-7 rounded-full bg-navy-600 flex items-center justify-center text-white text-2xs font-bold shrink-0"
-                >
-                  سا
-                </div>
-                <span class="font-tajawal text-xs font-medium text-navy-800 dark:text-gray-200"
-                >سارة الدوسري</span
-                >
-              </div>
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              لاند كروزر 2021
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              فحص شامل
-            </td>
-            <td class="px-3 py-3.5">
-                <span
-                  class="rounded-full bg-navy-50 px-2.5 py-1 text-2xs font-semibold text-navy-700 dark:bg-navy-700/25 dark:text-blue-300 font-tajawal"
-                >قيد التنفيذ</span
-                >
-            </td>
-            <td class="px-5 py-3.5 text-xs font-bold text-navy-900 dark:text-white font-tajawal">
-              820 ر.س
-            </td>
-          </tr>
-          <tr class="hover:bg-navy-50/50 dark:hover:bg-gray-800/50 transition-colors">
-            <td class="px-5 py-3.5 text-xs text-navy-400 dark:text-gray-600 font-mono">#1044</td>
-            <td class="px-3 py-3.5">
-              <div class="flex items-center gap-2">
-                <div
-                  class="w-7 h-7 rounded-full bg-navy-400 flex items-center justify-center text-white text-2xs font-bold shrink-0"
-                >
-                  مح
-                </div>
-                <span class="font-tajawal text-xs font-medium text-navy-800 dark:text-gray-200"
-                >محمد الغامدي</span
-                >
-              </div>
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              النترا 2023
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              تبديل إطارات
-            </td>
-            <td class="px-3 py-3.5">
-                <span
-                  class="rounded-full bg-yellow-100 px-2.5 py-1 text-2xs font-semibold text-yellow-800 dark:bg-yellow-700/20 dark:text-yellow-300 font-tajawal"
-                >معلّق</span
-                >
-            </td>
-            <td class="px-5 py-3.5 text-xs font-bold text-navy-900 dark:text-white font-tajawal">
-              600 ر.س
-            </td>
-          </tr>
-          <tr class="hover:bg-navy-50/50 dark:hover:bg-gray-800/50 transition-colors">
-            <td class="px-5 py-3.5 text-xs text-navy-400 dark:text-gray-600 font-mono">#1045</td>
-            <td class="px-3 py-3.5">
-              <div class="flex items-center gap-2">
-                <div
-                  class="w-7 h-7 rounded-full bg-navy-800 flex items-center justify-center text-white text-2xs font-bold shrink-0"
-                >
-                  فا
-                </div>
-                <span class="font-tajawal text-xs font-medium text-navy-800 dark:text-gray-200"
-                >فاطمة القحطاني</span
-                >
-              </div>
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              باترول 2020
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              صيانة مكابح
-            </td>
-            <td class="px-3 py-3.5">
-                <span
-                  class="rounded-full bg-navy-50 px-2.5 py-1 text-2xs font-semibold text-navy-700 dark:bg-navy-700/25 dark:text-blue-300 font-tajawal"
-                >قيد التنفيذ</span
-                >
-            </td>
-            <td class="px-5 py-3.5 text-xs font-bold text-navy-900 dark:text-white font-tajawal">
-              1,200 ر.س
-            </td>
-          </tr>
-          <tr class="hover:bg-navy-50/50 dark:hover:bg-gray-800/50 transition-colors">
-            <td class="px-5 py-3.5 text-xs text-navy-400 dark:text-gray-600 font-mono">#1046</td>
-            <td class="px-3 py-3.5">
-              <div class="flex items-center gap-2">
-                <div
-                  class="w-7 h-7 rounded-full bg-navy-500 flex items-center justify-center text-white text-2xs font-bold shrink-0"
-                >
-                  عب
-                </div>
-                <span class="font-tajawal text-xs font-medium text-navy-800 dark:text-gray-200"
-                >عبدالله الرشيدي</span
-                >
-              </div>
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              أكورد 2019
-            </td>
-            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
-              تكييف
-            </td>
-            <td class="px-3 py-3.5">
-                <span
-                  class="rounded-full bg-green-100 px-2.5 py-1 text-2xs font-semibold text-green-800 dark:bg-green-600/20 dark:text-green-300 font-tajawal"
-                >مكتمل</span
-                >
-            </td>
-            <td class="px-5 py-3.5 text-xs font-bold text-navy-900 dark:text-white font-tajawal">
-              450 ر.س
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="self-start lg:col-span-2">
+      <app-work-orders-card></app-work-orders-card>
     </div>
-
     <!-- Recent Activity + Low Stock -->
     <div class="flex flex-col gap-4">
       <!-- Activity Feed -->
       <app-audit-logs-card></app-audit-logs-card>
-
       <!-- Low Stock Alert -->
-      <div
-        class="bg-white dark:bg-gray-900 rounded-2xl border border-navy-100 dark:border-gray-800 p-5"
-      >
-        <div class="flex items-center justify-between mb-4">
-          <h3 class="font-bold text-navy-900 dark:text-white text-sm">تنبيهات المخزون</h3>
-          <span
-            class="w-5 h-5 bg-red-500 rounded-full text-white text-2xs font-bold flex items-center justify-center"
-          >3</span
-          >
-        </div>
-        <div class="space-y-3">
-          <div
-            class="flex items-center justify-between py-2 border-b border-navy-50 dark:border-gray-800"
-          >
-            <div>
-              <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">
-                فلتر الهواء
-              </p>
-              <p class="text-[11px] text-red-500 mt-0.5 font-tajawal">متبقي: 2 قطعة</p>
-            </div>
-            <div class="w-16 bg-navy-50 dark:bg-gray-800 rounded-full h-1.5">
-              <div class="bg-red-500 h-1.5 rounded-full w-[15%]"></div>
-            </div>
-          </div>
-          <div
-            class="flex items-center justify-between py-2 border-b border-navy-50 dark:border-gray-800"
-          >
-            <div>
-              <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">
-                زيت المحرك 5W30
-              </p>
-              <p class="text-[11px] text-yellow-600 dark:text-yellow-400 mt-0.5 font-tajawal">
-                متبقي: 5 لتر
-              </p>
-            </div>
-            <div class="w-16 bg-navy-50 dark:bg-gray-800 rounded-full h-1.5">
-              <div class="bg-yellow-400 h-1.5 rounded-full w-[30%]"></div>
-            </div>
-          </div>
-          <div class="flex items-center justify-between py-2">
-            <div>
-              <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">
-                تيل الفرامل
-              </p>
-              <p class="text-[11px] text-red-500 mt-0.5 font-tajawal">متبقي: 1 قطعة</p>
-            </div>
-            <div class="w-16 bg-navy-50 dark:bg-gray-800 rounded-full h-1.5">
-              <div class="bg-red-500 h-1.5 rounded-full w-[8%]"></div>
-            </div>
-          </div>
-        </div>
-        <button
-          class="mt-4 w-full rounded-xl border border-navy-200 py-2 text-xs font-semibold text-navy-700 transition-colors hover:bg-navy-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 font-tajawal"
-        >
-          طلب توريد جديد
-        </button>
-      </div>
+      <app-storage-alert-card></app-storage-alert-card>
     </div>
   </div>
 </main>
