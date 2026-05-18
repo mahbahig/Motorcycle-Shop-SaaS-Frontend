@@ -24,7 +24,7 @@ export class WorkOrdersCard {
       customer: 'سارة الدوسري',
       car: 'لاند كروزر 2021',
       service: 'فحص شامل',
-      status: 'قيد التنفيذ',
+      status: 'ينفذ',
       amount: '820 ج.م',
     },
     {
@@ -40,7 +40,7 @@ export class WorkOrdersCard {
       customer: 'فاطمة القحطاني',
       car: 'باترول 2020',
       service: 'صيانة مكابح',
-      status: 'قيد التنفيذ',
+      status: 'ينفذ',
       amount: '1,200 ج.م',
     },
     {

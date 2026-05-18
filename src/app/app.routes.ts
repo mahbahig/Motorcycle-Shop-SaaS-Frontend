@@ -23,6 +23,8 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: Home, title: 'لوحة التحكم' },
+
+      // ── المخزون والمنتجات ──────────────────────────────────────────
       {
         path: 'inventory',
         loadComponent: () => import('@pages/inventory/inventory').then((c) => c.Inventory),
@@ -31,28 +33,19 @@ export const routes: Routes = [
       {
         path: 'products',
         loadComponent: () => import('@pages/products/products').then((c) => c.Products),
-        title: 'المنتجات',
+        title: 'قطع الغيار',
       },
+      {
+        path: 'services',
+        loadComponent: () => import('@pages/services/services').then((c) => c.Services),
+        title: 'الخدمات والصيانة',
+      },
+
+      // ── المالية ────────────────────────────────────────────────────
       {
         path: 'sales',
         loadComponent: () => import('@pages/sales/sales').then((c) => c.Sales),
         title: 'المبيعات',
-      },
-      {
-        path: 'expenses',
-        loadComponent: () => import('@pages/expenses/expenses').then((c) => c.Expenses),
-        title: 'المصروفات',
-      },
-      {
-        path: 'invoices',
-        loadComponent: () => import('@pages/invoices/invoices').then((c) => c.Invoices),
-        title: 'الفواتير القديمة',
-      },
-      {
-        path: 'customer-return',
-        loadComponent: () =>
-          import('@pages/customer-return/customer-return').then((c) => c.CustomerReturn),
-        title: 'مرتجع عميل',
       },
       {
         path: 'purchases',
@@ -60,14 +53,25 @@ export const routes: Routes = [
         title: 'المشتريات',
       },
       {
+        path: 'invoices',
+        loadComponent: () => import('@pages/invoices/invoices').then((c) => c.Invoices),
+        title: 'الفواتير',
+      },
+      {
+        path: 'customers',
+        loadComponent: () =>
+          import('@pages/customers/customer-return').then((c) => c.CustomerReturn),
+        title: 'مرتجع عميل',
+      },
+      {
         path: 'supplier-return',
         loadComponent: () => import('@pages/supplier/supplier').then((c) => c.Supplier),
         title: 'مرتجع مورد',
       },
       {
-        path: 'salaries',
-        loadComponent: () => import('@pages/salaries/salaries').then((c) => c.Salaries),
-        title: 'الرواتب',
+        path: 'expenses',
+        loadComponent: () => import('@pages/expenses/expenses').then((c) => c.Expenses),
+        title: 'المصروفات',
       },
       {
         path: 'transactions',
@@ -75,20 +79,57 @@ export const routes: Routes = [
         title: 'المعاملات',
       },
       {
-        path: 'performance-reports',
-        loadComponent: () =>
-          import('@pages/performance-reports/performance-reports').then(
-            (c) => c.PerformanceReports,
-          ),
-        title: 'تقارير الأداء',
+        path: 'salaries',
+        loadComponent: () => import('@pages/salaries/salaries').then((c) => c.Salaries),
+        title: 'الرواتب',
+      },
+
+      // ── العملاء والموردون ──────────────────────────────────────────
+      {
+        path: 'customers',
+        loadComponent: () => import('@pages/customers/customers').then((c) => c.Customers),
+        title: 'العملاء',
       },
       {
-        path: 'statistics',
-        loadComponent: () => import('@pages/statistics/statistics').then((c) => c.Statistics),
-        title: 'إحصائيات',
+        path: 'employees',
+        loadComponent: () => import('@pages/employees/employees').then((c) => c.Employees),
+        title: 'الموظفون',
       },
-    ],
-  },
+      // {
+      //   path: 'suppliers-list',
+      //   loadComponent: () =>
+      //     import('@pages/suppliers-list/suppliers-list').then((c) => c.SuppliersList),
+      //   title: 'الموردون',
+      // },
+
+      // ── التقارير ───────────────────────────────────────────────────
+  //     {
+  //       path: 'performance-reports',
+  //       loadComponent: () =>
+  //         import('@pages/performance-reports/performance-reports').then(
+  //           (c) => c.PerformanceReports,
+  //         ),
+  //       title: 'تقارير الأداء',
+  //     },
+  //     {
+  //       path: 'sales-reports',
+  //       loadComponent: () =>
+  //         import('@pages/sales-reports/sales-reports').then((c) => c.SalesReports),
+  //       title: 'تقارير المبيعات',
+  //     },
+  //     {
+  //       path: 'inventory-reports',
+  //       loadComponent: () =>
+  //         import('@pages/inventory-reports/inventory-reports').then((c) => c.InventoryReports),
+  //       title: 'تقارير المخزون',
+  //     },
+  //     {
+  //       path: 'statistics',
+  //       loadComponent: () => import('@pages/statistics/statistics').then((c) => c.Statistics),
+  //       title: 'إحصائيات',
+  //     },
+  //   ],
+  // },
   {
     path: '**',
     component: NotFound,
