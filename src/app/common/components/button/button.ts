@@ -1,4 +1,5 @@
 import { Component, InputSignal, input } from '@angular/core';
+import { btnStyle } from '@shared/enums';
 
 @Component({
   selector: 'app-button',
@@ -10,6 +11,7 @@ import { Component, InputSignal, input } from '@angular/core';
 export class Button {
   message: InputSignal<string> = input('اضغط هنا');
   type: InputSignal<string> = input('button');
-  isLoading = input(false);
-  btn_white = input(false);
+  isLoading: InputSignal<boolean> = input(false);
+  buttonStyle = input(btnStyle.btnNavy);
+  protected readonly btnStyle = btnStyle;
 }

@@ -1,9 +1,8 @@
 import { Component, model, OnInit, signal, WritableSignal } from '@angular/core';
-import { SearchInput } from "../search-input/search-input";
 
 @Component({
   selector: 'app-navbar',
-  imports: [SearchInput],
+  imports: [],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
   standalone: true,

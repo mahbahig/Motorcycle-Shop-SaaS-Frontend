@@ -6,6 +6,7 @@ import { WokFlowCard } from '@common/components/cards/wok-flow-card/wok-flow-car
 import { WorkOrdersCard } from '@common/components/cards/work-orders-card/work-orders-card';
 import { StorageAlertCard } from '@common/components/cards/storage-alert-card/storage-alert-card';
 import { Button } from '@common/components/button/button';
+import { btnStyle } from '@shared/enums';
 
 @Component({
   selector: 'app-home',
@@ -33,4 +34,6 @@ export class Home {
       // error: () => this.authService.logout(),
     });
   }
+
+  protected readonly btnStyle = btnStyle;
 }

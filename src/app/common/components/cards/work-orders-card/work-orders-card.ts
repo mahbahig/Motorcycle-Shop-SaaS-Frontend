@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, output, signal } from '@angular/core';
 import { MainCard } from '@common/components/cards/main-card/main-card';
+import { Button } from '@common/components/button/button';
+import { btnStyle } from '@shared/enums';
 
 @Component({
   selector: 'app-work-orders-card',
-  imports: [MainCard],
+  imports: [MainCard, Button],
   templateUrl: './work-orders-card.html',
   styleUrl: './work-orders-card.css',
 })
@@ -15,7 +17,7 @@ export class WorkOrdersCard {
       car: 'كامري 2022',
       service: 'تغيير زيت',
       status: 'مكتمل',
-      amount: '350 ر.س',
+      amount: '350 ج.م',
     },
     {
       id: '#1043',
@@ -23,7 +25,7 @@ export class WorkOrdersCard {
       car: 'لاند كروزر 2021',
       service: 'فحص شامل',
       status: 'قيد التنفيذ',
-      amount: '820 ر.س',
+      amount: '820 ج.م',
     },
     {
       id: '#1044',
@@ -31,7 +33,7 @@ export class WorkOrdersCard {
       car: 'النترا 2023',
       service: 'تبديل إطارات',
       status: 'معلق',
-      amount: '600 ر.س',
+      amount: '600 ج.م',
     },
     {
       id: '#1045',
@@ -39,7 +41,7 @@ export class WorkOrdersCard {
       car: 'باترول 2020',
       service: 'صيانة مكابح',
       status: 'قيد التنفيذ',
-      amount: '1,200 ر.س',
+      amount: '1,200 ج.م',
     },
     {
       id: '#1046',
@@ -47,8 +49,9 @@ export class WorkOrdersCard {
       car: 'أكورد 2019',
       service: 'تكييف',
       status: 'مكتمل',
-      amount: '450 ر.س',
+      amount: '450 ج.م',
     },
   ];
   tableHeaders = ['#', 'العميل', 'السيارة', 'الخدمة', 'الحالة', 'المبلغ'];
+  protected readonly btnStyle = btnStyle;
 }
