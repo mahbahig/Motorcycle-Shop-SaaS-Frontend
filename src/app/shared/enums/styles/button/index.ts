@@ -1,1 +1,1 @@
-export *  from './button.style.enum'
+export * from './button.style.enum';

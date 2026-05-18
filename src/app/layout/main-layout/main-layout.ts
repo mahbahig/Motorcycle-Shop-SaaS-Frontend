@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SideBar } from "@common/components/side-bar/side-bar";
-import { Navbar } from "@common/components/navbar/navbar";
+import { SideBar } from '@common/components/side-bar/side-bar';
+import { Navbar } from '@common/components/navbar/navbar';
 import { UserService } from '@core/services';
 
 @Component({
@@ -15,9 +15,7 @@ export class MainLayout implements OnInit {
 
   sidebarHidden: WritableSignal<boolean> = signal(true);
 
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   closeSidebar() {
     this.sidebarHidden.set(true);
   }

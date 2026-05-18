@@ -41,7 +41,7 @@
   [&::-webkit-scrollbar-thumb]:rounded-full
   hover:[&::-webkit-scrollbar-thumb]:bg-navy-300
   dark:[&::-webkit-scrollbar-thumb]:bg-gray-700
-  dark:hover:[&::-webkit-scrollbar-thumb]:bg-gray-600
+  dark:hover:[&::-webkit-scrollbar-thumb]:bg-gray-600;
 }
 
 .gear-anim {

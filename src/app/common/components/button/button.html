@@ -1,9 +1,14 @@
-<button [type]="type()"
-        class="flex items-center justify-center gap-3 font-cairo font-semibold tracking-wide transition-all duration-200 active:scale-[0.99] group"
-        [class]="buttonStyle()==btnStyle.btnWhite?'w-full bg-white text-navy-900 text-sm px-5 py-2.5 rounded-xl hover:bg-navy-50 shadow-lg' :
-        buttonStyle()==btnStyle.anchor?'text-xs text-navy-700 transition-colors hover:text-navy-900 dark:text-navy-300 dark:hover:text-white font-tajawal':
-    'w-full py-4 px-6 rounded-xl bg-navy-900 dark:bg-navy-700 hover:bg-navy-800 dark:hover:bg-navy-600 text-white text-base shadow-lg shadow-navy-900/20 dark:shadow-navy-950/40'">
-
+<button
+  [type]="type()"
+  class="flex items-center justify-center gap-3 font-cairo font-semibold tracking-wide transition-all duration-200 active:scale-[0.99] group"
+  [class]="
+    buttonStyle() == btnStyle.btnWhite
+      ? 'w-full bg-white text-navy-900 text-sm px-5 py-2.5 rounded-xl hover:bg-navy-50 shadow-lg'
+      : buttonStyle() == btnStyle.anchor
+        ? 'text-xs text-navy-700 transition-colors hover:text-navy-900 dark:text-navy-300 dark:hover:text-white font-tajawal'
+        : 'w-full py-4 px-6 rounded-xl bg-navy-900 dark:bg-navy-700 hover:bg-navy-800 dark:hover:bg-navy-600 text-white text-base shadow-lg shadow-navy-900/20 dark:shadow-navy-950/40'
+  "
+>
   <span [class.hidden!]="isLoading()">{{ message() }}</span>
   <ng-content select="[icon]"></ng-content>
   <i [class.hidden!]="!isLoading()" class="fa-solid fa-spinner fa-spin-pulse"></i>

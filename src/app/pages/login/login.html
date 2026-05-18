@@ -74,9 +74,11 @@
       </div>
       <!-- Submit -->
       <app-button type="submit" [isLoading]="isLoading()" message="دخول إلى المنصة">
-        <i icon
+        <i
+          icon
           [class.hidden!]="isLoading()"
-          class="fa-solid  fa-arrow-left w-5 h-5 transition-transform duration-200 translate-y-1 group-hover:-translate-x-1"></i>
+          class="fa-solid fa-arrow-left w-5 h-5 transition-transform duration-200 translate-y-1 group-hover:-translate-x-1"
+        ></i>
       </app-button>
 
       <app-alert

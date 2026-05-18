@@ -1,4 +1,4 @@
-import { UserRole } from "@shared/enums";
+import { UserRole } from '@shared/enums';
 
 export interface IUserProfileResponse {
   success: boolean;
@@ -13,6 +13,5 @@ export interface IUserProfile {
     name: string;
     slug: string;
     _id: string;
-  }
+  };
 }
-

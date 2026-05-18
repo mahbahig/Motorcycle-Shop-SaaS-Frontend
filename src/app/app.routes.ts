@@ -103,33 +103,35 @@ export const routes: Routes = [
       // },
 
       // ── التقارير ───────────────────────────────────────────────────
-  //     {
-  //       path: 'performance-reports',
-  //       loadComponent: () =>
-  //         import('@pages/performance-reports/performance-reports').then(
-  //           (c) => c.PerformanceReports,
-  //         ),
-  //       title: 'تقارير الأداء',
-  //     },
-  //     {
-  //       path: 'sales-reports',
-  //       loadComponent: () =>
-  //         import('@pages/sales-reports/sales-reports').then((c) => c.SalesReports),
-  //       title: 'تقارير المبيعات',
-  //     },
-  //     {
-  //       path: 'inventory-reports',
-  //       loadComponent: () =>
-  //         import('@pages/inventory-reports/inventory-reports').then((c) => c.InventoryReports),
-  //       title: 'تقارير المخزون',
-  //     },
-  //     {
-  //       path: 'statistics',
-  //       loadComponent: () => import('@pages/statistics/statistics').then((c) => c.Statistics),
-  //       title: 'إحصائيات',
-  //     },
-  //   ],
-  // },
+      //     {
+      //       path: 'performance-reports',
+      //       loadComponent: () =>
+      //         import('@pages/performance-reports/performance-reports').then(
+      //           (c) => c.PerformanceReports,
+      //         ),
+      //       title: 'تقارير الأداء',
+      //     },
+      //     {
+      //       path: 'sales-reports',
+      //       loadComponent: () =>
+      //         import('@pages/sales-reports/sales-reports').then((c) => c.SalesReports),
+      //       title: 'تقارير المبيعات',
+      //     },
+      //     {
+      //       path: 'inventory-reports',
+      //       loadComponent: () =>
+      //         import('@pages/inventory-reports/inventory-reports').then((c) => c.InventoryReports),
+      //       title: 'تقارير المخزون',
+      //     },
+      //     {
+      //       path: 'statistics',
+      //       loadComponent: () => import('@pages/statistics/statistics').then((c) => c.Statistics),
+      //       title: 'إحصائيات',
+      //     },
+      //   ],
+      // },
+    ],
+  },
   {
     path: '**',
     component: NotFound,

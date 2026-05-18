@@ -39,15 +39,14 @@ export class UserService {
     return this.httpClient.patch(userApiEndpoints.unlockProfile(id), undefined);
   }
 
-    translateRole(role: string): UserRole {
-      switch (role) {
-        case BackendUserRole.OWNER:
-          return UserRole.OWNER;
-        case BackendUserRole.EMPLOYEE:
-          return UserRole.EMPLOYEE;
-        default:
-          return UserRole.EMPLOYEE;
-      }
+  translateRole(role: string): UserRole {
+    switch (role) {
+      case BackendUserRole.OWNER:
+        return UserRole.OWNER;
+      case BackendUserRole.EMPLOYEE:
+        return UserRole.EMPLOYEE;
+      default:
+        return UserRole.EMPLOYEE;
     }
-
+  }
 }

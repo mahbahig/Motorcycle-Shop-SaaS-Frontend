@@ -2,7 +2,7 @@
 @if (!sidebarHidden()) {
   <div id="overlay" class="fixed inset-0 bg-black/50 z-30 lg:hidden" (click)="closeSidebar()"></div>
 }
-<section class="lg:mr-64 min-h-screen  flex flex-col">
+<section class="lg:mr-64 min-h-screen flex flex-col">
   <app-navbar [sidebarHidden]="sidebarHidden()"></app-navbar>
   <div class="bg-navy-50 dark:bg-gray-950 px-4 py-8">
     <router-outlet></router-outlet>

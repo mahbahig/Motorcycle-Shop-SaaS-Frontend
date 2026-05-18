@@ -1,16 +1,14 @@
-<app-main-card
->
-    <div
-      class="w-10 h-10 rounded-xl bg-navy-50 dark:bg-navy-950 flex items-center justify-center mb-4"
-    >
-      <i class="fa-solid fa-{{faClass()}} text-white"></i>
+<app-main-card>
+  <div
+    class="w-10 h-10 rounded-xl bg-navy-50 dark:bg-navy-950 flex items-center justify-center mb-4"
+  >
+    <i class="fa-solid fa-{{ faClass() }} text-white"></i>
+  </div>
 
-    </div>
-
-  <p class="text-2xl font-bold text-navy-900 dark:text-white">{{ number() }}
-    @if(price()){
+  <p class="text-2xl font-bold text-navy-900 dark:text-white">
+    {{ number() }}
+    @if (price()) {
       <span class="text-base font-medium text-navy-400 dark:text-gray-500">ج.م</span>
-
     }
   </p>
   <p class="mt-1 text-sm text-navy-400 dark:text-gray-50 font-tajawal">{{ description() }}</p>

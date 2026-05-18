@@ -20,14 +20,18 @@
       </div>
       <div class="grid w-full grid-cols-2 gap-2 sm:w-auto sm:min-w-[24rem]">
         @for (item of [1, 2, 3, 4]; track $index) {
-        <app-button
-          [buttonStyle]="btnStyle.btnWhite"
-          message="أمر شغل جديد"
-        >
-          <svg icon class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-          </svg>
-        </app-button>
+          <app-button [buttonStyle]="btnStyle.btnWhite" message="أمر شغل جديد">
+            <svg
+              icon
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+          </app-button>
         }
       </div>
     </div>
@@ -40,9 +44,12 @@
     <app-wok-flow-card></app-wok-flow-card>
 
     <!-- Card 2 -->
-    <app-wok-flow-card [price]="true" description="الإيرادات هذا الشهر" number="18,450"
-                       faClass="money-bill"></app-wok-flow-card>
-
+    <app-wok-flow-card
+      [price]="true"
+      description="الإيرادات هذا الشهر"
+      number="18,450"
+      faClass="money-bill"
+    ></app-wok-flow-card>
   </div>
   <!-- ── BOTTOM ROW: Work Orders Table + Recent Activity ── -->
   <div
