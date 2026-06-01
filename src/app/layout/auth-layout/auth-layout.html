@@ -4,7 +4,7 @@
   <button
     id="themeToggle"
     class="fixed top-5 left-5 z-50 w-10 h-10 rounded-full bg-navy-100 dark:bg-gray-800 text-navy-700 dark:text-gray-300 flex items-center justify-center hover:bg-navy-200 dark:hover:bg-gray-700 transition-all duration-200 shadow-sm border border-navy-200 dark:border-gray-700"
-    onclick="document.documentElement.classList.toggle('dark')"
+    (click)="toggleTheme()"
     aria-label="تبديل المظهر"
   >
     <svg

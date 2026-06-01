@@ -37,7 +37,7 @@
     <p class="text-white/30 text-2xs uppercase tracking-[0.15em] px-3 mb-2">القائمة الرئيسية</p>
 
     @for (page of pages; track page) {
-      <a
+      <a [routerLink]="page.route"
         class="nav- cursor-pointer flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/70 hover:text-white"
       >
         <i [class]="page.icon" class="w-5 h-5 shrink-0"></i>

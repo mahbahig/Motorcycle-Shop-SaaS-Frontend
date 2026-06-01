@@ -1,10 +1,11 @@
 import { Component, WritableSignal, inject, input, signal } from '@angular/core';
 import { AuthService, UserService } from '@core/services';
 import { IUserProfile } from '@shared/interfaces';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-side-bar',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './side-bar.html',
   styleUrl: './side-bar.css',
 })
@@ -16,11 +17,12 @@ export class SideBar {
   userProfile: WritableSignal<IUserProfile | null> = signal(null);
 
   pages = [
-    { name: 'لوحة التحكم', icon: 'fa-solid fa-grip', route: '/home' },
-    { name: 'المخزن', icon: 'fa-solid fa-warehouse', route: '/inventory' },
-    { name: 'المبيعات', icon: 'fa-solid fa-bag-shopping', route: '/sales' },
-    { name: 'المشتريات', icon: 'fa-solid fa-cart-shopping', route: '/purchases' },
-    { name: 'المعاملات', icon: 'fa-solid fa-money-bill-wave', route: '/transactions' },
+    { name: 'لوحة التحكم', icon: 'fa-solid fa-grip', route: '/dashboard/home' },
+    { name: 'المنتجات', icon: 'fa-solid fa-grip', route: '/dashboard/products' },
+    { name: 'المخزن', icon: 'fa-solid fa-warehouse', route: '/dashboard/inventory' },
+    { name: 'المبيعات', icon: 'fa-solid fa-bag-shopping', route: '/dashboard/sales' },
+    { name: 'المشتريات', icon: 'fa-solid fa-cart-shopping', route: '/dashboard/purchases' },
+    { name: 'المعاملات', icon: 'fa-solid fa-money-bill-wave', route: '/dashboard/transactions' },
   ];
 
   ngOnInit() {

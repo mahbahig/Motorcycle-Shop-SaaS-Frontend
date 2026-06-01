@@ -6,7 +6,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { jwtDecode } from 'jwt-decode';
 import { authApiEndpoints } from '@common/environments/environment';
 import { ILoginRequest, IUpdatePasswordRequest } from '@shared/interfaces';
-import { BackendUserRole, UserRole } from '@shared/enums';
 
 @Injectable({
   providedIn: 'root',

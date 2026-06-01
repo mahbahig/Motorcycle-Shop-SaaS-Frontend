@@ -1,4 +1,4 @@
-import { Component, OnInit, output, signal } from '@angular/core';
+import { Component, input} from '@angular/core';
 import { MainCard } from '@common/components/cards/main-card/main-card';
 import { Button } from '@common/components/button/button';
 import { btnStyle } from '@shared/enums';
@@ -10,6 +10,8 @@ import { btnStyle } from '@shared/enums';
   styleUrl: './work-orders-card.css',
 })
 export class WorkOrdersCard {
+  page = input("home");
+  title = input("أحدث أوامر الشغل");
   orders = [
     {
       id: '#1042',
