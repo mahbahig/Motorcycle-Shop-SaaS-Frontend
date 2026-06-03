@@ -1,1 +1,247 @@
-<p>supplier works!</p>
+<section class="p-6 bg-white dark:bg-gray-950 rounded-xl min-h-screen">
+  <!-- Header Section -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-navy-900 dark:text-white mb-2">المورّدون</h1>
+    <p class="text-navy-500 dark:text-gray-400">إدارة جميع المورّدين والعلاقات التجارية</p>
+  </div>
+
+  <!-- Alert Messages -->
+  @if (alert(); as alertData) {
+    <app-alert
+      [isSuccess]="alertData.type === 'success'"
+      [hasError]="alertData.type === 'error'"
+      [message]="alertData.message"
+      class="mb-6 block"
+    ></app-alert>
+  }
+
+  <!-- Controls Bar -->
+  <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
+    <!-- Add Button -->
+    <button
+      (click)="openAddModal()"
+      class="flex items-center gap-2 px-4 py-2.5 bg-navy-900 dark:bg-navy-700 hover:bg-navy-800 dark:hover:bg-navy-600 text-white rounded-lg transition-colors duration-200 font-cairo font-semibold"
+    >
+      <i class="fa-solid fa-plus w-4 h-4"></i>
+      إضافة مورد
+    </button>
+
+    <!-- Search Input -->
+    <div class="flex-1 max-w-md">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="البحث عن مورد..."
+        class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors"
+      />
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="text-center py-12">
+      <i class="fa-solid fa-spinner fa-spin text-4xl text-navy-500"></i>
+      <p class="text-navy-600 dark:text-gray-400 mt-4">جاري التحميل...</p>
+    </div>
+  }
+
+  <!-- Suppliers Table View -->
+  @if (!isLoading()) {
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b-2 border-navy-100 dark:border-gray-800 bg-navy-50 dark:bg-gray-900">
+            <th class="px-4 py-3 text-right text-sm font-bold text-navy-900 dark:text-white">
+              اسم المورد
+            </th>
+            <th class="px-4 py-3 text-right text-sm font-bold text-navy-900 dark:text-white">
+              جهة الاتصال
+            </th>
+            <th class="px-4 py-3 text-right text-sm font-bold text-navy-900 dark:text-white">
+              البريد الإلكتروني
+            </th>
+            <th class="px-4 py-3 text-right text-sm font-bold text-navy-900 dark:text-white">
+              الهاتف
+            </th>
+            <th class="px-4 py-3 text-right text-sm font-bold text-navy-900 dark:text-white">
+              العنوان
+            </th>
+            <th class="px-4 py-3 text-center text-sm font-bold text-navy-900 dark:text-white">
+              الإجراءات
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (supplier of filteredSuppliers; track supplier.id) {
+            <tr
+              class="border-b border-navy-100 dark:border-gray-800 hover:bg-navy-50 dark:hover:bg-gray-900/50 transition-colors"
+            >
+              <td class="px-4 py-3 text-sm text-navy-900 dark:text-white font-semibold">
+                {{ supplier.name }}
+              </td>
+              <td class="px-4 py-3 text-sm text-navy-600 dark:text-gray-400">
+                {{ supplier.contact || '-' }}
+              </td>
+              <td class="px-4 py-3 text-sm text-navy-600 dark:text-gray-400">
+                {{ supplier.email || '-' }}
+              </td>
+              <td class="px-4 py-3 text-sm text-navy-600 dark:text-gray-400">
+                {{ supplier.phone || '-' }}
+              </td>
+              <td class="px-4 py-3 text-sm text-navy-600 dark:text-gray-400">
+                {{ supplier.address || '-' }}
+              </td>
+              <td class="px-4 py-3 text-center">
+                <div class="flex gap-2 justify-center">
+                  <button
+                    (click)="openEditModal(supplier)"
+                    class="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                    title="تعديل"
+                  >
+                    <i class="fa-solid fa-pen-to-square w-4 h-4"></i>
+                  </button>
+                  <button
+                    (click)="deleteSupplier(supplier.id!)"
+                    class="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                    title="حذف"
+                  >
+                    <i class="fa-solid fa-trash w-4 h-4"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <!-- Empty State -->
+      @if (filteredSuppliers.length === 0 && !isLoading()) {
+        <div class="text-center py-12 bg-navy-50 dark:bg-gray-900 rounded-lg mt-4">
+          <i class="fa-solid fa-inbox text-4xl text-navy-300 dark:text-gray-700 mb-3"></i>
+          <p class="text-navy-600 dark:text-gray-400">لا توجد موّردين</p>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Add/Edit Modal -->
+  @if (showModal()) {
+    <!-- Modal Backdrop -->
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" (click)="closeModal()"></div>
+
+    <!-- Modal -->
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div
+        class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+        (click)="$event.stopPropagation()"
+      >
+        <!-- Modal Header -->
+        <div
+          class="sticky top-0 bg-white dark:bg-gray-900 border-b border-navy-100 dark:border-gray-800 p-6 flex justify-between items-center"
+        >
+          <h2 class="text-xl font-bold text-navy-900 dark:text-white">
+            {{ modalMode() === 'add' ? 'إضافة مورد جديد' : 'تعديل المورد' }}
+          </h2>
+          <button
+            (click)="closeModal()"
+            class="text-navy-500 hover:text-navy-700 dark:hover:text-gray-300"
+          >
+            <i class="fa-solid fa-times w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Modal Body -->
+        <form [formGroup]="supplierForm" class="p-6 space-y-4">
+          <!-- Name Field -->
+          <div>
+            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
+              اسم المورد <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              formControlName="name"
+              placeholder="أدخل اسم المورد"
+              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
+            />
+            @if (supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched) {
+              <p class="text-red-500 text-sm mt-1">الاسم مطلوب وحد أدنى 3 أحرف</p>
+            }
+          </div>
+
+          <!-- Contact Name Field -->
+          <div>
+            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
+              جهة الاتصال
+            </label>
+            <input
+              type="text"
+              formControlName="contact"
+              placeholder="اسم جهة الاتصال"
+              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
+            />
+          </div>
+
+          <!-- Email Field -->
+          <div>
+            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
+              البريد الإلكتروني
+            </label>
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="البريد الإلكتروني"
+              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
+            />
+            @if (supplierForm.get('email')?.invalid && supplierForm.get('email')?.touched) {
+              <p class="text-red-500 text-sm mt-1">البريد الإلكتروني غير صحيح</p>
+            }
+          </div>
+
+          <!-- Phone Field -->
+          <div>
+            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
+              رقم الهاتف
+            </label>
+            <input
+              type="tel"
+              formControlName="phone"
+              placeholder="رقم الهاتف"
+              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
+            />
+          </div>
+
+          <!-- Address Field -->
+          <div>
+            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
+              العنوان
+            </label>
+            <input
+              type="text"
+              formControlName="address"
+              placeholder="العنوان"
+              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
+            />
+          </div>
+        </form>
+
+        <!-- Modal Footer -->
+        <div
+          class="sticky bottom-0 bg-white dark:bg-gray-900 border-t border-navy-100 dark:border-gray-800 p-6 flex gap-3"
+        >
+          <button
+            (click)="closeModal()"
+            class="flex-1 px-4 py-2.5 bg-navy-100 dark:bg-gray-800 text-navy-900 dark:text-white rounded-lg hover:bg-navy-200 dark:hover:bg-gray-700 transition-colors font-semibold"
+          >
+            إلغاء
+          </button>
+          <button
+            (click)="submitForm()"
+            class="flex-1 px-4 py-2.5 bg-navy-900 dark:bg-navy-700 text-white rounded-lg hover:bg-navy-800 dark:hover:bg-navy-600 transition-colors font-semibold"
+          >
+            {{ modalMode() === 'add' ? 'إضافة' : 'تحديث' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</section>

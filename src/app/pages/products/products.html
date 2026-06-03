@@ -59,64 +59,68 @@
   @if (viewMode() === 'card' && !isLoading()) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (product of products(); track product.id) {
+        <!-- Removed 'p-5' to allow borders to stretch edges-to-edges -->
         <div
-          class="bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-xl p-5 hover:shadow-lg dark:hover:shadow-navy-950/50 transition-shadow duration-200"
+          class="flex flex-col justify-between bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-xl hover:shadow-lg dark:hover:shadow-navy-950/50 transition-shadow duration-200"
         >
-          <!-- Card Header -->
-          <div class="flex justify-between items-start mb-4">
-            <div class="flex-1">
-              <h3 class="text-lg font-bold text-navy-900 dark:text-white mb-1">
-                {{ product.name }}
-              </h3>
-              <p class="text-sm text-navy-500 dark:text-gray-400">{{ product.supplier }}</p>
+          <!-- Main Content Group (Added top/horizontal padding here) -->
+          <div class="p-5 pb-0 flex-1">
+            <!-- Card Header -->
+            <div class="flex justify-between items-start mb-4">
+              <div class="flex-1">
+                <h3 class="text-lg font-bold text-navy-900 dark:text-white mb-1">
+                  {{ product.name }}
+                </h3>
+                <p class="text-sm text-navy-500 dark:text-gray-400">{{ product.supplier }}</p>
+              </div>
+              <div class="flex gap-2">
+                <button
+                  (click)="openEditModal(product)"
+                  class="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                  title="تعديل"
+                >
+                  <i class="fa-solid fa-pen-to-square w-4 h-4"></i>
+                </button>
+                <button
+                  (click)="deleteProduct(product.id)"
+                  class="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                  title="حذف"
+                >
+                  <i class="fa-solid fa-trash w-4 h-4"></i>
+                </button>
+              </div>
             </div>
-            <div class="flex gap-2">
-              <button
-                (click)="openEditModal(product)"
-                class="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
-                title="تعديل"
-              >
-                <i class="fa-solid fa-pen-to-square w-4 h-4"></i>
-              </button>
-              <button
-                (click)="deleteProduct(product.id)"
-                class="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
-                title="حذف"
-              >
-                <i class="fa-solid fa-trash w-4 h-4"></i>
-              </button>
-            </div>
-          </div>
 
-          <!-- Description -->
-          <p class="text-sm text-navy-600 dark:text-gray-300 mb-4 line-clamp-2">
-            {{ product.description || 'لا توجد وصف' }}
-          </p>
-
-          <!-- Pricing -->
-          <div
-            class="grid grid-cols-2 gap-4 mb-4 pb-4 border-b border-navy-100 dark:border-gray-800"
-          >
-            <div>
-              <p class="text-xs text-navy-500 dark:text-gray-400 mb-1">سعر الشراء</p>
-              <p class="text-lg font-bold text-navy-900 dark:text-white">
-                {{ product.buyingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
-              </p>
-            </div>
-            <div>
-              <p class="text-xs text-navy-500 dark:text-gray-400 mb-1">سعر البيع</p>
-              <p class="text-lg font-bold text-green-600 dark:text-green-400">
-                {{ product.sellingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
-              </p>
-            </div>
-          </div>
-
-          <!-- Profit Margin -->
-          <div class="bg-navy-50 dark:bg-gray-800 rounded-lg p-3">
-            <p class="text-xs text-navy-600 dark:text-gray-400 mb-1">هامش الربح</p>
-            <p class="text-lg font-bold text-navy-900 dark:text-white">
-              {{ getProfitMargin(product) }}%
+            <!-- Description -->
+            <p class="text-sm text-navy-600 dark:text-gray-300 mb-4 line-clamp-2">
+              {{ product.description || 'لا توجد وصف' }}
             </p>
+
+            <!-- Pricing (Removed horizontal border-b class since it is moved to the bottom section container) -->
+            <div class="grid grid-cols-2 gap-4 mb-5">
+              <div>
+                <p class="text-xs text-navy-500 dark:text-gray-400 mb-1">سعر الشراء</p>
+                <p class="text-lg font-bold text-navy-900 dark:text-white">
+                  {{ product.buyingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
+                </p>
+              </div>
+              <div>
+                <p class="text-xs text-navy-500 dark:text-gray-400 mb-1">سعر البيع</p>
+                <p class="text-lg font-bold text-green-600 dark:text-green-400">
+                  {{ product.sellingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profit Margin Footer Wrapper (Added 'border-t' to stretch edge-to-edge + independent padding) -->
+          <div class="border-t border-navy-100 dark:border-gray-800 p-5 mt-auto">
+            <div class="bg-navy-50 dark:bg-gray-800 rounded-lg p-3">
+              <p class="text-xs text-navy-600 dark:text-gray-400 mb-1">هامش الربح</p>
+              <p class="text-lg font-bold text-navy-900 dark:text-white">
+                {{ getProfitMargin(product) }}%
+              </p>
+            </div>
           </div>
         </div>
       }

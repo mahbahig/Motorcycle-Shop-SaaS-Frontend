@@ -64,9 +64,9 @@ export const routes: Routes = [
         title: 'مرتجع عميل',
       },
       {
-        path: 'supplier-return',
+        path: 'suppliers',
         loadComponent: () => import('@pages/supplier/supplier').then((c) => c.Supplier),
-        title: 'مرتجع مورد',
+        title: 'الموردون',
       },
       {
         path: 'expenses',
