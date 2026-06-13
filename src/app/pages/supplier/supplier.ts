@@ -12,6 +12,7 @@ import { Button } from '@common/components/button/button';
 import { Input } from '@common/components/input/input';
 import { Alert } from '@common/components/alert/alert';
 import { MainCard } from '@common/components/cards/main-card/main-card';
+import { btnStyle } from '@shared/enums';
 
 export interface ISupplier {
   id?: string;
@@ -32,6 +33,9 @@ export interface ISupplier {
 export class Supplier implements OnInit {
   private readonly suppliersService = inject(SuppliersService);
   private readonly fb = inject(FormBuilder);
+
+  // Enum for template usage
+  readonly btnStyle = btnStyle;
 
   // State
   readonly suppliers: WritableSignal<ISupplier[]> = signal([]);

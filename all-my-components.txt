@@ -1,0 +1,523 @@
+
+import { Component, input, InputSignal } from '@angular/core';
+
+@Component({
+  selector: 'app-alert',
+  imports: [],
+  templateUrl: './alert.html',
+  styleUrl: './alert.css',
+  standalone: true,
+})
+export class Alert {
+  isSuccess: InputSignal<boolean> = input(false);
+  hasError: InputSignal<boolean> = input(false);
+  message: InputSignal<string> = input('');
+}
+<div
+  id="errorMsg"
+  class="flex items-center gap-3 px-4 py-3 rounded-xl border"
+  [class]="
+    (isSuccess()
+      ? 'bg-green-50 border-green-200 dark:bg-green-950/40 dark:border-green-800 '
+      : 'bg-red-50 border-red-200 dark:bg-red-950/40 dark:border-red-800 ') +
+    (hasError() ? 'opacity-100' : 'opacity-0')
+  "
+>
+  @if (isSuccess()) {
+    <i class="fa-regular fa-circle-check text-green-500"></i>
+  } @else {
+    <i class="fa-solid fa-circle-exclamation w-5 h-5 text-red-500 shrink-0 my-0 py-0"></i>
+  }
+  <p
+    class="text-sm font-tajawal mt-0 mb-1.5 py-0"
+    [class]="isSuccess() ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+  >
+    {{ message() }}
+  </p>
+</div>
+
+import { Component, InputSignal, input } from '@angular/core';
+import { btnStyle } from '@shared/enums';
+
+@Component({
+  selector: 'app-button',
+  imports: [],
+  templateUrl: './button.html',
+  styleUrl: './button.css',
+  standalone: true,
+})
+export class Button {
+  message: InputSignal<string> = input('اضغط هنا');
+  type: InputSignal<string> = input('button');
+  isLoading: InputSignal<boolean> = input(false);
+  buttonStyle = input(btnStyle.btnNavy);
+  protected readonly btnStyle = btnStyle;
+}
+<button
+  [type]="type()"
+  class="flex items-center justify-center gap-3 font-cairo font-semibold tracking-wide transition-all duration-200 active:scale-[0.99] group"
+  [class]="
+    buttonStyle() == btnStyle.btnWhite
+      ? 'w-full bg-white text-navy-900 text-sm px-5 py-2.5 rounded-xl hover:bg-navy-50 shadow-lg'
+      : buttonStyle() == btnStyle.anchor
+        ? 'text-xs text-navy-700 transition-colors hover:text-navy-900 dark:text-navy-300 dark:hover:text-white font-tajawal'
+        : 'w-full py-4 px-6 rounded-xl bg-navy-900 dark:bg-navy-700 hover:bg-navy-800 dark:hover:bg-navy-600 text-white text-base shadow-lg shadow-navy-900/20 dark:shadow-navy-950/40'
+  "
+>
+  <span [class.hidden!]="isLoading()">{{ message() }}</span>
+  <ng-content select="[icon]"></ng-content>
+  <i [class.hidden!]="!isLoading()" class="fa-solid fa-spinner fa-spin-pulse"></i>
+</button>
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { AuditLogsCard } from './audit-logs-card';
+
+describe('AuditLogsCard', () => {
+  let component: AuditLogsCard;
+  let fixture: ComponentFixture<AuditLogsCard>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AuditLogsCard],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(AuditLogsCard);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+import { Component } from '@angular/core';
+import { MainCard } from '@common/components/cards/main-card/main-card';
+import { btnStyle } from '@shared/enums';
+import { Button } from '@common/components/button/button';
+
+@Component({
+  selector: 'app-audit-logs-card',
+  imports: [MainCard, Button],
+  templateUrl: './audit-logs-card.html',
+  styleUrl: './audit-logs-card.css',
+  standalone: true,
+})
+export class AuditLogsCard {
+  protected readonly btnStyle = btnStyle;
+}
+<app-main-card>
+  <div class="flex justify-between px-5 pt-5 pb-4">
+    <h3 class="font-bold text-navy-900 dark:text-white text-sm mb-4">آخر النشاطات</h3>
+    <app-button [buttonStyle]="btnStyle.anchor" message="عرض الكل ←"></app-button>
+  </div>
+  <div class="space-y-4">
+    <div class="flex gap-3">
+      <div
+        class="w-8 h-8 rounded-full bg-green-50 dark:bg-green-950/30 flex items-center justify-center shrink-0"
+      >
+        <svg
+          class="w-4 h-4 text-green-600 dark:text-green-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">
+          اكتمل أمر الشغل #1042
+        </p>
+        <p class="text-[11px] text-navy-400 dark:text-gray-600 mt-0.5 font-tajawal">منذ 10 دقائق</p>
+      </div>
+    </div>
+
+    <div class="flex gap-3">
+      <div
+        class="w-8 h-8 rounded-full bg-navy-50 dark:bg-navy-950/50 flex items-center justify-center shrink-0"
+      >
+        <svg
+          class="w-4 h-4 text-navy-700 dark:text-navy-300"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3M6.75 21a6.75 6.75 0 110-13.5 6.75 6.75 0 010 13.5z"
+          />
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">
+          عميل جديد: نورة السبيعي
+        </p>
+        <p class="text-[11px] text-navy-400 dark:text-gray-600 mt-0.5 font-tajawal">منذ 35 دقيقة</p>
+      </div>
+    </div>
+
+    <div class="flex gap-3">
+      <div
+        class="w-8 h-8 rounded-full bg-yellow-50 dark:bg-yellow-950/30 flex items-center justify-center shrink-0"
+      >
+        <svg
+          class="w-4 h-4 text-yellow-600 dark:text-yellow-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+          />
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">
+          مخزون منخفض: فلتر هواء
+        </p>
+        <p class="text-[11px] text-navy-400 dark:text-gray-600 mt-0.5 font-tajawal">منذ ساعة</p>
+      </div>
+    </div>
+
+    <div class="flex gap-3">
+      <div
+        class="w-8 h-8 rounded-full bg-navy-50 dark:bg-navy-950/50 flex items-center justify-center shrink-0"
+      >
+        <svg
+          class="w-4 h-4 text-navy-700 dark:text-navy-300"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+          />
+        </svg>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">
+          فاتورة #892 أُصدرت
+        </p>
+        <p class="text-[11px] text-navy-400 dark:text-gray-600 mt-0.5 font-tajawal">منذ ساعتين</p>
+      </div>
+    </div>
+  </div>
+</app-main-card>
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-main-card',
+  imports: [],
+  templateUrl: './main-card.html',
+  styleUrl: './main-card.css',
+})
+export class MainCard {}
+<div
+  class="rounded-2xl border border-navy-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-900 w-full"
+>
+  <ng-content></ng-content>
+</div>
+
+import { Component } from '@angular/core';
+import { MainCard } from '@common/components/cards/main-card/main-card';
+
+@Component({
+  selector: 'app-storage-alert-card',
+  imports: [MainCard],
+  templateUrl: './storage-alert-card.html',
+  styleUrl: './storage-alert-card.css',
+})
+export class StorageAlertCard {}
+<app-main-card>
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="font-bold text-navy-900 dark:text-white text-sm">تنبيهات المخزون</h3>
+    <span
+      class="w-5 h-5 bg-red-500 rounded-full text-white text-2xs font-bold flex items-center justify-center"
+      >3</span
+    >
+  </div>
+  <div class="space-y-3">
+    <div
+      class="flex items-center justify-between py-2 border-b border-navy-50 dark:border-gray-800"
+    >
+      <div>
+        <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">فلتر الهواء</p>
+        <p class="text-[11px] text-red-500 mt-0.5 font-tajawal">متبقي: 2 قطعة</p>
+      </div>
+      <div class="w-16 bg-navy-50 dark:bg-gray-800 rounded-full h-1.5">
+        <div class="bg-red-500 h-1.5 rounded-full w-[15%]"></div>
+      </div>
+    </div>
+    <div
+      class="flex items-center justify-between py-2 border-b border-navy-50 dark:border-gray-800"
+    >
+      <div>
+        <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">
+          زيت المحرك 5W30
+        </p>
+        <p class="text-[11px] text-yellow-600 dark:text-yellow-400 mt-0.5 font-tajawal">
+          متبقي: 5 لتر
+        </p>
+      </div>
+      <div class="w-16 bg-navy-50 dark:bg-gray-800 rounded-full h-1.5">
+        <div class="bg-yellow-400 h-1.5 rounded-full w-[30%]"></div>
+      </div>
+    </div>
+    <div class="flex items-center justify-between py-2">
+      <div>
+        <p class="text-xs font-medium text-navy-800 dark:text-gray-200 font-tajawal">تيل الفرامل</p>
+        <p class="text-[11px] text-red-500 mt-0.5 font-tajawal">متبقي: 1 قطعة</p>
+      </div>
+      <div class="w-16 bg-navy-50 dark:bg-gray-800 rounded-full h-1.5">
+        <div class="bg-red-500 h-1.5 rounded-full w-[8%]"></div>
+      </div>
+    </div>
+  </div>
+  <button
+    class="mt-4 w-full rounded-xl border border-navy-200 py-2 text-xs font-semibold text-navy-700 transition-colors hover:bg-navy-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800 font-tajawal"
+  >
+    طلب توريد جديد
+  </button>
+</app-main-card>
+
+import { Component, input } from '@angular/core';
+import { MainCard } from '@common/components/cards/main-card/main-card';
+
+@Component({
+  selector: 'app-wok-flow-card',
+  imports: [MainCard],
+  templateUrl: './wok-flow-card.html',
+  styleUrl: './wok-flow-card.css',
+})
+export class WokFlowCard {
+  faClass = input('screwdriver-wrench');
+  number = input('24');
+  description = input('أوامر الشغل هذا الشهر');
+  price = input(false);
+}
+<app-main-card>
+  <div
+    class="w-10 h-10 rounded-xl bg-navy-50 dark:bg-navy-950 flex items-center justify-center mb-4"
+  >
+    <i class="fa-solid fa-{{ faClass() }} text-white"></i>
+  </div>
+
+  <p class="text-2xl font-bold text-navy-900 dark:text-white">
+    {{ number() }}
+    @if (price()) {
+      <span class="text-base font-medium text-navy-400 dark:text-gray-500">ج.م</span>
+    }
+  </p>
+  <p class="mt-1 text-sm text-navy-400 dark:text-gray-50 font-tajawal">{{ description() }}</p>
+</app-main-card>
+
+import { Component, input} from '@angular/core';
+import { MainCard } from '@common/components/cards/main-card/main-card';
+import { Button } from '@common/components/button/button';
+import { btnStyle } from '@shared/enums';
+
+@Component({
+  selector: 'app-work-orders-card',
+  imports: [MainCard, Button],
+  templateUrl: './work-orders-card.html',
+  styleUrl: './work-orders-card.css',
+})
+export class WorkOrdersCard {
+  page = input("home");
+  title = input("أحدث أوامر الشغل");
+  orders = [
+    {
+      id: '#1042',
+      customer: 'خالد العنزي',
+      car: 'كامري 2022',
+      service: 'تغيير زيت',
+      status: 'مكتمل',
+      amount: '350 ج.م',
+    },
+    {
+      id: '#1043',
+      customer: 'سارة الدوسري',
+      car: 'لاند كروزر 2021',
+      service: 'فحص شامل',
+      status: 'ينفذ',
+      amount: '820 ج.م',
+    },
+    {
+      id: '#1044',
+      customer: 'محمد الغامدي',
+      car: 'النترا 2023',
+      service: 'تبديل إطارات',
+      status: 'معلق',
+      amount: '600 ج.م',
+    },
+    {
+      id: '#1045',
+      customer: 'فاطمة القحطاني',
+      car: 'باترول 2020',
+      service: 'صيانة مكابح',
+      status: 'ينفذ',
+      amount: '1,200 ج.م',
+    },
+    {
+      id: '#1046',
+      customer: 'عبدالله الرشيدي',
+      car: 'أكورد 2019',
+      service: 'تكييف',
+      status: 'مكتمل',
+      amount: '450 ج.م',
+    },
+  ];
+  tableHeaders = ['#', 'العميل', 'السيارة', 'الخدمة', 'الحالة', 'المبلغ'];
+  protected readonly btnStyle = btnStyle;
+}
+<app-main-card class="overflow-hidden">
+  <div
+    class="flex items-center justify-between px-5 pt-5 pb-4 border-b border-navy-50 dark:border-gray-800"
+  >
+    <h3 class="font-bold text-navy-900 dark:text-white text-sm">{{ title() }}</h3>
+    @if (page() == 'home') {
+      <app-button [buttonStyle]="btnStyle.anchor" message="عرض الكل ←"></app-button>
+    }
+  </div>
+
+  <div class="scrollbar">
+    <table class="w-full text-sm">
+      <thead
+        class="sticky top-0 bg-white dark:bg-gray-900 z-10 shadow-[0_1px_0_0_rgba(0,0,0,0.05)] dark:shadow-[0_1px_0_0_rgba(255,255,255,0.05)]"
+      >
+        <tr class="border-b border-navy-50 dark:border-gray-800">
+          @for (th of tableHeaders; track $index) {
+            <th
+              class="text-right px-5 py-3 text-xs font-semibold text-navy-400 dark:text-gray-500 font-tajawal"
+            >
+              {{ th }}
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-navy-50 dark:divide-gray-800">
+        @for (order of orders; track $index) {
+          <tr class="hover:bg-navy-50/50 dark:hover:bg-gray-800/50 transition-colors">
+            <td class="px-5 py-3.5 text-xs text-navy-400 dark:text-gray-600 font-mono">
+              {{ order.id }}
+            </td>
+            <td class="px-3 py-3.5">
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-7 h-7 rounded-full bg-navy-900 dark:bg-navy-700 flex items-center justify-center text-white text-2xs font-bold shrink-0"
+                >
+                  {{ order.customer.split('', 2).join('') }}
+                </div>
+                <span class="font-tajawal text-xs font-medium text-navy-800 dark:text-gray-200">{{
+                  order.customer
+                }}</span>
+              </div>
+            </td>
+            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
+              {{ order.car }}
+            </td>
+            <td class="px-3 py-3.5 text-xs text-navy-600 dark:text-gray-400 font-tajawal">
+              {{ order.service }}
+            </td>
+            <td class="px-3 py-3.5">
+              <span
+                [class]="
+                  order.status == 'مكتمل'
+                    ? 'bg-green-100 text-green-800 dark:bg-green-600/20 dark:text-green-300'
+                    : order.status == 'معلق'
+                      ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-600/20 dark:text-yellow-300'
+                      : 'bg-blue-100 text-blue-800 dark:bg-blue-900/25 dark:text-blue-300'
+                "
+                class="rounded-full px-2.5 py-1 text-2xs font-semibold font-tajawal"
+                >{{ order.status }}</span
+              >
+            </td>
+            <td class="px-5 py-3.5 text-xs font-bold text-navy-900 dark:text-white font-tajawal">
+              {{ order.amount }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</app-main-card>
+
+
+@Component({
+  selector: 'app-input',
+  imports: [ReactiveFormsModule, EnterNextDirective],
+  templateUrl: './input.html',
+  styleUrl: './input.css',
+  standalone: true,
+})
+export class Input {
+  control: InputSignal<any> = input('');
+  nameInput: InputSignal<string> = input('');
+  typeInput: InputSignal<string> = input('');
+  idInput: InputSignal<string> = input('');
+  placeholderInput: InputSignal<string> = input('');
+  label: InputSignal<string> = input('');
+  element: InputSignal<string> = input('input');
+  showPassword: WritableSignal<boolean> = signal(false);
+}
+<div class="mb-6 relative flex flex-col justify-center">
+  <label
+    [for]="idInput()"
+    class="block text-sm font-medium text-navy-700 dark:text-gray-300 mb-2 font-tajawal"
+    >{{ label() }}</label
+  >
+
+  <!-- Wrap input/textarea to isolate positioning from the label -->
+  <div class="relative w-full">
+    @if (element() == 'input') {
+      <input
+        enterNext
+        [name]="nameInput()"
+        [formControl]="control()"
+        [type]="typeInput() || (showPassword() ? 'text' : 'password')"
+        [id]="idInput()"
+        class="w-full pr-12 pl-12 py-3.5 font-tajawal rounded-xl border border-navy-200 dark:border-gray-700 bg-navy-50 dark:bg-gray-900 text-navy-900 dark:text-white placeholder-navy-300 dark:placeholder-gray-600 text-base transition-all duration-200 focus:border-navy-700 dark:focus:border-navy-400 focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-navy-100 dark:focus:ring-navy-900"
+        [placeholder]="placeholderInput()"
+        required
+      />
+    } @else if (element() == 'textArea') {
+      <textarea
+        enterNext
+        [formControl]="control()"
+        [name]="nameInput()"
+        [id]="idInput()"
+        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg mb-0.5 block w-full p-2.5"
+        [placeholder]="placeholderInput()"
+        required
+      ></textarea>
+    }
+
+    @if (idInput() == 'password' || idInput() == 'rePassword') {
+      <!-- Position the interactive eye element cleanly within the inner container -->
+      <span
+        (click)="showPassword.set(!showPassword())"
+        class="absolute top-1/2 -translate-y-1/2 inset-e-4 cursor-pointer z-10"
+      >
+        @if (showPassword()) {
+          <i class="fas fa-eye-slash input-icon text-navy-400 dark:text-gray-500"></i>
+        } @else {
+          <i class="fas fa-eye input-icon text-navy-400 dark:text-gray-500"></i>
+        }
+      </span>
+    }
+  </div>
+</div>

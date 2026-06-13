@@ -18,19 +18,16 @@
   <!-- Controls Bar -->
   <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
     <!-- Add Button -->
-    <button
-      (click)="openAddModal()"
-      class="flex items-center gap-2 px-4 py-2.5 bg-navy-900 dark:bg-navy-700 hover:bg-navy-800 dark:hover:bg-navy-600 text-white rounded-lg transition-colors duration-200 font-cairo font-semibold"
-    >
-      <i class="fa-solid fa-plus w-4 h-4"></i>
-      إضافة مورد
-    </button>
+    <app-button [buttonStyle]="btnStyle.btnNavy" message="إضافة مورد" (click)="openAddModal()">
+      <i icon class="fa-solid fa-plus w-4 h-4"></i>
+    </app-button>
 
     <!-- Search Input -->
     <div class="flex-1 max-w-md">
       <input
         type="text"
         [(ngModel)]="searchQuery"
+        (ngModelChange)="searchQuery.set($event)"
         placeholder="البحث عن مورد..."
         class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors"
       />
@@ -97,6 +94,7 @@
                     (click)="openEditModal(supplier)"
                     class="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
                     title="تعديل"
+                    type="button"
                   >
                     <i class="fa-solid fa-pen-to-square w-4 h-4"></i>
                   </button>
@@ -104,6 +102,7 @@
                     (click)="deleteSupplier(supplier.id!)"
                     class="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
                     title="حذف"
+                    type="button"
                   >
                     <i class="fa-solid fa-trash w-4 h-4"></i>
                   </button>
@@ -153,93 +152,70 @@
         <!-- Modal Body -->
         <form [formGroup]="supplierForm" class="p-6 space-y-4">
           <!-- Name Field -->
-          <div>
-            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
-              اسم المورد <span class="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              formControlName="name"
-              placeholder="أدخل اسم المورد"
-              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
-            />
-            @if (supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched) {
-              <p class="text-red-500 text-sm mt-1">الاسم مطلوب وحد أدنى 3 أحرف</p>
-            }
-          </div>
+          <app-input
+            [control]="supplierForm.get('name')!"
+            label="اسم المورد *"
+            idInput="supplierName"
+            placeholderInput="أدخل اسم المورد"
+          ></app-input>
+          @if (supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched) {
+            <p class="text-red-500 text-sm mt-1">الاسم مطلوب وحد أدنى 3 أحرف</p>
+          }
 
           <!-- Contact Name Field -->
-          <div>
-            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
-              جهة الاتصال
-            </label>
-            <input
-              type="text"
-              formControlName="contact"
-              placeholder="اسم جهة الاتصال"
-              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
-            />
-          </div>
+          <app-input
+            [control]="supplierForm.get('contact')!"
+            label="جهة الاتصال"
+            idInput="supplierContact"
+            placeholderInput="اسم جهة الاتصال"
+          ></app-input>
 
           <!-- Email Field -->
-          <div>
-            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
-              البريد الإلكتروني
-            </label>
-            <input
-              type="email"
-              formControlName="email"
-              placeholder="البريد الإلكتروني"
-              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
-            />
-            @if (supplierForm.get('email')?.invalid && supplierForm.get('email')?.touched) {
-              <p class="text-red-500 text-sm mt-1">البريد الإلكتروني غير صحيح</p>
-            }
-          </div>
+          <app-input
+            [control]="supplierForm.get('email')!"
+            label="البريد الإلكتروني"
+            idInput="supplierEmail"
+            placeholderInput="البريد الإلكتروني"
+          ></app-input>
+          @if (supplierForm.get('email')?.invalid && supplierForm.get('email')?.touched) {
+            <p class="text-red-500 text-sm mt-1">البريد الإلكتروني غير صحيح</p>
+          }
 
           <!-- Phone Field -->
-          <div>
-            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
-              رقم الهاتف
-            </label>
-            <input
-              type="tel"
-              formControlName="phone"
-              placeholder="رقم الهاتف"
-              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
-            />
-          </div>
+          <app-input
+            [control]="supplierForm.get('phone')!"
+            label="رقم الهاتف"
+            idInput="supplierPhone"
+            placeholderInput="رقم الهاتف"
+          ></app-input>
 
           <!-- Address Field -->
-          <div>
-            <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2">
-              العنوان
-            </label>
-            <input
-              type="text"
-              formControlName="address"
-              placeholder="العنوان"
-              class="w-full px-4 py-2.5 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
-            />
-          </div>
+          <app-input
+            [control]="supplierForm.get('address')!"
+            label="العنوان"
+            idInput="supplierAddress"
+            placeholderInput="العنوان"
+          ></app-input>
         </form>
 
         <!-- Modal Footer -->
         <div
           class="sticky bottom-0 bg-white dark:bg-gray-900 border-t border-navy-100 dark:border-gray-800 p-6 flex gap-3"
         >
-          <button
-            (click)="closeModal()"
-            class="flex-1 px-4 py-2.5 bg-navy-100 dark:bg-gray-800 text-navy-900 dark:text-white rounded-lg hover:bg-navy-200 dark:hover:bg-gray-700 transition-colors font-semibold"
-          >
-            إلغاء
-          </button>
-          <button
-            (click)="submitForm()"
-            class="flex-1 px-4 py-2.5 bg-navy-900 dark:bg-navy-700 text-white rounded-lg hover:bg-navy-800 dark:hover:bg-navy-600 transition-colors font-semibold"
-          >
-            {{ modalMode() === 'add' ? 'إضافة' : 'تحديث' }}
-          </button>
+          <div class="flex-1">
+            <app-button
+              [buttonStyle]="btnStyle.btnWhite"
+              message="إلغاء"
+              (click)="closeModal()"
+            ></app-button>
+          </div>
+          <div class="flex-1">
+            <app-button
+              [buttonStyle]="btnStyle.btnNavy"
+              [message]="modalMode() === 'add' ? 'إضافة' : 'تحديث'"
+              (click)="submitForm()"
+            ></app-button>
+          </div>
         </div>
       </div>
     </div>

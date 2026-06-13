@@ -1,5 +1,5 @@
 import { Component, OnInit, inject, signal, WritableSignal } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -9,19 +9,36 @@ import {
 } from '@angular/forms';
 import { ProductsService } from '@core/services/products/products-service';
 import { Product } from '@common/interfaces';
+import { Button } from '@common/components/button/button';
+import { Input } from '@common/components/input/input';
+import { Alert } from '@common/components/alert/alert';
+import { MainCard } from '@common/components/cards/main-card/main-card';
+import { btnStyle } from '@shared/enums';
 
 type ViewMode = 'card' | 'table';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, CurrencyPipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    CurrencyPipe,
+    Button,
+    Input,
+    Alert,
+    MainCard,
+  ],
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
 export class Products implements OnInit {
   private readonly productsService = inject(ProductsService);
   private readonly fb = inject(FormBuilder);
+
+  // Enum for template usage
+  readonly btnStyle = btnStyle;
 
   // State
   readonly products: WritableSignal<Product[]> = signal([]);
