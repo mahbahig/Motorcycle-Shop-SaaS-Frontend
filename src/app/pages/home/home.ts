@@ -9,6 +9,7 @@ import { Button } from '@common/components/button/button';
 import { btnStyle } from '@shared/enums';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-home',
   imports: [AuditLogsCard, WokFlowCard, WorkOrdersCard, StorageAlertCard, Button],
   templateUrl: './home.html',
@@ -37,3 +38,4 @@ export class Home {
 
   protected readonly btnStyle = btnStyle;
 }
+

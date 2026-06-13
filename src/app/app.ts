@@ -4,6 +4,7 @@ import { initFlowbite } from 'flowbite';
 import { ThemeService } from '@core/services/theme/theme-service';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
@@ -17,3 +18,4 @@ export class App implements OnInit {
     initFlowbite();
   }
 }
+

@@ -24,6 +24,7 @@ export interface ISupplier {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-supplier',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, Button, Input, Alert, MainCard],
@@ -220,3 +221,4 @@ export class Supplier implements OnInit {
     setTimeout(() => this.alert.set(null), 4000);
   }
 }
+

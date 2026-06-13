@@ -1,6 +1,7 @@
 import { Component, input, InputSignal } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-alert',
   imports: [],
   templateUrl: './alert.html',
@@ -12,3 +13,4 @@ export class Alert {
   hasError: InputSignal<boolean> = input(false);
   message: InputSignal<string> = input('');
 }
+

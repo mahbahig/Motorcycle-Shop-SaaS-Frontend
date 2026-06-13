@@ -3,6 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { EnterNextDirective } from '@common/directives/enter-next/enter-next';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-input',
   imports: [ReactiveFormsModule, EnterNextDirective],
   templateUrl: './input.html',
@@ -19,3 +20,4 @@ export class Input {
   element: InputSignal<string> = input('input');
   showPassword: WritableSignal<boolean> = signal(false);
 }
+

@@ -10,6 +10,7 @@ import { Button } from '@common/components/button/button';
 import { Alert } from '@common/components/alert/alert';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-login',
   imports: [Input, ReactiveFormsModule, Button, Alert],
   templateUrl: './login.html',
@@ -80,3 +81,4 @@ export class Login {
     });
   }
 }
+

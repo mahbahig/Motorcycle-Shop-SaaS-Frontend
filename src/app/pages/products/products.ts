@@ -18,6 +18,7 @@ import { btnStyle } from '@shared/enums';
 type ViewMode = 'card' | 'table';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-products',
   standalone: true,
   imports: [
@@ -251,3 +252,4 @@ export class Products implements OnInit {
     return Math.round(margin);
   }
 }
+

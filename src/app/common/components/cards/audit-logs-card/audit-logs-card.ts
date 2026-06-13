@@ -4,6 +4,7 @@ import { btnStyle } from '@shared/enums';
 import { Button } from '@common/components/button/button';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-audit-logs-card',
   imports: [MainCard, Button],
   templateUrl: './audit-logs-card.html',
@@ -13,3 +14,4 @@ import { Button } from '@common/components/button/button';
 export class AuditLogsCard {
   protected readonly btnStyle = btnStyle;
 }
+
