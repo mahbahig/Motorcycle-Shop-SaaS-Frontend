@@ -2,7 +2,6 @@ import { Component, input } from '@angular/core';
 import { MainCard } from '@common/components/cards/main-card/main-card';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-wok-flow-card',
   imports: [MainCard],
   templateUrl: './wok-flow-card.html',

@@ -18,7 +18,6 @@ import { btnStyle } from '@shared/enums';
 type ViewMode = 'card' | 'table';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-products',
   standalone: true,
   imports: [

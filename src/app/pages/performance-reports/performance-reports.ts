@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-performance-reports',
   imports: [],
   templateUrl: './performance-reports.html',

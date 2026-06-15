@@ -3,7 +3,6 @@ import { Login } from '@pages/login/login';
 import { ThemeService } from '@core/services/theme';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-auth-layout',
   imports: [Login],
   templateUrl: './auth-layout.html',

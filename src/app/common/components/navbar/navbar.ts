@@ -2,7 +2,6 @@ import { Component, inject, model, OnInit, signal, WritableSignal } from '@angul
 import { ThemeService } from '@core/services/theme';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-navbar',
   imports: [],
 templateUrl: './navbar.html',

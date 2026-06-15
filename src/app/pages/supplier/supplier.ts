@@ -24,7 +24,6 @@ export interface ISupplier {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-supplier',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, Button, Input, Alert, MainCard],

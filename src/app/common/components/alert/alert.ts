@@ -1,7 +1,6 @@
 import { Component, input, InputSignal } from '@angular/core';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-alert',
   imports: [],
   templateUrl: './alert.html',

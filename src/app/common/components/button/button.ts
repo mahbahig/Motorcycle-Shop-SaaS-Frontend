@@ -2,7 +2,6 @@ import { Component, InputSignal, input } from '@angular/core';
 import { btnStyle } from '@shared/enums';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-button',
   imports: [],
   templateUrl: './button.html',

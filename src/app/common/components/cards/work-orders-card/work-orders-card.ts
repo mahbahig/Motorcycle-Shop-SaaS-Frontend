@@ -4,7 +4,6 @@ import { Button } from '@common/components/button/button';
 import { btnStyle } from '@shared/enums';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-work-orders-card',
   imports: [MainCard, Button],
   templateUrl: './work-orders-card.html',

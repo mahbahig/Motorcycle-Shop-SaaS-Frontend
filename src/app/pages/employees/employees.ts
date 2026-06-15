@@ -26,7 +26,6 @@ export interface IEmployee {
 }
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-employees',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, Button, Input, Alert, MainCard],

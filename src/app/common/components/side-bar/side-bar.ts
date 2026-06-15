@@ -4,7 +4,6 @@ import { IUserProfile } from '@shared/interfaces';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-side-bar',
   imports: [RouterLink],
   templateUrl: './side-bar.html',

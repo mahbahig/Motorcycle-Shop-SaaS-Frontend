@@ -5,7 +5,6 @@ import { Navbar } from '@common/components/navbar/navbar';
 import { UserService } from '@core/services';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-main-layout',
   imports: [RouterOutlet, SideBar, Navbar],
   templateUrl: './main-layout.html',
