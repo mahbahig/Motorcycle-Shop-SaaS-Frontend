@@ -1,28 +1,32 @@
 import { Routes } from '@angular/router';
 import { authGuard } from '@common/guards/auth-guard/auth-guard';
 import { mainGuard } from '@common/guards/main-guard/main-guard';
-import { AuthLayout } from '@layout/auth-layout/auth-layout';
-import { MainLayout } from '@layout/main-layout/main-layout';
-import { Home } from '@pages/home/home';
-import { NotFound } from '@pages/not-found/not-found';
 
 export const routes: Routes = [
   {
     path: '',
-    component: AuthLayout,
+    loadComponent: () => import('@layout/auth-layout/auth-layout').then((c) => c.AuthLayout),
     canActivate: [mainGuard],
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
-      { path: 'login', component: AuthLayout, title: 'Login' },
+      {
+        path: 'login',
+        loadComponent: () => import('@pages/login/login').then((c) => c.Login),
+        title: 'Login',
+      },
     ],
   },
   {
     path: 'dashboard',
-    component: MainLayout,
+    loadComponent: () => import('@layout/main-layout/main-layout').then((c) => c.MainLayout),
     canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
-      { path: 'home', component: Home, title: 'لوحة التحكم' },
+      {
+        path: 'home',
+        loadComponent: () => import('@pages/home/home').then((c) => c.Home),
+        title: 'لوحة التحكم',
+      },
 
       // ── المخزون والمنتجات ──────────────────────────────────────────
       {
@@ -58,7 +62,7 @@ export const routes: Routes = [
         title: 'الفواتير',
       },
       {
-        path: 'customers',
+        path: 'customer-return',
         loadComponent: () =>
           import('@pages/customers/customer-return').then((c) => c.CustomerReturn),
         title: 'مرتجع عميل',
@@ -84,7 +88,7 @@ export const routes: Routes = [
         title: 'الرواتب',
       },
 
-      // ── العملاء والموردون ──────────────────────────────────────────
+      // ── العملاء والموظفون ──────────────────────────────────────────
       {
         path: 'customers',
         loadComponent: () => import('@pages/customers/customers').then((c) => c.Customers),
@@ -95,46 +99,11 @@ export const routes: Routes = [
         loadComponent: () => import('@pages/employees/employees').then((c) => c.Employees),
         title: 'الموظفون',
       },
-      // {
-      //   path: 'suppliers-list',
-      //   loadComponent: () =>
-      //     import('@pages/suppliers-list/suppliers-list').then((c) => c.SuppliersList),
-      //   title: 'الموردون',
-      // },
-
-      // ── التقارير ───────────────────────────────────────────────────
-      //     {
-      //       path: 'performance-reports',
-      //       loadComponent: () =>
-      //         import('@pages/performance-reports/performance-reports').then(
-      //           (c) => c.PerformanceReports,
-      //         ),
-      //       title: 'تقارير الأداء',
-      //     },
-      //     {
-      //       path: 'sales-reports',
-      //       loadComponent: () =>
-      //         import('@pages/sales-reports/sales-reports').then((c) => c.SalesReports),
-      //       title: 'تقارير المبيعات',
-      //     },
-      //     {
-      //       path: 'inventory-reports',
-      //       loadComponent: () =>
-      //         import('@pages/inventory-reports/inventory-reports').then((c) => c.InventoryReports),
-      //       title: 'تقارير المخزون',
-      //     },
-      //     {
-      //       path: 'statistics',
-      //       loadComponent: () => import('@pages/statistics/statistics').then((c) => c.Statistics),
-      //       title: 'إحصائيات',
-      //     },
-      //   ],
-      // },
     ],
   },
   {
     path: '**',
-    component: NotFound,
+    loadComponent: () => import('@pages/not-found/not-found').then((c) => c.NotFound),
     title: '404',
   },
 ];

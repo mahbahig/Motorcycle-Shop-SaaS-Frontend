@@ -1,34 +1,24 @@
-import { Component, OnInit, inject, signal, WritableSignal } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit, inject, signal, computed, WritableSignal } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ProductsService } from '@core/services/products/products-service';
 import { Product } from '@common/interfaces';
 import { Button } from '@common/components/button/button';
 import { Input } from '@common/components/input/input';
 import { Alert } from '@common/components/alert/alert';
-import { MainCard } from '@common/components/cards/main-card/main-card';
-import { btnStyle } from '@shared/enums';
+import { BtnStyleEnum } from '@shared/enums';
 
 type ViewMode = 'card' | 'table';
 
 @Component({
   selector: 'app-products',
-  standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     CurrencyPipe,
     Button,
     Input,
     Alert,
-    MainCard,
   ],
   templateUrl: './products.html',
   styleUrl: './products.css',
@@ -38,10 +28,16 @@ export class Products implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   // Enum for template usage
-  readonly btnStyle = btnStyle;
+  readonly BtnStyleEnum = BtnStyleEnum;
 
   // State
   readonly products: WritableSignal<Product[]> = signal([]);
+  readonly productsWithMargin = computed(() =>
+    this.products().map((p) => ({
+      ...p,
+      profitMargin: Math.round(((p.sellingPrice - p.buyingPrice) / p.buyingPrice) * 100),
+    })),
+  );
   readonly viewMode: WritableSignal<ViewMode> = signal('card');
   readonly isLoading: WritableSignal<boolean> = signal(false);
   readonly showModal: WritableSignal<boolean> = signal(false);
@@ -54,17 +50,13 @@ export class Products implements OnInit {
   } | null> = signal(null);
 
   // Form
-  productForm: FormGroup;
-
-  constructor() {
-    this.productForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      supplier: ['', Validators.required],
-      description: [''],
-      buyingPrice: ['', [Validators.required, Validators.min(0)]],
-      sellingPrice: ['', [Validators.required, Validators.min(0)]],
-    });
-  }
+  readonly productForm = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    supplier: ['', Validators.required],
+    description: [''],
+    buyingPrice: [0, [Validators.required, Validators.min(0)]],
+    sellingPrice: [0, [Validators.required, Validators.min(0)]],
+  });
 
   ngOnInit(): void {
     this.loadProducts();
@@ -186,7 +178,14 @@ export class Products implements OnInit {
 
   private createProduct(): void {
     this.isLoading.set(true);
-    const formValue = this.productForm.value;
+    const v = this.productForm.getRawValue();
+    const formValue = {
+      name: v.name ?? '',
+      supplier: v.supplier ?? '',
+      description: v.description ?? undefined,
+      buyingPrice: v.buyingPrice ?? 0,
+      sellingPrice: v.sellingPrice ?? 0,
+    };
 
     this.productsService.createProduct(formValue).subscribe({
       next: () => {
@@ -206,7 +205,14 @@ export class Products implements OnInit {
     if (!productId) return;
 
     this.isLoading.set(true);
-    const formValue = this.productForm.value;
+    const v = this.productForm.getRawValue();
+    const formValue = {
+      name: v.name ?? undefined,
+      supplier: v.supplier ?? undefined,
+      description: v.description ?? undefined,
+      buyingPrice: v.buyingPrice ?? undefined,
+      sellingPrice: v.sellingPrice ?? undefined,
+    };
 
     this.productsService.updateProduct(productId, formValue).subscribe({
       next: () => {
@@ -245,10 +251,5 @@ export class Products implements OnInit {
     setTimeout(() => this.alert.set(null), 4000);
   }
 
-  getProfitMargin(product: Product): number {
-    const profit = product.sellingPrice - product.buyingPrice;
-    const margin = (profit / product.buyingPrice) * 100;
-    return Math.round(margin);
-  }
 }
 

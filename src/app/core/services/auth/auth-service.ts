@@ -1,32 +1,29 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { Service, inject, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { authApiEndpoints } from '@common/environments/environment';
-import { ILoginRequest, IUpdatePasswordRequest } from '@shared/interfaces';
+import { LoginRequest, LoginResponse, UpdatePasswordRequest } from '@shared/interfaces';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class AuthService {
-  constructor(
-    private readonly httpClient: HttpClient,
-    private readonly cookieService: CookieService,
-    private readonly router: Router,
-  ) {}
-  decoded!: WritableSignal<any>;
+  private readonly httpClient = inject(HttpClient);
+  private readonly cookieService = inject(CookieService);
+  private readonly router = inject(Router);
 
-  login(data: ILoginRequest): Observable<any> {
-    return this.httpClient.post(authApiEndpoints.login, data);
+  decoded!: WritableSignal<JwtPayload>;
+
+  login(data: LoginRequest): Observable<LoginResponse> {
+    return this.httpClient.post<LoginResponse>(authApiEndpoints.login, data);
   }
 
-  updatePassword(body: IUpdatePasswordRequest): Observable<any> {
+  updatePassword(body: UpdatePasswordRequest): Observable<unknown> {
     return this.httpClient.patch(authApiEndpoints.updatePassword, body);
   }
 
-  resetPassword(userId: string): Observable<any> {
+  resetPassword(userId: string): Observable<unknown> {
     return this.httpClient.patch(`${authApiEndpoints.resetPassword}/${userId}`, undefined);
   }
 
@@ -35,12 +32,13 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
-  decodeToken() {
+  decodeToken(): JwtPayload | undefined {
     try {
       this.decoded.set(jwtDecode(this.cookieService.get('token')));
       return this.decoded();
     } catch (err) {
       this.router.navigate(['/login']);
+      return undefined;
     }
   }
 }

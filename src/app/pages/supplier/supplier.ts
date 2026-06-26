@@ -1,32 +1,15 @@
-import { Component, OnInit, inject, signal, WritableSignal } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, inject, signal, computed, WritableSignal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { SuppliersService } from '@core/services/suppliers/suppliers-service';
 import { Button } from '@common/components/button/button';
 import { Input } from '@common/components/input/input';
 import { Alert } from '@common/components/alert/alert';
-import { MainCard } from '@common/components/cards/main-card/main-card';
-import { btnStyle } from '@shared/enums';
-
-export interface ISupplier {
-  id?: string;
-  name: string;
-  contact?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-}
+import { BtnStyleEnum } from '@shared/enums';
+import { Supplier as SupplierModel } from '@shared/interfaces/supplier/supplier.model';
 
 @Component({
   selector: 'app-supplier',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, Button, Input, Alert, MainCard],
+  imports: [FormsModule, ReactiveFormsModule, Button, Input, Alert],
   templateUrl: './supplier.html',
   styleUrl: './supplier.css',
 })
@@ -35,10 +18,10 @@ export class Supplier implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   // Enum for template usage
-  readonly btnStyle = btnStyle;
+  readonly BtnStyleEnum = BtnStyleEnum;
 
   // State
-  readonly suppliers: WritableSignal<ISupplier[]> = signal([]);
+  readonly suppliers: WritableSignal<SupplierModel[]> = signal([]);
   readonly isLoading: WritableSignal<boolean> = signal(false);
   readonly showModal: WritableSignal<boolean> = signal(false);
   readonly modalMode: WritableSignal<'add' | 'edit'> = signal('add');
@@ -51,24 +34,20 @@ export class Supplier implements OnInit {
   } | null> = signal(null);
 
   // Form
-  supplierForm: FormGroup;
-
-  constructor() {
-    this.supplierForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      contact: [''],
-      email: ['', Validators.email],
-      phone: [''],
-      address: [''],
-    });
-  }
+  readonly supplierForm = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    contact: [''],
+    email: ['', Validators.email],
+    phone: [''],
+    address: [''],
+  });
 
   ngOnInit(): void {
     this.loadSuppliers();
   }
 
   // ── Mock Data (for testing) ────────────────────────────
-  private getMockSuppliers(): ISupplier[] {
+  private getMockSuppliers(): SupplierModel[] {
     return [
       {
         id: '1',
@@ -134,7 +113,7 @@ export class Supplier implements OnInit {
     }, 500);
   }
 
-  get filteredSuppliers(): ISupplier[] {
+  readonly filteredSuppliers = computed(() => {
     const query = this.searchQuery().toLowerCase();
     return this.suppliers().filter(
       (supplier) =>
@@ -143,7 +122,7 @@ export class Supplier implements OnInit {
         supplier.email?.toLowerCase().includes(query) ||
         supplier.phone?.includes(query),
     );
-  }
+  });
 
   openAddModal(): void {
     this.modalMode.set('add');
@@ -152,7 +131,7 @@ export class Supplier implements OnInit {
     this.showModal.set(true);
   }
 
-  openEditModal(supplier: ISupplier): void {
+  openEditModal(supplier: SupplierModel): void {
     this.modalMode.set('edit');
     this.editingId.set(supplier.id!);
     this.supplierForm.patchValue(supplier);
@@ -178,8 +157,8 @@ export class Supplier implements OnInit {
   }
 
   private addSupplier(): void {
-    const formValue = this.supplierForm.value;
-    this.suppliersService.createSupplier(formValue).subscribe({
+    const v = this.supplierForm.getRawValue();
+    this.suppliersService.createSupplier({ name: v.name ?? '' }).subscribe({
       next: () => {
         this.showAlert('تم إضافة المورد بنجاح', 'success');
         this.loadSuppliers();
@@ -192,11 +171,16 @@ export class Supplier implements OnInit {
   }
 
   private updateSupplier(): void {
-    // For demo, just update in local state
-    const formValue = this.supplierForm.value;
+    const v = this.supplierForm.getRawValue();
     const id = this.editingId();
-    const updated = this.suppliers().map((s) => (s.id === id ? { ...s, ...formValue } : s));
-    this.suppliers.set(updated);
+    const patch: Partial<SupplierModel> = {
+      name: v.name ?? undefined,
+      contact: v.contact ?? undefined,
+      email: v.email ?? undefined,
+      phone: v.phone ?? undefined,
+      address: v.address ?? undefined,
+    };
+    this.suppliers.update((list) => list.map((s) => (s.id === id ? { ...s, ...patch } : s)));
     this.showAlert('تم تحديث المورد بنجاح', 'success');
     this.closeModal();
   }

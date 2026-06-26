@@ -7,7 +7,6 @@ import { ThemeService } from '@core/services/theme';
   imports: [Login],
   templateUrl: './auth-layout.html',
   styleUrl: './auth-layout.css',
-  standalone: true,
 })
 export class AuthLayout {
   private readonly themeService = inject(ThemeService);

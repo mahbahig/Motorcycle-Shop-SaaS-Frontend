@@ -6,19 +6,21 @@
   </div>
 
   <!-- Alert Messages -->
-  @if (alert(); as alertData) {
-    <app-alert
-      [isSuccess]="alertData.type === 'success'"
-      [hasError]="alertData.type === 'error'"
-      [message]="alertData.message"
-      class="mb-6 block"
-    ></app-alert>
-  }
+  <div aria-live="polite" aria-atomic="true">
+    @if (alert(); as alertData) {
+      <app-alert
+        [isSuccess]="alertData.type === 'success'"
+        [hasError]="alertData.type === 'error'"
+        [message]="alertData.message"
+        class="mb-6 block"
+      ></app-alert>
+    }
+  </div>
 
   <!-- Controls Bar -->
   <div class="flex flex-col md:flex-row gap-4 items-center justify-between mb-6">
     <!-- Add Button -->
-    <app-button [buttonStyle]="btnStyle.btnNavy" message="إضافة مورد" (click)="openAddModal()">
+    <app-button [buttonStyle]="BtnStyleEnum.btnNavy" message="إضافة مورد" (click)="openAddModal()">
       <i icon class="fa-solid fa-plus w-4 h-4"></i>
     </app-button>
 
@@ -29,7 +31,7 @@
         [(ngModel)]="searchQuery"
         (ngModelChange)="searchQuery.set($event)"
         placeholder="البحث عن مورد..."
-        class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors"
+        class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 focus:shadow-[0_0_0_3px_rgba(15,23,42,0.1)] dark:focus:shadow-[0_0_0_3px_rgba(255,255,255,0.1)] transition-colors"
       />
     </div>
   </div>
@@ -44,8 +46,8 @@
 
   <!-- Suppliers Table View -->
   @if (!isLoading()) {
-    <div class="overflow-x-auto">
-      <table class="w-full">
+    <div class="overflow-x-auto [scrollbar-width:thin] [scrollbar-color:rgba(15,23,42,0.2)_transparent]">
+      <table class="w-full border-collapse">
         <thead>
           <tr class="border-b-2 border-navy-100 dark:border-gray-800 bg-navy-50 dark:bg-gray-900">
             <th class="px-4 py-3 text-right text-sm font-bold text-navy-900 dark:text-white">
@@ -69,7 +71,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (supplier of filteredSuppliers; track supplier.id) {
+          @for (supplier of filteredSuppliers(); track supplier.id) {
             <tr
               class="border-b border-navy-100 dark:border-gray-800 hover:bg-navy-50 dark:hover:bg-gray-900/50 transition-colors"
             >
@@ -114,7 +116,7 @@
       </table>
 
       <!-- Empty State -->
-      @if (filteredSuppliers.length === 0 && !isLoading()) {
+      @if (filteredSuppliers().length === 0 && !isLoading()) {
         <div class="text-center py-12 bg-navy-50 dark:bg-gray-900 rounded-lg mt-4">
           <i class="fa-solid fa-inbox text-4xl text-navy-300 dark:text-gray-700 mb-3"></i>
           <p class="text-navy-600 dark:text-gray-400">لا توجد موّردين</p>
@@ -126,24 +128,29 @@
   <!-- Add/Edit Modal -->
   @if (showModal()) {
     <!-- Modal Backdrop -->
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" (click)="closeModal()"></div>
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" (click)="closeModal()" (keydown.escape)="closeModal()"></div>
 
     <!-- Modal -->
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div
-        class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 animate-[fadeUp_0.3s_ease-out]">
+      <dialog
+        open
+        class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto m-0 p-0 border-0"
         (click)="$event.stopPropagation()"
+        (keydown.escape)="closeModal()"
+        aria-labelledby="supplier-modal-title"
       >
         <!-- Modal Header -->
         <div
           class="sticky top-0 bg-white dark:bg-gray-900 border-b border-navy-100 dark:border-gray-800 p-6 flex justify-between items-center"
         >
-          <h2 class="text-xl font-bold text-navy-900 dark:text-white">
+          <h2 id="supplier-modal-title" class="text-xl font-bold text-navy-900 dark:text-white">
             {{ modalMode() === 'add' ? 'إضافة مورد جديد' : 'تعديل المورد' }}
           </h2>
           <button
+            type="button"
             (click)="closeModal()"
             class="text-navy-500 hover:text-navy-700 dark:hover:text-gray-300"
+            aria-label="إغلاق"
           >
             <i class="fa-solid fa-times w-5 h-5"></i>
           </button>
@@ -204,20 +211,20 @@
         >
           <div class="flex-1">
             <app-button
-              [buttonStyle]="btnStyle.btnWhite"
+              [buttonStyle]="BtnStyleEnum.btnWhite"
               message="إلغاء"
               (click)="closeModal()"
             ></app-button>
           </div>
           <div class="flex-1">
             <app-button
-              [buttonStyle]="btnStyle.btnNavy"
+              [buttonStyle]="BtnStyleEnum.btnNavy"
               [message]="modalMode() === 'add' ? 'إضافة' : 'تحديث'"
               (click)="submitForm()"
             ></app-button>
           </div>
         </div>
-      </div>
+      </dialog>
     </div>
   }
 </section>

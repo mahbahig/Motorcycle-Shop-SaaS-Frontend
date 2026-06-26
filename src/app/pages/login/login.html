@@ -81,11 +81,13 @@
         ></i>
       </app-button>
 
-      <app-alert
-        [hasError]="hasError()"
-        [message]="errorMessage()"
-        [isSuccess]="isSuccess()"
-      ></app-alert>
+      <div aria-live="polite" aria-atomic="true">
+        <app-alert
+          [hasError]="hasError()"
+          [message]="errorMessage()"
+          [isSuccess]="isSuccess()"
+        ></app-alert>
+      </div>
     </form>
 
     <!-- Bottom subtle branding line -->

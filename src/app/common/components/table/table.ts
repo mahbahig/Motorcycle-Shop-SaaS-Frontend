@@ -1,15 +1,14 @@
 import { Component, input} from '@angular/core';
 import { MainCard } from '@common/components/cards/main-card/main-card';
 import { Button } from '@common/components/button/button';
-import { btnStyle } from '@shared/enums';
+import { BtnStyleEnum } from '@shared/enums';
 
 @Component({
-  selector: 'app-work-orders-card',
+  selector: 'app-table',
   imports: [MainCard, Button],
-  templateUrl: './work-orders-card.html',
-  styleUrl: './work-orders-card.css',
+  templateUrl: './table.html',
 })
-export class WorkOrdersCard {
+export class Table {
   page = input("home");
   title = input("أحدث أوامر الشغل");
   orders = [
@@ -55,6 +54,6 @@ export class WorkOrdersCard {
     },
   ];
   tableHeaders = ['#', 'العميل', 'السيارة', 'الخدمة', 'الحالة', 'المبلغ'];
-  protected readonly btnStyle = btnStyle;
+  protected readonly btnStyle = BtnStyleEnum;
 }
 

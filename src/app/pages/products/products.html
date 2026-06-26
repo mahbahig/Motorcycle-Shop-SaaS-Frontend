@@ -6,7 +6,7 @@
     <!-- Controls Bar -->
     <div class="flex flex-wrap gap-4 items-center justify-between mb-6">
       <!-- Add Button -->
-      <app-button [buttonStyle]="btnStyle.btnNavy" message="إضافة منتج" (click)="openAddModal()">
+      <app-button [buttonStyle]="BtnStyleEnum.btnNavy" message="إضافة منتج" (click)="openAddModal()">
         <i icon class="fa-solid fa-plus w-4 h-4"></i>
       </app-button>
 
@@ -22,14 +22,16 @@
     </div>
 
     <!-- Alert Messages -->
-    @if (alert(); as alertData) {
-      <app-alert
-        [isSuccess]="alertData.type === 'success'"
-        [hasError]="alertData.type === 'error'"
-        [message]="alertData.message"
-        class="mb-6 block"
-      ></app-alert>
-    }
+    <div aria-live="polite" aria-atomic="true">
+      @if (alert(); as alertData) {
+        <app-alert
+          [isSuccess]="alertData.type === 'success'"
+          [hasError]="alertData.type === 'error'"
+          [message]="alertData.message"
+          class="mb-6 block"
+        ></app-alert>
+      }
+    </div>
   </div>
 
   <!-- Loading State -->
@@ -43,7 +45,7 @@
   <!-- Card View -->
   @if (viewMode() === 'card' && !isLoading()) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for (product of products(); track product.id) {
+      @for (product of productsWithMargin(); track product.id) {
         <!-- Removed 'p-5' to allow borders to stretch edges-to-edges -->
         <div
           class="flex flex-col justify-between bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-xl hover:shadow-lg dark:hover:shadow-navy-950/50 transition-shadow duration-200"
@@ -105,7 +107,7 @@
             <div class="bg-navy-50 dark:bg-gray-800 rounded-lg p-3">
               <p class="text-xs text-navy-600 dark:text-gray-400 mb-1">هامش الربح</p>
               <p class="text-lg font-bold text-navy-900 dark:text-white">
-                {{ getProfitMargin(product) }}%
+                {{ product.profitMargin }}%
               </p>
             </div>
           </div>
@@ -149,7 +151,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (product of products(); track product.id) {
+          @for (product of productsWithMargin(); track product.id) {
             <tr
               class="border-b border-navy-100 dark:border-gray-800 hover:bg-navy-50 dark:hover:bg-gray-800 transition-colors"
             >
@@ -169,7 +171,7 @@
                 {{ product.sellingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
               </td>
               <td class="px-6 py-4 font-semibold text-navy-900 dark:text-white">
-                {{ getProfitMargin(product) }}%
+                {{ product.profitMargin }}%
               </td>
               <td class="px-6 py-4">
                 <div class="flex gap-2 justify-center">
@@ -212,13 +214,14 @@
   <div
     class="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4"
     (click)="closeModal()"
-    role="dialog"
-    aria-labelledby="modal-title"
+    (keydown.escape)="closeModal()"
   >
-    <div
-      class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-md w-full p-6"
+    <dialog
+      open
+      class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-md w-full p-6 m-0 border-0"
       (click)="$event.stopPropagation()"
-      role="presentation"
+      (keydown.escape)="closeModal()"
+      aria-labelledby="modal-title"
     >
       <!-- Modal Header -->
       <div class="flex justify-between items-center mb-6">
@@ -283,7 +286,7 @@
       <div class="flex gap-3">
         <div class="flex-1">
           <app-button
-            [buttonStyle]="btnStyle.btnNavy"
+            [buttonStyle]="BtnStyleEnum.btnNavy"
             [message]="modalMode() === 'add' ? 'إضافة' : 'تحديث'"
             (click)="saveProduct()"
             [isLoading]="isLoading()"
@@ -291,13 +294,13 @@
         </div>
         <div class="flex-1">
           <app-button
-            [buttonStyle]="btnStyle.btnWhite"
+            [buttonStyle]="BtnStyleEnum.btnWhite"
             message="إلغاء"
             (click)="closeModal()"
             [isLoading]="isLoading()"
           ></app-button>
         </div>
       </div>
-    </div>
+    </dialog>
   </div>
 }

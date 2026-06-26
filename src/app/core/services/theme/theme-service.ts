@@ -1,8 +1,8 @@
-import { Injectable, signal, computed, effect } from '@angular/core';
+import { Service, signal, computed, effect } from '@angular/core';
 
 export type Theme = 'light' | 'dark';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ThemeService {
   // ── State ──────────────────────────────────────────────
   readonly theme = signal<Theme>(this.getSavedTheme());
@@ -14,15 +14,13 @@ export class ThemeService {
   readonly label = computed(() => (this.isDark() ? 'Light Mode' : 'Dark Mode'));
 
   // ── Apply on every change ──────────────────────────────
-  constructor() {
-    effect(() => {
-      const theme = this.theme();
-      const html = document.documentElement;
+  private readonly themeEffect = effect(() => {
+    const theme = this.theme();
+    const html = document.documentElement;
 
-      html.classList.toggle('dark', theme === 'dark');
-      this.persistTheme(theme);
-    });
-  }
+    html.classList.toggle('dark', theme === 'dark');
+    this.persistTheme(theme);
+  });
 
   // ── Public API ─────────────────────────────────────────
   /**
@@ -64,7 +62,7 @@ export class ThemeService {
    */
   private getSavedTheme(): Theme {
     try {
-      const saved = localStorage.getItem('app-theme') as Theme | null;
+      const saved: string | null = localStorage.getItem('app-theme');
       if (saved === 'light' || saved === 'dark') {
         return saved;
       }

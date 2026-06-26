@@ -1,17 +1,14 @@
-// enter-next.directive.ts
-import { Directive, HostListener, inject, ElementRef } from '@angular/core';
+import { Directive, inject, ElementRef } from '@angular/core';
 
 @Directive({
   selector: '[enterNext]',
-  standalone: true,
+  host: { '(keydown.enter)': 'onEnter($event)' },
 })
 export class EnterNextDirective {
   private el = inject(ElementRef);
 
-  @HostListener('keydown.enter', ['$event'])
   onEnter(e: Event): void {
-    const kEvent = e as KeyboardEvent;
-    kEvent.preventDefault();
+    e.preventDefault();
 
     const inputs = Array.from(
       document.querySelectorAll<HTMLElement>('input, select, textarea'),

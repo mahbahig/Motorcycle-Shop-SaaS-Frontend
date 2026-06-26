@@ -1,6 +1,6 @@
 import { UserRole } from '@shared/enums';
 
-export interface ICreateUserRequest {
+export interface CreateUserRequest {
   shopSlug: string;
   name: string;
   username: string;

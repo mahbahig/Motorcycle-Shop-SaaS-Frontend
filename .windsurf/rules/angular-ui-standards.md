@@ -15,6 +15,78 @@ Enforce pre-built custom components over native HTML. Components under `src/app/
 
 ---
 
+## Naming Conventions
+
+### Files
+- Components: `user-profile.component.ts` — kebab-case, `.component.ts` suffix.
+- Services: `auth.service.ts` — kebab-case, `.service.ts` suffix.
+- Guards: `auth.guard.ts` — kebab-case, `.guard.ts` suffix.
+- Pipes: `truncate.pipe.ts` — kebab-case, `.pipe.ts` suffix.
+- Directives: `highlight.directive.ts` — kebab-case, `.directive.ts` suffix.
+- Interfaces / models: `user.model.ts` — kebab-case, `.model.ts` suffix.
+- Enums: `user-roles.enum.ts` — kebab-case, `.enum.ts` suffix.
+- Signal stores: `cart.store.ts` — kebab-case, `.store.ts` suffix.
+- Resolvers: `product.resolver.ts` — kebab-case, `.resolver.ts` suffix.
+- External templates / styles: same base name as the component file — `user-profile.component.html`.
+
+### Classes & Decorators
+- Components: `PascalCase` + `Component` suffix — `UserProfileComponent`.
+- Services: `PascalCase` + `Service` suffix — `AuthService`.
+- Guards: `PascalCase` + `Guard` suffix — `AuthGuard`.
+- Pipes: `PascalCase` + `Pipe` suffix — `TruncatePipe`.
+- Directives: `PascalCase` + `Directive` suffix — `HighlightDirective`.
+- Resolvers: `PascalCase` + `Resolver` suffix — `ProductResolver`.
+- Signal stores: `PascalCase` + `Store` suffix — `CartStore`.
+- Interfaces: `PascalCase`, no `I` prefix — `UserProfile`, not `IUserProfile`.
+- Type aliases: `PascalCase` — `ApiResponse<T>`.
+- **Enums: `PascalCase` + `Enum` suffix — `UserRolesEnum`, `BtnStyleEnum`, `OrderStatusEnum`.**
+- **Enum members: `PascalCase` — `UserRolesEnum.SuperAdmin`, `OrderStatusEnum.Pending`.**
+
+```ts
+// user-roles.enum.ts
+export enum UserRolesEnum {
+  SuperAdmin = 'SUPER_ADMIN',
+  Admin = 'ADMIN',
+  Viewer = 'VIEWER',
+}
+
+// order-status.enum.ts
+export enum OrderStatusEnum {
+  Pending = 'PENDING',
+  InProgress = 'IN_PROGRESS',
+  Completed = 'COMPLETED',
+}
+```
+
+### Selectors
+- Components: `app-` prefix, kebab-case — `app-user-profile`. For selectorless usage, import the class directly.
+- Directives: `app-` prefix, kebab-case attribute — `app-highlight`.
+- Never use generic unprefixed selectors — they collide with HTML or third-party elements.
+
+### Variables & Properties
+- Signals: `camelCase`, no suffix — `readonly isLoading = signal(false)`.
+- Computed signals: `camelCase`, no suffix — `readonly fullName = computed(() => ...)`.
+- `httpResource` / `resource`: `camelCase`, noun describing the data — `readonly orders = httpResource(...)`.
+- Private class members: `camelCase`, no underscore prefix — use the `private` keyword instead.
+- Module-level constants: `SCREAMING_SNAKE_CASE` — `const MAX_RETRY_COUNT = 3`.
+- Boolean signals/variables: prefix with `is`, `has`, `can`, or `should` — `isVisible`, `hasError`, `canSubmit`.
+- Enum references in components: import the full enum, never re-export raw string literals — `UserRolesEnum.Admin`, not `'ADMIN'`.
+
+### Methods & Functions
+- `camelCase`, verb-first — `loadUser()`, `handleSubmit()`, `formatDate()`.
+- Event handlers: `on` prefix — `onSave()`, `onRouteChange()`.
+- Predicate / guard functions: `is`, `has`, or `can` prefix — `isAuthenticated()`, `canEdit()`.
+
+### Templates
+- Template reference variables: `camelCase` — `#userForm`, `#dialogRef`.
+- `@for` loop variables: singular of the collection name — `@for (order of orders(); track order.id)`.
+
+### Routes
+- Route paths: kebab-case, lowercase — `user-profile`, `work-orders`.
+- Route name constants: `SCREAMING_SNAKE_CASE` — `export const ROUTES = { DASHBOARD: 'dashboard' }`.
+
+---
+
 ## Angular Constraints
 
 - All components are standalone by default in Angular 22. Never set `standalone: true` explicitly — it is redundant.

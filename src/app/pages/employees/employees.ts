@@ -1,19 +1,9 @@
-import { Component, OnInit, inject, signal, WritableSignal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit, inject, signal, computed, WritableSignal } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { EmployeesService } from '@core/services/employees/employees-service';
-import { Button } from '@common/components/button/button';
-import { Input } from '@common/components/input/input';
 import { Alert } from '@common/components/alert/alert';
-import { MainCard } from '@common/components/cards/main-card/main-card';
 
-export interface IEmployee {
+export interface Employee {
   id?: string;
   name: string;
   email?: string;
@@ -27,8 +17,7 @@ export interface IEmployee {
 
 @Component({
   selector: 'app-employees',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, Button, Input, Alert, MainCard],
+  imports: [FormsModule, ReactiveFormsModule, Alert],
   templateUrl: './employees.html',
   styleUrl: './employees.css',
 })
@@ -37,7 +26,7 @@ export class Employees implements OnInit {
   private readonly fb = inject(FormBuilder);
 
   // State
-  readonly employees: WritableSignal<IEmployee[]> = signal([]);
+  readonly employees: WritableSignal<Employee[]> = signal([]);
   readonly isLoading: WritableSignal<boolean> = signal(false);
   readonly showModal: WritableSignal<boolean> = signal(false);
   readonly modalMode: WritableSignal<'add' | 'edit'> = signal('add');
@@ -49,28 +38,23 @@ export class Employees implements OnInit {
     type: 'success' | 'error';
   } | null> = signal(null);
 
-  // Form
-  employeeForm: FormGroup;
-
-  constructor() {
-    this.employeeForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
-      position: ['', Validators.required],
-      department: ['', Validators.required],
-      hireDate: [''],
-      salary: ['', [Validators.required, Validators.min(0)]],
-      status: ['active'],
-    });
-  }
+  readonly employeeForm = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    phone: ['', Validators.required],
+    position: ['', Validators.required],
+    department: ['', Validators.required],
+    hireDate: [''],
+    salary: ['', [Validators.required, Validators.min(0)]],
+    status: ['active'],
+  });
 
   ngOnInit(): void {
     this.loadEmployees();
   }
 
   // ── Mock Data (for testing) ────────────────────────────
-  private getMockEmployees(): IEmployee[] {
+  private getMockEmployees(): Employee[] {
     return [
       {
         id: '1',
@@ -162,7 +146,7 @@ export class Employees implements OnInit {
     }, 500);
   }
 
-  get filteredEmployees(): IEmployee[] {
+  readonly filteredEmployees = computed(() => {
     const query = this.searchQuery().toLowerCase();
     return this.employees().filter(
       (employee) =>
@@ -172,7 +156,7 @@ export class Employees implements OnInit {
         employee.position.toLowerCase().includes(query) ||
         employee.department.toLowerCase().includes(query),
     );
-  }
+  });
 
   openAddModal(): void {
     this.modalMode.set('add');
@@ -181,10 +165,10 @@ export class Employees implements OnInit {
     this.showModal.set(true);
   }
 
-  openEditModal(employee: IEmployee): void {
+  openEditModal(employee: Employee): void {
     this.modalMode.set('edit');
     this.editingId.set(employee.id!);
-    this.employeeForm.patchValue(employee);
+    this.employeeForm.patchValue({ ...employee, salary: employee.salary?.toString() ?? '' });
     this.showModal.set(true);
   }
 
@@ -207,10 +191,17 @@ export class Employees implements OnInit {
   }
 
   private addEmployee(): void {
-    const formValue = this.employeeForm.value;
-    const newEmployee: IEmployee = {
+    const v = this.employeeForm.getRawValue();
+    const newEmployee: Employee = {
       id: String(Date.now()),
-      ...formValue,
+      name: v.name ?? '',
+      position: v.position ?? '',
+      department: v.department ?? '',
+      email: v.email ?? undefined,
+      phone: v.phone ?? undefined,
+      hireDate: v.hireDate ?? undefined,
+      salary: v.salary ? Number(v.salary) : undefined,
+      status: (v.status as Employee['status']) ?? 'active',
     };
     this.employees.update((emp) => [...emp, newEmployee]);
     this.showAlert('تم إضافة الموظف بنجاح', 'success');
@@ -218,10 +209,19 @@ export class Employees implements OnInit {
   }
 
   private updateEmployee(): void {
-    const formValue = this.employeeForm.value;
+    const v = this.employeeForm.getRawValue();
     const id = this.editingId();
-    const updated = this.employees().map((e) => (e.id === id ? { ...e, ...formValue } : e));
-    this.employees.set(updated);
+    const patch: Partial<Employee> = {
+      name: v.name ?? undefined,
+      position: v.position ?? undefined,
+      department: v.department ?? undefined,
+      email: v.email ?? undefined,
+      phone: v.phone ?? undefined,
+      hireDate: v.hireDate ?? undefined,
+      salary: v.salary ? Number(v.salary) : undefined,
+      status: (v.status as Employee['status']) ?? undefined,
+    };
+    this.employees.update((emp) => emp.map((e) => (e.id === id ? { ...e, ...patch } : e)));
     this.showAlert('تم تحديث الموظف بنجاح', 'success');
     this.closeModal();
   }
@@ -237,15 +237,4 @@ export class Employees implements OnInit {
     this.alert.set({ show: true, message, type });
     setTimeout(() => this.alert.set(null), 4000);
   }
-
-  getStatusBadgeColor(status?: string): string {
-    return status === 'active'
-      ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
-      : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400';
-  }
-
-  getStatusText(status?: string): string {
-    return status === 'active' ? 'نشط' : 'غير نشط';
-  }
 }
-

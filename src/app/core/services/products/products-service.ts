@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { productApiEndpoints } from '@common/environments';
+import { Product } from '@common/interfaces';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ProductsService {
   private readonly httpClient = inject(HttpClient);
 
@@ -15,26 +14,27 @@ export class ProductsService {
     description?: string;
     buyingPrice: number;
     sellingPrice: number;
-  }): Observable<any> {
+  }): Observable<unknown> {
     return this.httpClient.post(productApiEndpoints.createProduct, body);
   }
 
-  getAllProducts(): Observable<any> {
+  getAllProducts(): Observable<unknown> {
     return this.httpClient.get(productApiEndpoints.getAllProducts);
   }
 
-  getSupplierProducts(supplierId: string): Observable<any> {
+  getSupplierProducts(supplierId: string): Observable<unknown> {
     return this.httpClient.get(productApiEndpoints.getSupplierProducts(supplierId));
   }
 
-  getProductById(id: string): Observable<any> {
+  getProductById(id: string): Observable<unknown> {
     return this.httpClient.get(productApiEndpoints.getProductById(id));
   }
-  updateProduct(id: string, body: any): Observable<any> {
+
+  updateProduct(id: string, body: Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>): Observable<unknown> {
     return this.httpClient.patch(productApiEndpoints.updateProduct(id), body);
   }
 
-  deleteProduct(id: string): Observable<any> {
+  deleteProduct(id: string): Observable<unknown> {
     return this.httpClient.delete(productApiEndpoints.deleteProduct(id));
   }
 }

@@ -1,10 +1,8 @@
-import { UserRole } from '@shared/enums';
-
-export interface IUserProfileResponse {
+export interface UserProfileResponse {
   success: boolean;
-  data: IUserProfile;
+  data: UserProfile;
 }
-export interface IUserProfile {
+export interface UserProfile {
   _id: string;
   name: string;
   username: string;
@@ -15,3 +13,5 @@ export interface IUserProfile {
     _id: string;
   };
 }
+// backward-compat alias for read-only components in @common/components
+export type { UserProfile as IUserProfile };

@@ -20,7 +20,7 @@
       </div>
       <div class="grid w-full grid-cols-2 gap-2 sm:w-auto sm:min-w-[24rem]">
         @for (item of [1, 2, 3, 4]; track $index) {
-          <app-button [buttonStyle]="btnStyle.btnWhite" message="أمر شغل جديد">
+          <app-button [buttonStyle]="BtnStyleEnum.btnWhite" message="أمر شغل جديد">
             <svg
               icon
               class="w-4 h-4"
@@ -51,20 +51,18 @@
       faClass="money-bill"
     ></app-wok-flow-card>
   </div>
-  <!-- ── BOTTOM ROW: Work Orders Table + Recent Activity ── -->
-  <div
-    class="grid grid-cols-1 gap-4 lg:grid-cols-3 animate-[fadeUp_0.7s_cubic-bezier(0.22,0.68,0,1.2)_both] [animation-delay:0.15s]"
-  >
-    <!-- Work Orders Table -->
-    <div class="self-start lg:col-span-2">
-      <app-work-orders-card></app-work-orders-card>
-    </div>
-    <!-- Recent Activity + Low Stock -->
-    <div class="flex flex-col gap-4">
-      <!-- Activity Feed -->
+  <!-- ── BOTTOM ROW: Activity + Low Stock ── -->
+  @defer (on viewport) {
+    <div
+      class="grid grid-cols-1 gap-4 lg:grid-cols-2 animate-[fadeUp_0.7s_cubic-bezier(0.22,0.68,0,1.2)_both] [animation-delay:0.15s]"
+    >
       <app-audit-logs-card></app-audit-logs-card>
-      <!-- Low Stock Alert -->
       <app-storage-alert-card></app-storage-alert-card>
     </div>
-  </div>
+  } @placeholder {
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div class="h-40 rounded-2xl bg-gray-100 dark:bg-gray-800 animate-pulse"></div>
+      <div class="h-40 rounded-2xl bg-gray-100 dark:bg-gray-800 animate-pulse"></div>
+    </div>
+  }
 </section>

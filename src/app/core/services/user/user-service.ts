@@ -1,41 +1,39 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Service } from '@angular/core';
 import { userApiEndpoints } from '@common/environments';
 import { BackendUserRole, UserRole } from '@shared/enums';
-import { ICreateUserRequest, IUserProfileResponse } from '@shared/interfaces';
+import { CreateUserRequest, UserProfileResponse } from '@shared/interfaces';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class UserService {
   private readonly httpClient = inject(HttpClient);
 
-  createUser(body: ICreateUserRequest): Observable<any> {
+  createUser(body: CreateUserRequest): Observable<unknown> {
     return this.httpClient.post(userApiEndpoints.createUser, body);
   }
 
-  getProfile(): Observable<IUserProfileResponse> {
-    return this.httpClient.get<IUserProfileResponse>(userApiEndpoints.getProfile);
+  getProfile(): Observable<UserProfileResponse> {
+    return this.httpClient.get<UserProfileResponse>(userApiEndpoints.getProfile);
   }
 
-  getAllUsers(): Observable<any> {
+  getAllUsers(): Observable<unknown> {
     return this.httpClient.get(userApiEndpoints.getAllUsers);
   }
 
-  getUserById(id: string): Observable<any> {
+  getUserById(id: string): Observable<unknown> {
     return this.httpClient.get(userApiEndpoints.getUserById(id));
   }
 
-  deleteUser(id: string): Observable<any> {
+  deleteUser(id: string): Observable<unknown> {
     return this.httpClient.delete(userApiEndpoints.deleteUser(id));
   }
 
-  lockProfile(id: string): Observable<any> {
+  lockProfile(id: string): Observable<unknown> {
     return this.httpClient.patch(userApiEndpoints.lockProfile(id), undefined);
   }
 
-  unlockProfile(id: string): Observable<any> {
+  unlockProfile(id: string): Observable<unknown> {
     return this.httpClient.patch(userApiEndpoints.unlockProfile(id), undefined);
   }
 
