@@ -72,6 +72,9 @@
 .gear-anim-rev {
   animation: spin-slow-rev 24s linear infinite;
 }
+input {
+  color: white;
+}
 
 @keyframes spin-slow {
   from {

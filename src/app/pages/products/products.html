@@ -6,9 +6,27 @@
     <!-- Controls Bar -->
     <div class="flex flex-wrap gap-4 items-center justify-between mb-6">
       <!-- Add Button -->
-      <app-button [buttonStyle]="BtnStyleEnum.btnNavy" message="إضافة منتج" (click)="openAddModal()">
+      <app-button
+        [buttonStyle]="BtnStyleEnum.btnNavy"
+        message="إضافة منتج"
+        (click)="openAddModal()"
+        (keydown.enter)="openAddModal()"
+      >
         <i icon class="fa-solid fa-plus w-4 h-4"></i>
       </app-button>
+
+      <!-- Search -->
+      <div class="flex-1 max-w-md">
+        <label for="productSearch" class="sr-only">البحث عن منتج</label>
+        <input
+          id="productSearch"
+          type="text"
+          [value]="searchQuery()"
+          (input)="searchQuery.set($any($event.target).value)"
+          placeholder="البحث عن منتج..."
+          class="w-full px-4 py-2.5 bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-lg focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors"
+        />
+      </div>
 
       <!-- View Toggle -->
       <button
@@ -45,7 +63,11 @@
   <!-- Card View -->
   @if (viewMode() === 'card' && !isLoading()) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      @for (product of productsWithMargin(); track product.id) {
+      @for (
+        product of productsWithMargin()
+          | search: searchQuery() : ['name', 'supplier', 'description'];
+        track product.id
+      ) {
         <!-- Removed 'p-5' to allow borders to stretch edges-to-edges -->
         <div
           class="flex flex-col justify-between bg-white dark:bg-gray-900 border border-navy-100 dark:border-gray-800 rounded-xl hover:shadow-lg dark:hover:shadow-navy-950/50 transition-shadow duration-200"
@@ -126,86 +148,60 @@
 
   <!-- Table View -->
   @if (viewMode() === 'table' && !isLoading()) {
-    <div class="overflow-x-auto">
-      <table class="w-full">
-        <thead>
-          <tr class="border-b-2 border-navy-200 dark:border-gray-700">
-            <th class="text-right px-6 py-4 text-sm font-bold text-navy-900 dark:text-white">
-              المنتج
-            </th>
-            <th class="text-right px-6 py-4 text-sm font-bold text-navy-900 dark:text-white">
-              الموردة
-            </th>
-            <th class="text-right px-6 py-4 text-sm font-bold text-navy-900 dark:text-white">
-              سعر الشراء
-            </th>
-            <th class="text-right px-6 py-4 text-sm font-bold text-navy-900 dark:text-white">
-              سعر البيع
-            </th>
-            <th class="text-right px-6 py-4 text-sm font-bold text-navy-900 dark:text-white">
-              هامش الربح
-            </th>
-            <th class="text-center px-6 py-4 text-sm font-bold text-navy-900 dark:text-white">
-              الإجراءات
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (product of productsWithMargin(); track product.id) {
-            <tr
-              class="border-b border-navy-100 dark:border-gray-800 hover:bg-navy-50 dark:hover:bg-gray-800 transition-colors"
-            >
-              <td class="px-6 py-4">
-                <div>
-                  <p class="font-semibold text-navy-900 dark:text-white">{{ product.name }}</p>
-                  <p class="text-xs text-navy-500 dark:text-gray-400">
-                    {{ product.description || '-' }}
-                  </p>
-                </div>
-              </td>
-              <td class="px-6 py-4 text-navy-700 dark:text-gray-300">{{ product.supplier }}</td>
-              <td class="px-6 py-4 text-navy-700 dark:text-gray-300">
-                {{ product.buyingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
-              </td>
-              <td class="px-6 py-4 text-green-600 dark:text-green-400 font-semibold">
-                {{ product.sellingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
-              </td>
-              <td class="px-6 py-4 font-semibold text-navy-900 dark:text-white">
-                {{ product.profitMargin }}%
-              </td>
-              <td class="px-6 py-4">
-                <div class="flex gap-2 justify-center">
-                  <button
-                    (click)="openEditModal(product)"
-                    class="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
-                    title="تعديل"
-                    type="button"
-                  >
-                    <i class="fa-solid fa-pen-to-square w-4 h-4"></i>
-                  </button>
-                  <button
-                    (click)="deleteProduct(product.id)"
-                    class="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
-                    title="حذف"
-                    type="button"
-                  >
-                    <i class="fa-solid fa-trash w-4 h-4"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-
-      <!-- Empty State -->
-      @if (products().length === 0) {
-        <div class="text-center py-12">
-          <i class="fa-solid fa-table text-4xl text-navy-300 dark:text-gray-600 mb-4"></i>
-          <p class="text-navy-600 dark:text-gray-400">لا توجد منتجات حالياً</p>
-        </div>
+    <app-table
+      [headers]="['المنتج', 'الموردة', 'سعر الشراء', 'سعر البيع', 'هامش الربح', 'الإجراءات']"
+      [isEmpty]="
+        (productsWithMargin() | search: searchQuery() : ['name', 'supplier', 'description'])
+          .length === 0
+      "
+      emptyMessage="لا توجد منتجات حالياً"
+      emptyIcon="fa-table"
+    >
+      @for (
+        product of productsWithMargin()
+          | search: searchQuery() : ['name', 'supplier', 'description'];
+        track product.id
+      ) {
+        <tr
+          class="border-b border-navy-100 dark:border-gray-800 hover:bg-navy-50 dark:hover:bg-gray-800 transition-colors"
+        >
+          <td class="px-6 py-4">
+            <p class="font-semibold text-navy-900 dark:text-white">{{ product.name }}</p>
+            <p class="text-xs text-navy-500 dark:text-gray-400">{{ product.description || '-' }}</p>
+          </td>
+          <td class="px-6 py-4 text-navy-700 dark:text-gray-300">{{ product.supplier }}</td>
+          <td class="px-6 py-4 text-navy-700 dark:text-gray-300">
+            {{ product.buyingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
+          </td>
+          <td class="px-6 py-4 text-green-600 dark:text-green-400 font-semibold">
+            {{ product.sellingPrice | currency: 'EGP' : 'symbol' : '1.2-2' }}
+          </td>
+          <td class="px-6 py-4 font-semibold text-navy-900 dark:text-white">
+            {{ product.profitMargin }}%
+          </td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2 justify-center">
+              <button
+                (click)="openEditModal(product)"
+                class="p-2 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                title="تعديل"
+                type="button"
+              >
+                <i class="fa-solid fa-pen-to-square w-4 h-4"></i>
+              </button>
+              <button
+                (click)="deleteProduct(product.id)"
+                class="p-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                title="حذف"
+                type="button"
+              >
+                <i class="fa-solid fa-trash w-4 h-4"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
       }
-    </div>
+    </app-table>
   }
 </section>
 
@@ -239,10 +235,10 @@
       </div>
 
       <!-- Form -->
-      <form [formGroup]="productForm" class="space-y-4 mb-6">
+      <form class="space-y-4 mb-6" novalidate>
         <!-- Product Name -->
         <app-input
-          [control]="productForm.get('name')!"
+          [field]="productForm.name"
           label="اسم المنتج *"
           idInput="productName"
           placeholderInput="مثال: زيت محرك"
@@ -250,7 +246,7 @@
 
         <!-- Supplier -->
         <app-input
-          [control]="productForm.get('supplier')!"
+          [field]="productForm.supplier"
           label="الموردة *"
           idInput="supplier"
           placeholderInput="مثال: شركة المصريين"
@@ -258,7 +254,7 @@
 
         <!-- Description -->
         <app-input
-          [control]="productForm.get('description')!"
+          [field]="productForm.description"
           label="الوصف"
           idInput="description"
           placeholderInput="وصف اختياري للمنتج"
@@ -267,18 +263,20 @@
 
         <!-- Buying Price -->
         <app-input
-          [control]="productForm.get('buyingPrice')!"
+          [field]="productForm.buyingPrice"
           label="سعر الشراء *"
           idInput="buyingPrice"
           placeholderInput="0.00"
+          typeInput="number"
         ></app-input>
 
         <!-- Selling Price -->
         <app-input
-          [control]="productForm.get('sellingPrice')!"
+          [field]="productForm.sellingPrice"
           label="سعر البيع *"
           idInput="sellingPrice"
           placeholderInput="0.00"
+          typeInput="number"
         ></app-input>
       </form>
 
@@ -289,6 +287,7 @@
             [buttonStyle]="BtnStyleEnum.btnNavy"
             [message]="modalMode() === 'add' ? 'إضافة' : 'تحديث'"
             (click)="saveProduct()"
+            (keydown.enter)="saveProduct()"
             [isLoading]="isLoading()"
           ></app-button>
         </div>
@@ -297,6 +296,7 @@
             [buttonStyle]="BtnStyleEnum.btnWhite"
             message="إلغاء"
             (click)="closeModal()"
+            (keydown.enter)="closeModal()"
             [isLoading]="isLoading()"
           ></app-button>
         </div>

@@ -1,85 +1,62 @@
-import { Component, inject, signal, WritableSignal, computed } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { Input } from '@common/components';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '@core/services';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Button } from '@common/components/button/button';
 import { Alert } from '@common/components/alert/alert';
+import { ILoginRequest } from '@common/interfaces/auth';
+import { form, minLength, required, submit, FormField } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-login',
-  imports: [Input, ReactiveFormsModule, Button, Alert],
+  imports: [Input, Button, Alert, FormField],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class Login {
-  private readonly _formBuilder = inject(FormBuilder);
-  private readonly _cookieService = inject(CookieService);
   private readonly _authService = inject(AuthService);
+  private readonly _cookieService = inject(CookieService);
   private readonly _router = inject(Router);
 
-  subscription: Subscription = new Subscription();
-  errorMessage: WritableSignal<string> = signal('');
-  isLoading: WritableSignal<boolean> = signal(false);
-  isSuccess: WritableSignal<boolean> = signal(false);
-  clicked: WritableSignal<boolean> = signal(false);
-  passwordHidden: WritableSignal<boolean> = signal(true);
-  passwordType: WritableSignal<string> = signal('password');
-  currentYear: WritableSignal<number> = signal(new Date().getFullYear());
+  readonly serverError = signal('');
+  readonly isSuccess = signal(false);
+  readonly hasError = computed(() => this.serverError() !== '');
+  readonly errorMessage = this.serverError;
+  currentYear = signal(new Date().getFullYear());
 
-  readonly hasError = computed(() => this.clicked() && this.errorMessage() !== '');
+  readonly loginModel = signal<ILoginRequest>({ username: '', password: '', rememberMe: false });
 
-  get username() {
-    return this.loginForm.get('username');
-  }
-  get password() {
-    return this.loginForm.get('password');
-  }
-  get rememberMe() {
-    return this.loginForm.get('rememberMe');
-  }
-
-  readonly loginForm = this._formBuilder.group({
-    username: [null, [Validators.required, Validators.minLength(3)]],
-    password: [null, [Validators.required, Validators.minLength(6)]],
-    rememberMe: [false],
+  readonly loginForm = form(this.loginModel, (path) => {
+    required(path.username, { message: 'اسم المستخدم مطلوب' });
+    required(path.password, { message: 'كلمة المرور مطلوبة' });
+    minLength(path.password, 6, { message: 'يجب أن تتكون كلمة المرور من 6 أحرف على الأقل' });
   });
 
-  togglePasswordVisibility(): void {
-    this.passwordHidden.set(!this.passwordHidden());
-    this.passwordType.set(this.passwordHidden() ? 'password' : 'text');
-  }
+  async onSubmit(event: Event): Promise<void> {
+    event.preventDefault();
+    this.serverError.set('');
+    this.isSuccess.set(false);
 
-  loginSubmit(): void {
-    this.clicked.set(!this.clicked());
-    if (this.isLoading()) return;
-    if (this.username!.invalid) return this.errorMessage.set('اسم المستخدم مطلوب');
-    if (this.password!.invalid)
-      return this.errorMessage.set('يجب أن تتكون كلمة المرور من أكثر من 6 أحرف');
-    this.isLoading.set(true);
-    this.subscription.unsubscribe();
-    const v = this.loginForm.getRawValue();
-    this.subscription = this._authService.login({
-      username: v.username ?? '',
-      password: v.password ?? '',
-      rememberMe: v.rememberMe ?? false,
-    }).subscribe({
-      next: (res) => {
-        this.isLoading.set(false);
+    await submit(this.loginForm, async (f) => {
+      try {
+        const res = await firstValueFrom(this._authService.login(f().value()));
+
+        if (!res.success) {
+          this.serverError.set(res.message);
+          return [{ kind: 'server', message: res.message }];
+        }
+
         this.isSuccess.set(true);
-        if (!res.success) this.errorMessage.set(res.message);
         this._cookieService.set('token', res.token, undefined, '/');
         this._router.navigate(['/dashboard']);
-      },
-      error: (err) => {
-        this.isLoading.set(false);
-        this.isSuccess.set(false);
-        this.errorMessage.set('اسم المستخدم أو كلمة المرور غير صحيحة');
-        this.loginForm.reset();
-      },
+        return undefined;
+      } catch {
+        const message = 'اسم المستخدم أو كلمة المرور غير صحيحة';
+        this.serverError.set(message);
+        return [{ kind: 'server', message }];
+      }
     });
   }
 }
-

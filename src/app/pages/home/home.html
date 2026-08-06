@@ -36,21 +36,9 @@
       </div>
     </div>
   </div>
-  <!-- ── STAT CARDS ── -->
-  <div
-    class="grid grid-flow-row gap-4 md:grid-cols-2 animate-[fadeUp_0.7s_cubic-bezier(0.22,0.68,0,1.2)_both] [animation-delay:0.05s]"
-  >
-    <!-- Card 1 -->
-    <app-wok-flow-card></app-wok-flow-card>
 
-    <!-- Card 2 -->
-    <app-wok-flow-card
-      [price]="true"
-      description="الإيرادات هذا الشهر"
-      number="18,450"
-      faClass="money-bill"
-    ></app-wok-flow-card>
-  </div>
+
+
   <!-- ── BOTTOM ROW: Activity + Low Stock ── -->
   @defer (on viewport) {
     <div

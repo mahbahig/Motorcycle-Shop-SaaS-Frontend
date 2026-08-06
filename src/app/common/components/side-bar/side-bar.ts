@@ -19,7 +19,6 @@ export class SideBar implements OnInit {
   pages = [
     { name: 'لوحة التحكم', icon: 'fa-solid fa-grip', route: '/dashboard/home' },
     { name: 'المنتجات', icon: 'fa-solid fa-grip', route: '/dashboard/products' },
-    { name: 'المخزن', icon: 'fa-solid fa-warehouse', route: '/dashboard/inventory' },
     { name: 'الموردون', icon: 'fa-solid fa-truck', route: '/dashboard/suppliers' },
     { name: 'الموظفون', icon: 'fa-solid fa-user', route: '/dashboard/employees' },
     { name: 'المبيعات', icon: 'fa-solid fa-bag-shopping', route: '/dashboard/sales' },
@@ -37,7 +36,6 @@ export class SideBar implements OnInit {
         res.data.role = this.userService.translateRole(res.data.role);
         this.userProfile.set(res.data);
       },
-      // error: () => this.authService.logout()
     });
   }
 

@@ -1,11 +1,13 @@
 import { Component, OnInit, inject, signal, computed, WritableSignal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { form, required, minLength, min } from '@angular/forms/signals';
 import { ProductsService } from '@core/services/products/products-service';
 import { Product } from '@common/interfaces';
 import { Button } from '@common/components/button/button';
 import { Input } from '@common/components/input/input';
 import { Alert } from '@common/components/alert/alert';
+import { Table } from '@common/components/table/table';
+import { SearchPipe } from '@common/pipes/search-pipe';
 import { BtnStyleEnum } from '@shared/enums';
 
 type ViewMode = 'card' | 'table';
@@ -13,20 +15,18 @@ type ViewMode = 'card' | 'table';
 @Component({
   selector: 'app-products',
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     CurrencyPipe,
     Button,
     Input,
     Alert,
+    Table,
+    SearchPipe,
   ],
   templateUrl: './products.html',
   styleUrl: './products.css',
 })
 export class Products implements OnInit {
   private readonly productsService = inject(ProductsService);
-  private readonly fb = inject(FormBuilder);
-
   // Enum for template usage
   readonly BtnStyleEnum = BtnStyleEnum;
 
@@ -38,6 +38,7 @@ export class Products implements OnInit {
       profitMargin: Math.round(((p.sellingPrice - p.buyingPrice) / p.buyingPrice) * 100),
     })),
   );
+  readonly searchQuery: WritableSignal<string> = signal('');
   readonly viewMode: WritableSignal<ViewMode> = signal('card');
   readonly isLoading: WritableSignal<boolean> = signal(false);
   readonly showModal: WritableSignal<boolean> = signal(false);
@@ -49,13 +50,27 @@ export class Products implements OnInit {
     type: 'success' | 'error';
   } | null> = signal(null);
 
-  // Form
-  readonly productForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    supplier: ['', Validators.required],
-    description: [''],
-    buyingPrice: [0, [Validators.required, Validators.min(0)]],
-    sellingPrice: [0, [Validators.required, Validators.min(0)]],
+  private readonly emptyProduct: Product = {
+    id: '',
+    name: '',
+    supplier: '',
+    description: '',
+    buyingPrice: 0,
+    sellingPrice: 0,
+  };
+
+  readonly productModel = signal<Product>({
+    ...this.emptyProduct,
+  });
+
+  readonly productForm = form(this.productModel, (path) => {
+    required(path.name, { message: 'اسم المنتج مطلوب' });
+    minLength(path.name, 3, { message: 'اسم المنتج يجب أن يتكون من 3 أحرف على الأقل' });
+    required(path.supplier, { message: 'الموردة مطلوبة' });
+    required(path.buyingPrice, { message: 'سعر الشراء مطلوب' });
+    min(path.buyingPrice, 0, { message: 'سعر الشراء يجب أن يكون 0 أو أكثر' });
+    required(path.sellingPrice, { message: 'سعر البيع مطلوب' });
+    min(path.sellingPrice, 0, { message: 'سعر البيع يجب أن يكون 0 أو أكثر' });
   });
 
   ngOnInit(): void {
@@ -140,17 +155,18 @@ export class Products implements OnInit {
   openAddModal(): void {
     this.modalMode.set('add');
     this.editingProductId.set(null);
-    this.productForm.reset();
+    this.productModel.set({ ...this.emptyProduct });
     this.showModal.set(true);
   }
 
   openEditModal(product: Product): void {
     this.modalMode.set('edit');
     this.editingProductId.set(product.id);
-    this.productForm.patchValue({
+    this.productModel.set({
+      id: product.id,
       name: product.name,
       supplier: product.supplier,
-      description: product.description || '',
+      description: product.description ?? '',
       buyingPrice: product.buyingPrice,
       sellingPrice: product.sellingPrice,
     });
@@ -159,12 +175,12 @@ export class Products implements OnInit {
 
   closeModal(): void {
     this.showModal.set(false);
-    this.productForm.reset();
+    this.productModel.set({ ...this.emptyProduct });
   }
 
   // ── CRUD Operations ───────────────────────────────────
   saveProduct(): void {
-    if (!this.productForm.valid) {
+    if (!this.productForm().valid()) {
       this.showAlert('يرجى ملء جميع الحقول المطلوبة', 'error');
       return;
     }
@@ -178,16 +194,13 @@ export class Products implements OnInit {
 
   private createProduct(): void {
     this.isLoading.set(true);
-    const v = this.productForm.getRawValue();
-    const formValue = {
-      name: v.name ?? '',
-      supplier: v.supplier ?? '',
-      description: v.description ?? undefined,
-      buyingPrice: v.buyingPrice ?? 0,
-      sellingPrice: v.sellingPrice ?? 0,
+
+    const newProduct: Product = {
+      ...this.productModel(),
+      id: crypto.randomUUID(),
     };
 
-    this.productsService.createProduct(formValue).subscribe({
+    this.productsService.createProduct(newProduct).subscribe({
       next: () => {
         this.showAlert('تم إضافة المنتج بنجاح', 'success');
         this.closeModal();
@@ -205,16 +218,12 @@ export class Products implements OnInit {
     if (!productId) return;
 
     this.isLoading.set(true);
-    const v = this.productForm.getRawValue();
-    const formValue = {
-      name: v.name ?? undefined,
-      supplier: v.supplier ?? undefined,
-      description: v.description ?? undefined,
-      buyingPrice: v.buyingPrice ?? undefined,
-      sellingPrice: v.sellingPrice ?? undefined,
+    const updatedProduct = {
+      ...this.productModel(),
+      id: productId,
     };
 
-    this.productsService.updateProduct(productId, formValue).subscribe({
+    this.productsService.updateProduct(productId, updatedProduct).subscribe({
       next: () => {
         this.showAlert('تم تحديث المنتج بنجاح', 'success');
         this.closeModal();
@@ -250,6 +259,4 @@ export class Products implements OnInit {
     this.alert.set({ show: true, message, type });
     setTimeout(() => this.alert.set(null), 4000);
   }
-
 }
-

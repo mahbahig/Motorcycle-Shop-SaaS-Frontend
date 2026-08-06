@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, model } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-input',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './search-input.html',
   styleUrl: './search-input.css',
 })
-export class SearchInput {}
+export class SearchInput {
+  searchQuery = model.required<string>();
 
+}

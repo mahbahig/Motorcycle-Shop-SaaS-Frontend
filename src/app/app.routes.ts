@@ -6,7 +6,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('@layout/auth-layout/auth-layout').then((c) => c.AuthLayout),
-    canActivate: [mainGuard],
+    // canActivate: [mainGuard],
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       {
@@ -19,7 +19,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () => import('@layout/main-layout/main-layout').then((c) => c.MainLayout),
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
@@ -29,11 +29,6 @@ export const routes: Routes = [
       },
 
       // ── المخزون والمنتجات ──────────────────────────────────────────
-      {
-        path: 'inventory',
-        loadComponent: () => import('@pages/inventory/inventory').then((c) => c.Inventory),
-        title: 'المخزون',
-      },
       {
         path: 'products',
         loadComponent: () => import('@pages/products/products').then((c) => c.Products),

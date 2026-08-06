@@ -38,10 +38,10 @@
     <div class="w-12 h-0.5 bg-navy-800 dark:bg-navy-400 mb-10 rounded-full"></div>
 
     <!-- Form -->
-    <form class="space-y-6" [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+    <form class="space-y-6" novalidate (submit)="onSubmit($event)">
       <!-- Username -->
       <app-input
-        [control]="username"
+        [field]="loginForm.username"
         label="اسم المستخدم"
         placeholderInput="أدخل اسم المستخدم"
         idInput="username"
@@ -49,7 +49,7 @@
       ></app-input>
       <!-- Password -->
       <app-input
-        [control]="password"
+        [field]="loginForm.password"
         label="كلمة المرور"
         placeholderInput="أدخل كلمة المرور"
         idInput="password"
@@ -59,7 +59,7 @@
       <div class="flex items-center gap-3">
         <div class="relative flex items-center">
           <input
-            formControlName="rememberMe"
+            [formField]="loginForm.rememberMe"
             id="rememberMe"
             type="checkbox"
             class="w-5 h-5 rounded border-2 border-navy-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-navy-800 dark:text-navy-400 accent-navy-700 cursor-pointer transition-all duration-150 focus:ring-2 focus:ring-navy-200 dark:focus:ring-navy-800 checked:bg-navy-800 checked:border-navy-800 dark:checked:bg-navy-500 dark:checked:border-navy-500"
@@ -73,10 +73,10 @@
         </label>
       </div>
       <!-- Submit -->
-      <app-button type="submit" [isLoading]="isLoading()" message="دخول إلى المنصة">
+      <app-button type="submit" [isLoading]="loginForm().submitting()" message="دخول إلى المنصة">
         <i
           icon
-          [class.hidden!]="isLoading()"
+          [class.hidden!]="loginForm().submitting()"
           class="fa-solid fa-arrow-left w-5 h-5 transition-transform duration-200 translate-y-1 group-hover:-translate-x-1"
         ></i>
       </app-button>

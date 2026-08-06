@@ -3,7 +3,6 @@ import { httpResource } from '@angular/common/http';
 import { UserService } from '@core/services';
 import { UserProfile, UserProfileResponse } from '@shared/interfaces';
 import { AuditLogsCard } from '@common/components/cards/audit-logs-card/audit-logs-card';
-import { WokFlowCard } from '@common/components/cards/wok-flow-card/wok-flow-card';
 import { StorageAlertCard } from '@common/components/cards/storage-alert-card/storage-alert-card';
 import { Button } from '@common/components/button/button';
 import { BtnStyleEnum } from '@shared/enums';
@@ -11,7 +10,7 @@ import { userApiEndpoints } from '@common/environments';
 
 @Component({
   selector: 'app-home',
-  imports: [AuditLogsCard, WokFlowCard, StorageAlertCard, Button],
+  imports: [AuditLogsCard, StorageAlertCard, Button],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

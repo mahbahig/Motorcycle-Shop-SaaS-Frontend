@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { Service, inject, WritableSignal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -18,11 +18,9 @@ export class AuthService {
   login(data: LoginRequest): Observable<LoginResponse> {
     return this.httpClient.post<LoginResponse>(authApiEndpoints.login, data);
   }
-
   updatePassword(body: UpdatePasswordRequest): Observable<unknown> {
     return this.httpClient.patch(authApiEndpoints.updatePassword, body);
   }
-
   resetPassword(userId: string): Observable<unknown> {
     return this.httpClient.patch(`${authApiEndpoints.resetPassword}/${userId}`, undefined);
   }

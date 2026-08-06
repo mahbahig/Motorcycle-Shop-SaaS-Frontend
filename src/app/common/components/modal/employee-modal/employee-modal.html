@@ -1,0 +1,184 @@
+<app-modal
+  #modalShell
+  modalId="employeeModal"
+  title="إضافة موظف جديد"
+  submitLabel="حفظ"
+  cancelLabel="إلغاء"
+  widthClass="max-w-2xl"
+  (submitted)="handleSubmit()"
+>
+  <form class="p-6 space-y-6 bg-white dark:bg-gray-900" novalidate (submit)="handleSubmit()">
+    <!-- Row 1: Employee Name -->
+    <div>
+      <app-input
+        [field]="employeeForm.name"
+        label="اسم الموظف *"
+        idInput="empName"
+        placeholderInput="أدخل اسم الموظف بالكامل"
+      ></app-input>
+      @if (employeeForm.name().invalid() && employeeForm.name().touched()) {
+        <p class="text-red-500 text-sm mt-1">
+          {{ employeeForm.name().errors()[0]?.message }}
+        </p>
+      }
+    </div>
+
+    <!-- Row 2: Email & Phone -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <app-input
+          [field]="employeeForm.email"
+          label="البريد الإلكتروني *"
+          idInput="empEmail"
+          placeholderInput="example@domain.com"
+          typeInput="email"
+        ></app-input>
+        @if (employeeForm.email().invalid() && employeeForm.email().touched()) {
+          <p class="text-red-500 text-sm mt-1">
+            {{ employeeForm.email().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+
+      <div>
+        <app-input
+          [field]="employeeForm.phone"
+          label="رقم الهاتف *"
+          idInput="empPhone"
+          placeholderInput="01xxxxxxxxx"
+          typeInput="tel"
+        ></app-input>
+        @if (employeeForm.phone().invalid() && employeeForm.phone().touched()) {
+          <p class="text-red-500 text-sm mt-1">
+            {{ employeeForm.phone().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+    </div>
+
+    <!-- Row 3: Position & Department -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <app-input
+          [field]="employeeForm.position"
+          label="الوظيفة *"
+          idInput="empPosition"
+          placeholderInput="مثال: مدير المبيعات"
+        ></app-input>
+        @if (employeeForm.position().invalid() && employeeForm.position().touched()) {
+          <p class="text-red-500 text-sm mt-1">
+            {{ employeeForm.position().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+
+      <div>
+        <label
+          for="empDepartment"
+          class="block text-sm font-semibold text-navy-900 dark:text-white mb-2"
+        >
+          القسم <span class="text-red-500">*</span>
+        </label>
+        <select
+          id="empDepartment"
+          [formField]="employeeForm.department"
+          class="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-navy-100 dark:border-gray-700 rounded-xl focus:outline-none focus:border-navy-500 dark:focus:border-navy-400 transition-colors text-navy-900 dark:text-white"
+        >
+          <option value="">اختر القسم</option>
+          <option value="المبيعات">المبيعات</option>
+          <option value="المالية">المالية</option>
+          <option value="الصيانة">الصيانة</option>
+          <option value="المستودع">المستودع</option>
+          <option value="الموارد البشرية">الموارد البشرية</option>
+          <option value="الإدارة">الإدارة</option>
+        </select>
+        @if (employeeForm.department().invalid() && employeeForm.department().touched()) {
+          <p class="text-red-500 text-sm mt-1">
+            {{ employeeForm.department().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+    </div>
+
+    <!-- Row 4: Hire Date & Salary -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <app-input
+          [field]="employeeForm.hireDate"
+          label="تاريخ التعيين"
+          idInput="empHireDate"
+          typeInput="date"
+        ></app-input>
+      </div>
+
+      <div>
+        <app-input
+          [field]="employeeForm.salary"
+          label="الراتب (ج.م) *"
+          idInput="empSalary"
+          placeholderInput="0.00"
+          typeInput="number"
+        ></app-input>
+        @if (employeeForm.salary().invalid() && employeeForm.salary().touched()) {
+          <p class="text-red-500 text-sm mt-1">
+            {{ employeeForm.salary().errors()[0]?.message }}
+          </p>
+        }
+      </div>
+    </div>
+
+    <!-- Row 5: Status Toggle Buttons -->
+    <div>
+      <label class="block text-sm font-semibold text-navy-900 dark:text-white mb-2"
+        >حالة الموظف</label
+      >
+      <div class="grid grid-cols-2 gap-3">
+        <!-- Active Pill -->
+        <label
+          class="flex items-center justify-center gap-2 p-3 rounded-xl cursor-pointer transition-all border select-none"
+          [class]="
+            employeeForm.status().value() === employeeStatus.Active
+              ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-600/20'
+              : 'bg-transparent border-emerald-500/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10'
+          "
+        >
+          <input type="radio" value="active" [formField]="employeeForm.status" class="sr-only" />
+          <span class="text-sm font-bold">نشط</span>
+        </label>
+
+        <!-- Inactive Pill -->
+        <label
+          class="flex items-center justify-center gap-2 p-3 rounded-xl cursor-pointer transition-all border select-none"
+          [class]="
+            employeeForm.status().value() === employeeStatus.Inactive
+              ? 'bg-rose-600 border-rose-600 text-white shadow-lg shadow-rose-600/20'
+              : 'bg-transparent border-rose-500/30 text-rose-600 dark:text-rose-400 hover:bg-rose-500/10'
+          "
+        >
+          <input type="radio" value="inactive" [formField]="employeeForm.status" class="sr-only" />
+          <span class="text-sm font-bold">غير نشط</span>
+        </label>
+      </div>
+    </div>
+    <!-- Row 6: Create Account Checkbox -->
+    <div class="pt-4 border-t border-navy-100 dark:border-gray-800">
+      <label
+        class="flex items-start gap-3 p-3.5 bg-navy-50/40 dark:bg-gray-800/60 hover:bg-navy-50 dark:hover:bg-gray-800/90 rounded-xl cursor-pointer border border-navy-100 dark:border-gray-700 transition-all"
+      >
+        <input
+          type="checkbox"
+          [formField]="employeeForm.hasAccount"
+          class="mt-1 w-5 h-5 rounded cursor-pointer focus:bg-navy-400"
+        />
+        <div class="flex flex-col">
+          <span class="text-sm font-semibold text-navy-900 dark:text-white">
+            إنشاء حساب مستخدم لهذا الموظف
+          </span>
+          <span class="text-xs text-navy-500 dark:text-gray-400 mt-0.5">
+            سيتم تمكين الموظف من تسجيل الدخول إلى النظام عبر البريد الإلكتروني
+          </span>
+        </div>
+      </label>
+    </div>
+  </form>
+</app-modal>

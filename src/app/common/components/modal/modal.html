@@ -1,0 +1,52 @@
+<div
+  #modalElement
+  [id]="modalId()"
+  tabindex="-1"
+  aria-hidden="true"
+  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+>
+  <!-- Dynamic width container -->
+  <div class="relative p-4 w-full max-h-full" [class]="widthClass()">
+    <div class="relative bg-white rounded-2xl shadow-2xl dark:bg-gray-900">
+      
+      <!-- Header -->
+      <div class="flex items-center justify-between p-4 md:p-5 border-b border-navy-100 dark:border-gray-800">
+        <h3 class="text-xl font-bold text-navy-900 dark:text-white">
+          {{ title() }}
+        </h3>
+        <button
+          type="button"
+          class="text-navy-500 bg-transparent  hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center 2w333333 dark:hover:text-white"
+          (click)="close()"
+        >
+          <i class="fa-solid fa-times w-5 h-5 flex items-center justify-center"></i>
+          <span class="sr-only">إغلاق</span>
+        </button>
+      </div>
+
+      <!-- Body (Projected Form) -->
+      <div class="p-4 md:p-5 space-y-4">
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center gap-3 p-4 md:p-5 border-t border-navy-100 dark:border-gray-800">
+        <div class="flex-1">
+          <app-button
+            [buttonStyle]="BtnStyleEnum.btnRed"
+            [message]="cancelLabel()"
+            (click)="close()"
+          ></app-button>
+        </div>
+        <div class="flex-1">
+          <app-button
+            [buttonStyle]="BtnStyleEnum.btnNavy"
+            [message]="submitLabel()"
+            (click)="submit()"
+          ></app-button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,60 +1,83 @@
-import { Component, OnInit, inject, signal, computed, WritableSignal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, inject, signal, viewChild } from '@angular/core';
 import { EmployeesService } from '@core/services/employees/employees-service';
+import { IEmployee } from '@common/interfaces';
+import { BtnStyleEnum } from '@shared/enums';
 import { Alert } from '@common/components/alert/alert';
-
-export interface Employee {
-  id?: string;
-  name: string;
-  email?: string;
-  phone?: string;
-  position: string;
-  department: string;
-  hireDate?: string;
-  salary?: number;
-  status?: 'active' | 'inactive';
-}
+import { Button } from '@common/components/button/button';
+import { Table } from '@common/components/table/table';
+import { SearchPipe } from '@common/pipes/search-pipe.js';
+import { EmployeeModal } from '@common/components/modal/employee-modal/employee-modal';
+import { EmployeeStatusEnum } from '@shared/enums/employee';
 
 @Component({
   selector: 'app-employees',
-  imports: [FormsModule, ReactiveFormsModule, Alert],
   templateUrl: './employees.html',
-  styleUrl: './employees.css',
+  standalone: true,
+  imports: [Alert, Button, Table, SearchPipe, EmployeeModal],
 })
 export class Employees implements OnInit {
   private readonly employeesService = inject(EmployeesService);
-  private readonly fb = inject(FormBuilder);
+  private readonly employeeModal = viewChild.required(EmployeeModal);
 
-  // State
-  readonly employees: WritableSignal<Employee[]> = signal([]);
-  readonly isLoading: WritableSignal<boolean> = signal(false);
-  readonly showModal: WritableSignal<boolean> = signal(false);
-  readonly modalMode: WritableSignal<'add' | 'edit'> = signal('add');
-  readonly editingId: WritableSignal<string | null> = signal(null);
-  readonly searchQuery: WritableSignal<string> = signal('');
-  readonly alert: WritableSignal<{
-    show: boolean;
-    message: string;
-    type: 'success' | 'error';
-  } | null> = signal(null);
+  protected readonly BtnStyleEnum = BtnStyleEnum;
 
-  readonly employeeForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', Validators.required],
-    position: ['', Validators.required],
-    department: ['', Validators.required],
-    hireDate: [''],
-    salary: ['', [Validators.required, Validators.min(0)]],
-    status: ['active'],
-  });
-
+  readonly isLoading = signal(false);
+  readonly searchQuery = signal('');
+  readonly alert = signal<{ message: string; type: 'success' | 'error' } | null>(null);
+  private readonly editingEmployeeId = signal<string | null>(null);
+  protected readonly employees = this.employeesService.employees;
   ngOnInit(): void {
     this.loadEmployees();
   }
 
-  // ── Mock Data (for testing) ────────────────────────────
-  private getMockEmployees(): Employee[] {
+  private loadEmployees(): void {
+    this.isLoading.set(true);
+    setTimeout(() => {
+      this.employeesService.load(this.getMockEmployees());
+      this.isLoading.set(false);
+    }, 500);
+  }
+
+  openAddModal(): void {
+    this.editingEmployeeId.set(null);
+    this.employeeModal().open();
+  }
+
+  openEditModal(employee: IEmployee): void {
+    this.editingEmployeeId.set(employee.id ?? null);
+    this.employeeModal().open(employee);
+  }
+
+  handleSaveEmployee(employeeData: IEmployee): void {
+    const editId = this.editingEmployeeId();
+
+    if (editId) {
+      this.employeesService.update(editId, employeeData);
+      this.showAlert('تم تحديث الموظف بنجاح', 'success');
+    } else {
+      this.employeesService.add({
+        ...employeeData,
+        id: crypto.randomUUID(),
+      });
+      this.showAlert('تم إضافة الموظف بنجاح', 'success');
+    }
+
+    this.editingEmployeeId.set(null);
+  }
+
+  deleteEmployee(id: string): void {
+    if (!confirm('هل أنت متأكد من حذف هذا الموظف؟')) return;
+
+    this.employeesService.delete(id);
+    this.showAlert('تم حذف الموظف بنجاح', 'success');
+  }
+
+  private showAlert(message: string, type: 'success' | 'error'): void {
+    this.alert.set({ message, type });
+    setTimeout(() => this.alert.set(null), 4000);
+  }
+
+  private getMockEmployees(): IEmployee[] {
     return [
       {
         id: '1',
@@ -65,7 +88,8 @@ export class Employees implements OnInit {
         department: 'المبيعات',
         hireDate: '2022-01-15',
         salary: 5000,
-        status: 'active',
+        status: EmployeeStatusEnum.Active,
+        hasAccount: true,
       },
       {
         id: '2',
@@ -76,7 +100,8 @@ export class Employees implements OnInit {
         department: 'المالية',
         hireDate: '2021-06-20',
         salary: 4000,
-        status: 'active',
+        status: EmployeeStatusEnum.Active,
+        hasAccount: true,
       },
       {
         id: '3',
@@ -87,7 +112,8 @@ export class Employees implements OnInit {
         department: 'الصيانة',
         hireDate: '2020-03-10',
         salary: 3500,
-        status: 'active',
+        status: EmployeeStatusEnum.Active,
+        hasAccount: true,
       },
       {
         id: '4',
@@ -98,7 +124,8 @@ export class Employees implements OnInit {
         department: 'المستودع',
         hireDate: '2023-02-01',
         salary: 3200,
-        status: 'active',
+        status: EmployeeStatusEnum.Active,
+        hasAccount: true,
       },
       {
         id: '5',
@@ -109,7 +136,8 @@ export class Employees implements OnInit {
         department: 'الموارد البشرية',
         hireDate: '2021-09-15',
         salary: 4500,
-        status: 'active',
+        status: EmployeeStatusEnum.Active,
+        hasAccount: true,
       },
       {
         id: '6',
@@ -120,121 +148,9 @@ export class Employees implements OnInit {
         department: 'الصيانة',
         hireDate: '2022-11-01',
         salary: 3400,
-        status: 'inactive',
+        status: EmployeeStatusEnum.Inactive,
+        hasAccount: false,
       },
     ];
-  }
-
-  loadEmployees(): void {
-    this.isLoading.set(true);
-    // For now, use mock data. Replace with actual service call:
-    // this.employeesService.getAllEmployees().subscribe({
-    //   next: (data) => {
-    //     this.employees.set(data);
-    //     this.isLoading.set(false);
-    //   },
-    //   error: () => {
-    //     this.showAlert('خطأ في تحميل البيانات', 'error');
-    //     this.isLoading.set(false);
-    //   },
-    // });
-
-    // Using mock data for demonstration
-    setTimeout(() => {
-      this.employees.set(this.getMockEmployees());
-      this.isLoading.set(false);
-    }, 500);
-  }
-
-  readonly filteredEmployees = computed(() => {
-    const query = this.searchQuery().toLowerCase();
-    return this.employees().filter(
-      (employee) =>
-        employee.name.toLowerCase().includes(query) ||
-        employee.email?.toLowerCase().includes(query) ||
-        employee.phone?.includes(query) ||
-        employee.position.toLowerCase().includes(query) ||
-        employee.department.toLowerCase().includes(query),
-    );
-  });
-
-  openAddModal(): void {
-    this.modalMode.set('add');
-    this.editingId.set(null);
-    this.employeeForm.reset({ status: 'active' });
-    this.showModal.set(true);
-  }
-
-  openEditModal(employee: Employee): void {
-    this.modalMode.set('edit');
-    this.editingId.set(employee.id!);
-    this.employeeForm.patchValue({ ...employee, salary: employee.salary?.toString() ?? '' });
-    this.showModal.set(true);
-  }
-
-  closeModal(): void {
-    this.showModal.set(false);
-    this.employeeForm.reset();
-  }
-
-  submitForm(): void {
-    if (!this.employeeForm.valid) {
-      this.showAlert('الرجاء ملء جميع الحقول المطلوبة بشكل صحيح', 'error');
-      return;
-    }
-
-    if (this.modalMode() === 'add') {
-      this.addEmployee();
-    } else {
-      this.updateEmployee();
-    }
-  }
-
-  private addEmployee(): void {
-    const v = this.employeeForm.getRawValue();
-    const newEmployee: Employee = {
-      id: String(Date.now()),
-      name: v.name ?? '',
-      position: v.position ?? '',
-      department: v.department ?? '',
-      email: v.email ?? undefined,
-      phone: v.phone ?? undefined,
-      hireDate: v.hireDate ?? undefined,
-      salary: v.salary ? Number(v.salary) : undefined,
-      status: (v.status as Employee['status']) ?? 'active',
-    };
-    this.employees.update((emp) => [...emp, newEmployee]);
-    this.showAlert('تم إضافة الموظف بنجاح', 'success');
-    this.closeModal();
-  }
-
-  private updateEmployee(): void {
-    const v = this.employeeForm.getRawValue();
-    const id = this.editingId();
-    const patch: Partial<Employee> = {
-      name: v.name ?? undefined,
-      position: v.position ?? undefined,
-      department: v.department ?? undefined,
-      email: v.email ?? undefined,
-      phone: v.phone ?? undefined,
-      hireDate: v.hireDate ?? undefined,
-      salary: v.salary ? Number(v.salary) : undefined,
-      status: (v.status as Employee['status']) ?? undefined,
-    };
-    this.employees.update((emp) => emp.map((e) => (e.id === id ? { ...e, ...patch } : e)));
-    this.showAlert('تم تحديث الموظف بنجاح', 'success');
-    this.closeModal();
-  }
-
-  deleteEmployee(id: string): void {
-    if (confirm('هل أنت متأكد من حذف هذا الموظف؟')) {
-      this.employees.update((emp) => emp.filter((e) => e.id !== id));
-      this.showAlert('تم حذف الموظف بنجاح', 'success');
-    }
-  }
-
-  private showAlert(message: string, type: 'success' | 'error'): void {
-    this.alert.set({ show: true, message, type });
-    setTimeout(() => this.alert.set(null), 4000);
   }
 }
